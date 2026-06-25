@@ -2,82 +2,155 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RBS — Генератор прайса</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RBS Прайс">
+<meta name="theme-color" content="#1a1a1a">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a1a1a'/><text y='65' x='50' text-anchor='middle' font-size='50' fill='white'>₽</text></svg>">
+<title>RBS — Прайс</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f0f0; color: #1a1a1a; }
-.topbar { background: #1a1a1a; color: #fff; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
-.topbar h1 { font-size: 16px; font-weight: 600; }
-.topbar .version { font-size: 11px; color: #888; margin-left: auto; }
-.tabs { display: flex; background: #fff; border-bottom: 1px solid #e0e0e0; padding: 0 24px; position: relative; z-index: 100; }
-.tab { padding: 12px 20px; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; color: #666; }
-.tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 500; }
-.page { display: none; padding: 24px; max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
-.page.active { display: block; }
-.card { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 16px; border: 1px solid #e8e8e8; }
-.section-label { font-size: 11px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
-.markups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
-.markup-card { background: #f9f9f9; border: 1px solid #e8e8e8; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; }
-.markup-card label { flex: 1; font-size: 13px; }
-.markup-card input[type=number] { width: 52px; text-align: center; padding: 4px 6px; font-size: 13px; border: 1px solid #ddd; border-radius: 6px; }
-.markup-card span { font-size: 13px; color: #888; }
-textarea { width: 100%; min-height: 180px; font-size: 13px; font-family: 'Courier New', monospace; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; color: #1a1a1a; resize: vertical; line-height: 1.6; }
-textarea:focus { outline: none; border-color: #888; }
-.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.btn { font-size: 13px; padding: 9px 18px; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; background: #fff; color: #1a1a1a; position: relative; z-index: 10; pointer-events: all; }
-.btn:hover { background: #f5f5f5; }
-.btn-dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
-.btn-dark:hover { background: #333; }
-.btn-green { background: #16a34a; color: #fff; border-color: #16a34a; }
-.btn-green:hover { background: #15803d; }
-.btn-blue { background: #2563eb; color: #fff; border-color: #2563eb; }
-.btn-blue:hover { background: #1d4ed8; }
-.btn-tg { background: #229ed9; color: #fff; border-color: #229ed9; }
-.btn-tg:hover { background: #1a8bbf; }
-.btn-orange { background: #ea580c; color: #fff; border-color: #ea580c; }
-.btn-orange:hover { background: #c2410c; }
-.out-box { width: 100%; min-height: 80px; font-size: 13px; font-family: 'Courier New', monospace; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; white-space: pre-wrap; line-height: 1.7; margin-bottom: 10px; }
-.badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #e8f0fe; color: #1a56db; margin-left: 8px; }
-.err { font-size: 12px; color: #c0392b; margin-top: 8px; }
-.ok { font-size: 12px; color: #16a34a; margin-top: 8px; font-weight: 500; }
-.hint { font-size: 12px; color: #888; margin-top: 6px; line-height: 1.5; }
-.settings-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.settings-row label { font-size: 13px; color: #555; min-width: 180px; }
-.settings-row input[type=text] { flex: 1; padding: 8px 10px; font-size: 13px; border: 1px solid #ddd; border-radius: 6px; font-family: monospace; }
-.stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-.stat { background: #f9f9f9; border-radius: 8px; padding: 12px; text-align: center; }
-.stat .val { font-size: 22px; font-weight: 600; }
-.stat .lbl { font-size: 11px; color: #888; margin-top: 2px; }
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { text-align: left; padding: 8px 10px; color: #888; font-weight: 500; border-bottom: 1px solid #e8e8e8; }
-td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; }
-tr:hover td { background: #fafafa; }
-.trend-up { color: #c0392b; font-size: 11px; }
-.trend-down { color: #16a34a; font-size: 11px; }
-canvas { max-height: 260px; }
-#no-history { text-align: center; color: #aaa; padding: 40px; font-size: 14px; }
-.msg-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
-.msg-table th { background: #f5f5f5; padding: 8px 10px; text-align: left; font-weight: 500; color: #666; border-bottom: 1px solid #e8e8e8; }
-.msg-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; }
-.msg-table input { width: 100%; padding: 5px 8px; font-size: 12px; font-family: monospace; border: 1px solid #ddd; border-radius: 4px; }
-.link-pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; background: #dcfce7; color: #16a34a; margin-left: 6px; }
-.link-pill.missing { background: #fee2e2; color: #dc2626; }
-.progress-bar { height: 4px; background: #e8e8e8; border-radius: 4px; margin-top: 10px; overflow: hidden; }
-.progress-fill { height: 100%; background: #229ed9; border-radius: 4px; transition: width 0.3s; }
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f0;color:#1a1a1a;min-height:100vh}
+
+/* LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#1a1a1a;padding:20px}
+.login-box{background:#fff;border-radius:16px;padding:32px 28px;width:100%;max-width:360px;text-align:center}
+.login-logo{font-size:40px;margin-bottom:8px}
+.login-box h2{font-size:20px;font-weight:700;margin-bottom:4px}
+.login-box p{font-size:13px;color:#888;margin-bottom:24px}
+.login-box input{width:100%;padding:12px 14px;font-size:15px;border:1px solid #ddd;border-radius:10px;margin-bottom:12px;text-align:center;letter-spacing:4px}
+.login-box input:focus{outline:none;border-color:#1a1a1a}
+.login-err{font-size:12px;color:#c0392b;margin-top:-6px;margin-bottom:10px;min-height:16px}
+
+/* TOPBAR */
+.topbar{background:#1a1a1a;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.topbar h1{font-size:15px;font-weight:600}
+.topbar .version{font-size:10px;color:#666;margin-left:auto}
+.topbar .sync-status{font-size:11px;color:#888;margin-left:auto}
+.topbar .sync-status.ok{color:#16a34a}
+.topbar .sync-status.err{color:#c0392b}
+
+/* TABS */
+.tabs{display:flex;background:#fff;border-bottom:1px solid #e0e0e0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:12px 16px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:#666;white-space:nowrap;flex-shrink:0}
+.tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
+
+/* PAGES */
+.page{display:none;padding:16px;max-width:860px;margin:0 auto}
+.page.active{display:block}
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;border:1px solid #e8e8e8}
+.section-label{font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+
+/* MARKUPS */
+.markups-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.markup-card{background:#f9f9f9;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px}
+.markup-card label{flex:1;font-size:13px}
+.markup-card input[type=number]{width:52px;text-align:center;padding:4px 6px;font-size:13px;border:1px solid #ddd;border-radius:6px;background:#fff}
+
+/* TEXTAREA */
+textarea{width:100%;min-height:160px;font-size:13px;font-family:'Courier New',monospace;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fafafa;color:#1a1a1a;resize:vertical;line-height:1.6}
+textarea:focus{outline:none;border-color:#888}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{font-size:13px;padding:10px 16px;border-radius:10px;cursor:pointer;border:1px solid #ddd;background:#fff;color:#1a1a1a;font-weight:500;transition:opacity .15s}
+.btn:active{opacity:.7}
+.btn-dark{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.btn-green{background:#16a34a;color:#fff;border-color:#16a34a}
+.btn-tg{background:#229ed9;color:#fff;border-color:#229ed9}
+.btn-orange{background:#ea580c;color:#fff;border-color:#ea580c}
+.btn-blue{background:#2563eb;color:#fff;border-color:#2563eb}
+
+/* OUTPUT */
+.out-box{width:100%;min-height:80px;font-size:13px;font-family:'Courier New',monospace;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fafafa;white-space:pre-wrap;line-height:1.7;margin-bottom:10px}
+
+/* DIFF */
+.diff-box{font-size:12px;font-family:'Courier New',monospace;padding:10px;border:1px solid #e8e8e8;border-radius:8px;background:#fafafa;max-height:200px;overflow-y:auto;margin-bottom:10px}
+.diff-up{color:#c0392b}.diff-down{color:#16a34a}.diff-same{color:#aaa}
+
+/* BADGES */
+.badge{font-size:11px;padding:2px 8px;border-radius:20px;background:#e8f0fe;color:#1a56db;margin-left:6px}
+.badge-green{background:#dcfce7;color:#16a34a}
+.badge-red{background:#fee2e2;color:#dc2626}
+
+/* STATUS */
+.err{font-size:12px;color:#c0392b;margin-top:8px}
+.ok{font-size:12px;color:#16a34a;margin-top:8px;font-weight:500}
+.hint{font-size:12px;color:#888;margin-top:6px;line-height:1.5}
+
+/* PROGRESS */
+.progress-bar{height:4px;background:#e8e8e8;border-radius:4px;margin-top:10px;overflow:hidden;display:none}
+.progress-fill{height:100%;background:#229ed9;border-radius:4px;transition:width .3s}
+
+/* SETTINGS */
+.settings-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.settings-row label{font-size:13px;color:#555;min-width:160px}
+.settings-row input[type=text],.settings-row input[type=password]{flex:1;min-width:200px;padding:9px 10px;font-size:13px;border:1px solid #ddd;border-radius:8px;font-family:monospace}
+
+/* MSG ID TABLE */
+.msg-table{width:100%;border-collapse:collapse;font-size:13px}
+.msg-table th{text-align:left;padding:8px 10px;color:#888;font-weight:500;border-bottom:1px solid #e8e8e8;font-size:11px}
+.msg-table td{padding:7px 10px;border-bottom:1px solid #f0f0f0}
+.msg-table input{width:80px;padding:4px 6px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:4px}
+.link-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:#dcfce7;color:#16a34a;text-decoration:none}
+.link-pill.missing{background:#fee2e2;color:#dc2626}
+
+/* HISTORY */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:#f9f9f9;border-radius:8px;padding:10px;text-align:center}
+.stat .val{font-size:20px;font-weight:600}
+.stat .lbl{font-size:10px;color:#888;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:8px 10px;color:#888;font-weight:500;border-bottom:1px solid #e8e8e8}
+td{padding:7px 10px;border-bottom:1px solid #f0f0f0}
+.trend-up{color:#c0392b;font-size:11px}
+.trend-down{color:#16a34a;font-size:11px}
+canvas{max-height:240px}
+#no-history{text-align:center;color:#aaa;padding:32px;font-size:14px}
+
+/* INSTALL BANNER */
+.install-banner{background:#1a1a1a;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px}
+.install-banner button{margin-left:auto;background:#fff;color:#1a1a1a;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0}
+.install-banner .close-btn{background:none;color:#888;padding:4px 8px;font-size:16px;min-width:auto}
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
+<div id="login-screen" style="display:none">
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="login-logo">📱</div>
+      <h2>RBS Прайс</h2>
+      <p>Введите пароль для входа</p>
+      <input type="password" id="pwd-input" placeholder="••••••" onkeydown="if(event.key==='Enter')checkPwd()">
+      <div class="login-err" id="pwd-err"></div>
+      <button class="btn btn-dark" style="width:100%;padding:12px" onclick="checkPwd()">Войти</button>
+    </div>
+  </div>
+</div>
+
+<!-- INSTALL BANNER -->
+<div class="install-banner" id="install-banner" style="display:none">
+  <span>📲 Добавьте на главный экран для быстрого доступа</span>
+  <button onclick="showInstallHelp()">Как?</button>
+  <button class="close-btn" onclick="document.getElementById('install-banner').style.display='none'">✕</button>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
 <div class="topbar">
-  <h1>RBS — Генератор прайса</h1>
-  <span class="version">v3.0</span>
+  <h1>RBS — Прайс</h1>
+  <span class="sync-status" id="sync-status">●</span>
+  <span class="version">v4.0</span>
 </div>
 
 <div class="tabs">
   <div class="tab active" onclick="showTab('calc')">Прайс</div>
-  <div class="tab" onclick="showTab('history')">История цен</div>
+  <div class="tab" onclick="showTab('history')">История</div>
   <div class="tab" onclick="showTab('settings')">Настройки</div>
 </div>
 
@@ -86,16 +159,16 @@ canvas { max-height: 260px; }
   <div class="card">
     <div class="section-label">Наценки по категориям</div>
     <div class="markups-grid">
-      <div class="markup-card"><label>iPhone 17 / 17e / 17 Air</label><input type="number" id="m17" value="15"><span>%</span></div>
-      <div class="markup-card"><label>iPhone 17 Pro / Pro Max</label><input type="number" id="m17pro" value="10"><span>%</span></div>
+      <div class="markup-card"><label>iPhone 17/17e/Air</label><input type="number" id="m17" value="15"><span>%</span></div>
+      <div class="markup-card"><label>iPhone 17 Pro/Max</label><input type="number" id="m17pro" value="10"><span>%</span></div>
       <div class="markup-card"><label>iPhone 13–16</label><input type="number" id="m1316" value="15"><span>%</span></div>
-      <div class="markup-card"><label>Samsung серия A</label><input type="number" id="msamA" value="15"><span>%</span></div>
-      <div class="markup-card"><label>Samsung S / Z Flip</label><input type="number" id="msamS" value="10"><span>%</span></div>
+      <div class="markup-card"><label>Samsung A</label><input type="number" id="msamA" value="15"><span>%</span></div>
+      <div class="markup-card"><label>Samsung S/Z Flip</label><input type="number" id="msamS" value="10"><span>%</span></div>
       <div class="markup-card"><label>MacBook</label><input type="number" id="mmac" value="10"><span>%</span></div>
       <div class="markup-card"><label>iPad</label><input type="number" id="mipad" value="10"><span>%</span></div>
-      <div class="markup-card"><label>AirPods / наушники</label><input type="number" id="mair" value="15"><span>%</span></div>
-      <div class="markup-card"><label>Часы Apple Watch</label><input type="number" id="mwatch" value="15"><span>%</span></div>
-      <div class="markup-card"><label>PS5 / DualSense</label><input type="number" id="mps5" value="15"><span>%</span></div>
+      <div class="markup-card"><label>AirPods/наушники</label><input type="number" id="mair" value="15"><span>%</span></div>
+      <div class="markup-card"><label>Apple Watch</label><input type="number" id="mwatch" value="15"><span>%</span></div>
+      <div class="markup-card"><label>PS5/DualSense</label><input type="number" id="mps5" value="15"><span>%</span></div>
     </div>
   </div>
 
@@ -104,20 +177,27 @@ canvas { max-height: 260px; }
     <textarea id="inp" placeholder="Вставь текст прайса из канала поставщика..."></textarea>
     <div id="err" class="err"></div>
     <div class="btn-row">
-      <button class="btn btn-dark" onclick="generate()">⚙ Сформировать прайс</button>
+      <button class="btn btn-dark" onclick="generate()">⚙ Сформировать</button>
       <button class="btn" onclick="clearAll()">Очистить</button>
     </div>
   </div>
 
   <div class="card" id="out-wrap" style="display:none">
-    <div class="section-label">Готовый прайс для сотрудников <span class="badge" id="cnt"></span></div>
+    <div class="section-label">
+      Готовый прайс <span class="badge" id="cnt"></span>
+      <span id="diff-badge"></span>
+    </div>
+    <div id="diff-section" style="display:none">
+      <div class="section-label" style="margin-top:8px">📊 Изменения vs вчера</div>
+      <div class="diff-box" id="diff-box"></div>
+    </div>
     <div class="out-box" id="out"></div>
     <div class="btn-row">
       <button class="btn btn-dark" id="copybtn" onclick="copyOut()">Скопировать</button>
-      <button class="btn btn-green" id="savebtn" onclick="saveToSheets()">💾 Сохранить в историю</button>
-      <button class="btn btn-tg" id="tgbtn" onclick="sendToTelegram()">✈️ Обновить канал</button>
+      <button class="btn btn-green" id="savebtn" onclick="saveToSheets()">💾 В историю</button>
+      <button class="btn btn-tg" id="tgbtn" onclick="sendToTelegram()">✈️ В канал</button>
     </div>
-    <div class="progress-bar" id="progress-wrap" style="display:none"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="progress-bar" id="progress-wrap"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     <div id="save-status"></div>
   </div>
 </div>
@@ -126,21 +206,21 @@ canvas { max-height: 260px; }
 <div class="page" id="tab-history">
   <div class="card">
     <div class="section-label">Поиск модели</div>
-    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-      <input type="text" id="search-model" placeholder="например: 17 Pro 256GB Blue" style="flex:1; padding:8px 10px; font-size:13px; border:1px solid #ddd; border-radius:6px; min-width:200px;">
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input type="text" id="search-model" placeholder="например: 17 Pro 256GB" style="flex:1;padding:9px 10px;font-size:13px;border:1px solid #ddd;border-radius:8px;min-width:180px">
       <button class="btn btn-dark" onclick="searchHistory()">Найти</button>
-      <button class="btn" onclick="loadAllHistory()">Все записи</button>
+      <button class="btn" onclick="loadAllHistory()">Все</button>
     </div>
   </div>
   <div class="card" id="chart-card" style="display:none">
-    <div class="section-label">График цены: <span id="chart-model-label" style="color:#1a1a1a; font-weight:500;"></span></div>
+    <div class="section-label">График: <span id="chart-model-label" style="color:#1a1a1a;font-weight:500"></span></div>
     <canvas id="priceChart"></canvas>
   </div>
   <div class="card">
     <div id="no-history">Введи модель и нажми «Найти»</div>
     <div id="history-stats" class="stat-row" style="display:none"></div>
     <table id="history-table" style="display:none">
-      <thead><tr><th>Дата</th><th>Модель</th><th>Закупка</th><th>Розница</th><th>Изменение</th></tr></thead>
+      <thead><tr><th>Дата</th><th>Модель</th><th>Закупка</th><th>Розница</th><th>±</th></tr></thead>
       <tbody id="history-body"></tbody>
     </table>
   </div>
@@ -149,67 +229,68 @@ canvas { max-height: 260px; }
 <!-- TAB: SETTINGS -->
 <div class="page" id="tab-settings">
   <div class="card">
-    <div class="section-label">Telegram</div>
+    <div class="section-label">Пароль</div>
     <div class="settings-row">
-      <label>Bot Token:</label>
-      <input type="text" id="bot-token" placeholder="8835776799:AAG...">
+      <label>Текущий пароль:</label>
+      <input type="password" id="s-pwd" placeholder="введи новый пароль">
     </div>
-    <div class="settings-row">
-      <label>ID канала с ценами:</label>
-      <input type="text" id="channel-id" placeholder="-1003785797033">
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-dark" onclick="saveSettings()">Сохранить</button>
-      <button class="btn btn-tg" onclick="testTelegram()">Проверить бота</button>
-    </div>
-    <div id="tg-status" style="margin-top:8px; font-size:12px;"></div>
+    <div class="btn-row"><button class="btn btn-dark" onclick="changePwd()">Изменить пароль</button></div>
+    <div id="pwd-status" style="margin-top:8px;font-size:12px"></div>
   </div>
 
   <div class="card">
-    <div class="section-label">ID сообщений по категориям
-      <span style="font-size:11px; color:#888; font-weight:400; margin-left:8px;">— заполняются автоматически при первой отправке</span>
+    <div class="section-label">Telegram</div>
+    <div class="settings-row"><label>Bot Token:</label><input type="text" id="s-token" placeholder="8835776..."></div>
+    <div class="settings-row"><label>ID канала с ценами:</label><input type="text" id="s-channel" placeholder="-1003785797033"></div>
+    <div class="btn-row">
+      <button class="btn btn-dark" onclick="saveAllSettings()">Сохранить</button>
+      <button class="btn btn-tg" onclick="testTelegram()">Проверить бота</button>
     </div>
-    <p class="hint" style="margin-bottom:12px;">При первом нажатии «Обновить канал» — создадутся новые сообщения и ID сохранятся сюда. Следующие разы — сообщения будут редактироваться, ссылки не изменятся.</p>
+    <div id="tg-status" style="margin-top:8px;font-size:12px"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Google Sheets (история и синхронизация)</div>
+    <div class="settings-row"><label>URL скрипта:</label><input type="text" id="s-sheets" placeholder="https://script.google.com/macros/s/..."></div>
+    <div class="btn-row">
+      <button class="btn btn-dark" onclick="saveAllSettings()">Сохранить</button>
+      <button class="btn btn-blue" onclick="testSheets()">Проверить</button>
+      <button class="btn btn-green" onclick="syncFromSheets()">↓ Загрузить настройки</button>
+    </div>
+    <div id="sheets-status" style="margin-top:8px;font-size:12px"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">ID сообщений в канале <span style="font-size:11px;color:#888;font-weight:400">— синхронизируются автоматически</span></div>
     <table class="msg-table" id="msg-id-table">
       <thead><tr><th>Категория</th><th>Message ID</th><th>Ссылка</th></tr></thead>
       <tbody id="msg-id-body"></tbody>
     </table>
-    <div class="btn-row" style="margin-top:12px;">
-      <button class="btn btn-orange" onclick="resetMessageIds()">🗑 Сбросить ID (создать новые сообщения)</button>
+    <div class="btn-row" style="margin-top:12px">
+      <button class="btn btn-orange" onclick="resetMessageIds()">🗑 Сбросить ID</button>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="section-label">Google Sheets (история цен)</div>
-    <div class="settings-row">
-      <label>URL скрипта:</label>
-      <input type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/...">
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-dark" onclick="saveSettings()">Сохранить</button>
-      <button class="btn btn-blue" onclick="testConnection()">Проверить соединение</button>
-    </div>
-    <div id="settings-status" style="margin-top:8px; font-size:12px;"></div>
   </div>
 
   <div class="card">
     <div class="section-label">Инструкция — Google Apps Script</div>
-    <ol style="font-size:13px; line-height:2; color:#444; padding-left:18px;">
-      <li>Открой <a href="https://sheets.google.com" target="_blank" style="color:#2563eb;">sheets.google.com</a> → создай таблицу <b>RBS История цен</b></li>
+    <ol style="font-size:13px;line-height:2;color:#444;padding-left:18px">
+      <li>Открой <a href="https://sheets.google.com" target="_blank" style="color:#2563eb">sheets.google.com</a> → таблица <b>RBS История цен</b></li>
       <li>Меню: <b>Расширения → Apps Script</b></li>
-      <li>Удали весь код, вставь содержимое файла <b>rbs_google_script.gs</b></li>
-      <li>Нажми <b>Развернуть → Новое развертывание</b> → тип «Веб-приложение» → доступ «Все» → скопируй URL</li>
-      <li>Вставь URL выше и нажми «Сохранить»</li>
+      <li>Удали весь код, вставь файл <b>rbs_google_script.gs</b></li>
+      <li><b>Развернуть → Управление → обнови версию</b> (или создай новое если первый раз)</li>
+      <li>Скопируй URL → вставь выше → Сохранить</li>
     </ol>
   </div>
 </div>
+</div><!-- /app -->
 
 <script>
-// ---- Constants ----
-const BOT_TOKEN = '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4';
-const CHANNEL_ID = '-1003785797033';
+// ================================================================
+// CONFIG
+// ================================================================
+const APP_VERSION = '4.0';
+const DEFAULT_PWD = 'rbs2024';
 
-// Categories — order matters (determines message order in channel)
 const CATEGORIES = [
   { key: 'iphone_se_13_14', label: 'iPhone SE-13-14' },
   { key: 'iphone_15',       label: 'iPhone 15/pro/pro max' },
@@ -223,74 +304,284 @@ const CATEGORIES = [
   { key: 'ps5',             label: 'PS5' },
 ];
 
+// ================================================================
+// STATE
+// ================================================================
 let parsedItems = [];
-let parsedSections = {}; // { categoryKey: "text block" }
+let parsedSections = {};
 let chartInstance = null;
+let previousPrices = {}; // for diff
 
-// ---- Tab ----
+// ================================================================
+// AUTH
+// ================================================================
+function getPwd() { return localStorage.getItem('rbs_pwd') || DEFAULT_PWD; }
+
+function checkPwd() {
+  const val = document.getElementById('pwd-input').value;
+  if (val === getPwd()) {
+    sessionStorage.setItem('rbs_auth', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('pwd-err').textContent = 'Неверный пароль';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+
+function changePwd() {
+  const val = document.getElementById('s-pwd').value.trim();
+  if (!val || val.length < 4) { document.getElementById('pwd-status').innerHTML = '<span class="err">Минимум 4 символа</span>'; return; }
+  localStorage.setItem('rbs_pwd', val);
+  document.getElementById('pwd-status').innerHTML = '<span style="color:#16a34a">✓ Пароль изменён</span>';
+  document.getElementById('s-pwd').value = '';
+}
+
+// ================================================================
+// INIT
+// ================================================================
+function initApp() {
+  loadLocalSettings();
+  syncFromSheets();
+  showInstallPrompt();
+  loadPreviousPrices();
+}
+
+window.onload = () => {
+  if (sessionStorage.getItem('rbs_auth') === '1') {
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('login-screen').style.display = 'block';
+    document.getElementById('pwd-input').focus();
+  }
+};
+
+// ================================================================
+// INSTALL PROMPT
+// ================================================================
+function showInstallPrompt() {
+  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const isStandalone = window.navigator.standalone;
+  const dismissed = localStorage.getItem('rbs_install_dismissed');
+  if (isIOS && !isStandalone && !dismissed) {
+    document.getElementById('install-banner').style.display = 'flex';
+  }
+}
+
+function showInstallHelp() {
+  alert('Чтобы добавить на главный экран:\n\n1. Нажмите кнопку «Поделиться» (квадрат со стрелкой) внизу Safari\n2. Выберите «На экран «Домой»\n3. Нажмите «Добавить»\n\nПосле этого приложение откроется как обычное!');
+  localStorage.setItem('rbs_install_dismissed', '1');
+  document.getElementById('install-banner').style.display = 'none';
+}
+
+// ================================================================
+// TAB
+// ================================================================
 function showTab(name) {
   const tabs = ['calc','history','settings'];
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i] === name));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
-  if (name === 'settings') renderMsgIdTable();
+  if (name === 'settings') { loadSettingsUI(); renderMsgIdTable(); }
 }
 
-// ---- Markup ----
+// ================================================================
+// SETTINGS — LOCAL
+// ================================================================
+function loadLocalSettings() {
+  const url = localStorage.getItem('rbs_sheets_url') || '';
+  const token = localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4';
+  const channel = localStorage.getItem('rbs_channel_id') || '-1003785797033';
+  if (document.getElementById('s-sheets')) document.getElementById('s-sheets').value = url;
+  if (document.getElementById('s-token')) document.getElementById('s-token').value = token;
+  if (document.getElementById('s-channel')) document.getElementById('s-channel').value = channel;
+}
+
+function loadSettingsUI() {
+  document.getElementById('s-sheets').value = localStorage.getItem('rbs_sheets_url') || '';
+  document.getElementById('s-token').value = localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4';
+  document.getElementById('s-channel').value = localStorage.getItem('rbs_channel_id') || '-1003785797033';
+}
+
+function saveAllSettings() {
+  const url = document.getElementById('s-sheets').value.trim();
+  const token = document.getElementById('s-token').value.trim();
+  const channel = document.getElementById('s-channel').value.trim();
+  localStorage.setItem('rbs_sheets_url', url);
+  localStorage.setItem('rbs_bot_token', token);
+  localStorage.setItem('rbs_channel_id', channel);
+  // Sync to Sheets
+  pushSettingsToSheets({ sheets_url: url, bot_token: token, channel_id: channel });
+  document.getElementById('sheets-status').innerHTML = '<span style="color:#16a34a">✓ Сохранено</span>';
+}
+
+function getSheetsUrl() { return localStorage.getItem('rbs_sheets_url') || ''; }
+function getToken() { return localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4'; }
+function getChannel() { return localStorage.getItem('rbs_channel_id') || '-1003785797033'; }
+
+// ================================================================
+// SETTINGS — SHEETS SYNC
+// ================================================================
+async function syncFromSheets() {
+  const url = getSheetsUrl();
+  if (!url) { setSyncStatus('no-url'); return; }
+  setSyncStatus('loading');
+  try {
+    // Load settings
+    const sr = await fetch(url + '?action=getSettings');
+    const sd = await sr.json();
+    if (sd.ok && sd.settings) {
+      if (sd.settings.bot_token) localStorage.setItem('rbs_bot_token', sd.settings.bot_token);
+      if (sd.settings.channel_id) localStorage.setItem('rbs_channel_id', sd.settings.channel_id);
+      if (sd.settings.rbs_pwd) localStorage.setItem('rbs_pwd', sd.settings.rbs_pwd);
+    }
+    // Load msg IDs
+    const mr = await fetch(url + '?action=getMsgIds');
+    const md = await mr.json();
+    if (md.ok && md.ids) {
+      localStorage.setItem('rbs_msg_ids', JSON.stringify(md.ids));
+    }
+    setSyncStatus('ok');
+  } catch(e) { setSyncStatus('err'); }
+}
+
+async function pushSettingsToSheets(settings) {
+  const url = getSheetsUrl();
+  if (!url) return;
+  try {
+    await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', settings }) });
+  } catch(e) {}
+}
+
+async function pushMsgIdsToSheets(ids) {
+  const url = getSheetsUrl();
+  if (!url) return;
+  try {
+    await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'saveMsgIds', ids }) });
+  } catch(e) {}
+}
+
+function setSyncStatus(state) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  if (state === 'ok') { el.textContent = '● синхронизировано'; el.className = 'sync-status ok'; }
+  else if (state === 'err') { el.textContent = '● ошибка синхронизации'; el.className = 'sync-status err'; }
+  else if (state === 'loading') { el.textContent = '● синхронизация...'; el.className = 'sync-status'; }
+  else { el.textContent = ''; el.className = 'sync-status'; }
+}
+
+async function testSheets() {
+  const url = getSheetsUrl();
+  if (!url) { document.getElementById('sheets-status').textContent = 'Укажи URL'; return; }
+  document.getElementById('sheets-status').textContent = 'Проверяем...';
+  try {
+    const r = await fetch(url + '?action=ping');
+    const d = await r.json();
+    document.getElementById('sheets-status').innerHTML = d.ok
+      ? `<span style="color:#16a34a">✓ Подключено (v${d.version||'1.0'})</span>`
+      : `<span style="color:#c0392b">Ошибка: ${d.error}</span>`;
+  } catch(e) { document.getElementById('sheets-status').innerHTML = '<span style="color:#c0392b">Не удалось подключиться</span>'; }
+}
+
+// ================================================================
+// MSG IDs
+// ================================================================
+function getMsgIds() { try { return JSON.parse(localStorage.getItem('rbs_msg_ids') || '{}'); } catch(e) { return {}; } }
+function saveMsgIds(ids) { localStorage.setItem('rbs_msg_ids', JSON.stringify(ids)); pushMsgIdsToSheets(ids); }
+function resetMessageIds() {
+  if (!confirm('Сбросить все ID?')) return;
+  localStorage.removeItem('rbs_msg_ids');
+  renderMsgIdTable();
+}
+function updateMsgId(key, value) {
+  const ids = getMsgIds();
+  if (value.trim()) ids[key] = parseInt(value.trim()); else delete ids[key];
+  saveMsgIds(ids);
+  renderMsgIdTable();
+}
+function renderMsgIdTable() {
+  const ids = getMsgIds();
+  const chId = getChannel().replace(/^-100/, '');
+  const tbody = document.getElementById('msg-id-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const msgId = ids[cat.key];
+    const hasId = !!msgId;
+    const link = hasId ? `https://t.me/c/${chId}/${msgId}` : '';
+    tbody.innerHTML += `<tr>
+      <td style="font-size:12px">${cat.label}</td>
+      <td><input value="${msgId||''}" placeholder="нет" style="background:${hasId?'#f0fdf4':'#fef2f2'}" onchange="updateMsgId('${cat.key}',this.value)"></td>
+      <td>${hasId?`<a href="${link}" target="_blank" class="link-pill">→</a>`:'<span class="link-pill missing">нет</span>'}</td>
+    </tr>`;
+  });
+}
+
+// ================================================================
+// MARKUP
+// ================================================================
 function getMarkup(text) {
   const n = text.toLowerCase();
-  if (/17 pro max/.test(n)) return +document.getElementById('m17pro').value / 100;
-  if (/17 pro/.test(n))     return +document.getElementById('m17pro').value / 100;
-  if (/17 air/.test(n))     return +document.getElementById('m17').value / 100;
-  if (/17e/.test(n))        return +document.getElementById('m17').value / 100;
-  if (/\b17\b/.test(n) && /iphone|sim|esim/.test(n)) return +document.getElementById('m17').value / 100;
-  if (/1[3456]\s*\d{3}gb|iphone\s*1[3456]|\b1[3456]\s+\d{3}gb/.test(n)) return +document.getElementById('m1316').value / 100;
-  if (/galaxy a|samsung a|\ba\d{2,3}\b/.test(n)) return +document.getElementById('msamA').value / 100;
-  if (/galaxy s|galaxy z|z flip|z fold|\bs\d{2,3}\b/.test(n)) return +document.getElementById('msamS').value / 100;
-  if (/macbook|макбук/.test(n)) return +document.getElementById('mmac').value / 100;
-  if (/ipad/.test(n))  return +document.getElementById('mipad').value / 100;
-  if (/airpods|наушник/.test(n)) return +document.getElementById('mair').value / 100;
-  if (/watch|часы/.test(n)) return +document.getElementById('mwatch').value / 100;
-  if (/ps5|playstation|dualsense/.test(n)) return +document.getElementById('mps5').value / 100;
+  if (/macbook|макбук/.test(n)) return +document.getElementById('mmac').value/100;
+  if (/apple watch|watch se|watch s\d|watch ultra|\bse2\b|\bse3\b|ultra 2|ultra 3|\bs10\b|\bs11\b/.test(n)) return +document.getElementById('mwatch').value/100;
+  if (/iphone|sim.esim|esim/.test(n)||/^iphone\s*\d/.test(n)) {
+    if (/17 pro max|17pro max/.test(n)) return +document.getElementById('m17pro').value/100;
+    if (/17 pro/.test(n)) return +document.getElementById('m17pro').value/100;
+    if (/\b17\b/.test(n)) return +document.getElementById('m17').value/100;
+    if (/\b1[3456]\b/.test(n)) return +document.getElementById('m1316').value/100;
+  }
+  if (/samsung|galaxy|\ba\d{2}\b/.test(n)) {
+    if (/galaxy s|galaxy z|z flip|z fold|\bs\d{2}\b/.test(n)) return +document.getElementById('msamS').value/100;
+    return +document.getElementById('msamA').value/100;
+  }
+  if (/ipad/.test(n)) return +document.getElementById('mipad').value/100;
+  if (/airpods|наушник/.test(n)) return +document.getElementById('mair').value/100;
+  if (/ps5|playstation|dualsense/.test(n)) return +document.getElementById('mps5').value/100;
   return null;
 }
-
-function roundTo100(n) { return Math.round(n / 100) * 100; }
 
 function getCategoryKey(text) {
   const n = text.toLowerCase();
-  // MacBook first — to avoid confusion with numbers 13/14/15/16
   if (/macbook|макбук/.test(n)) return 'macbook';
-  // Apple Watch — before Samsung S check
-  if (/apple watch|watch se|watch s\d|watch ultra|\bse2\b|\bse3\b|ultra 2|ultra 3|\bs10\b|\bs11\b/.test(n)) return 'watch';
-  // iPhone — only if "iphone" or "sim"/"esim" present
-  if (/iphone|sim.esim|esim/.test(n)) {
+  if (/apple watch|watch se|watch s\d|watch ultra|\bse[23]\b|ultra [23]|\bs1[01]\b/.test(n)) return 'watch';
+  if (/iphone|sim.esim/.test(n)||/^iphone\s*\d/.test(n)) {
     if (/\b17\b/.test(n)) return 'iphone_17';
     if (/\b16\b/.test(n)) return 'iphone_16';
     if (/\b15\b/.test(n)) return 'iphone_15';
-    if (/\b1[234]\b/.test(n) || /iphone se/.test(n)) return 'iphone_se_13_14';
+    if (/\b1[234]\b/.test(n)||/iphone se/.test(n)) return 'iphone_se_13_14';
   }
-  // iPhone by number in section header like "IPhone 17:"
-  if (/^iphone\s*\d/.test(n)) {
-    if (/\b17\b/.test(n)) return 'iphone_17';
-    if (/\b16\b/.test(n)) return 'iphone_16';
-    if (/\b15\b/.test(n)) return 'iphone_15';
-    if (/\b1[234]\b/.test(n)) return 'iphone_se_13_14';
-  }
-  // Samsung — by model name
-  if (/samsung|galaxy/.test(n)) return 'samsung';
-  if (/\ba\d{2}\b/.test(n)) return 'samsung';
-  if (/\bs\d{2}\b/.test(n) && !/apple watch|watch s/.test(n)) return 'samsung';
-  if (/z flip|z fold/.test(n)) return 'samsung';
-  // Other Apple
+  if (/samsung|galaxy|\ba\d{2}\b/.test(n)) return 'samsung';
   if (/ipad/.test(n)) return 'ipad';
   if (/airpods|наушник/.test(n)) return 'airpods';
   if (/ps5|playstation|dualsense/.test(n)) return 'ps5';
-   if (/ps5|playstation/.test(n)) return 'ps5';
   return null;
 }
 
-// ---- Generate ----
+function roundTo100(n) { return Math.round(n/100)*100; }
+
+// ================================================================
+// PREVIOUS PRICES (for diff)
+// ================================================================
+async function loadPreviousPrices() {
+  const url = getSheetsUrl();
+  if (!url) return;
+  try {
+    const r = await fetch(url + '?action=getAll');
+    const d = await r.json();
+    if (!d.ok || !d.rows) return;
+    // Get latest price for each model
+    previousPrices = {};
+    d.rows.forEach(row => {
+      previousPrices[row.model] = { buyPrice: row.buyPrice, sellPrice: row.sellPrice, date: row.date };
+    });
+  } catch(e) {}
+}
+
+// ================================================================
+// GENERATE
+// ================================================================
 function generate() {
   const raw = document.getElementById('inp').value.trim();
   const errEl = document.getElementById('err');
@@ -308,10 +599,14 @@ function generate() {
   const priceRe = /(.+?)\s*[—–\-]\s*([\d\s]+)₽/;
   const today = new Date().toLocaleDateString('ru-RU');
 
+  // Diff tracking
+  const diffLines = [];
+  let hasDiff = false;
+
   function flushSection() {
     if (currentCatKey && currentSectionLines.length) {
       if (!parsedSections[currentCatKey]) parsedSections[currentCatKey] = '';
-      parsedSections[currentCatKey] += (parsedSections[currentCatKey] ? '\n\n' : '') + currentSectionLines.join('\n');
+      parsedSections[currentCatKey] += (parsedSections[currentCatKey]?'\n\n':'')+currentSectionLines.join('\n');
     }
     currentSectionLines = [];
   }
@@ -322,10 +617,9 @@ function generate() {
     if (/оформление|менеджер|отзыв|условия|faq|отправк|@\w/i.test(trimmed)) continue;
     if (/^\d{2}[./]\d{2}/.test(trimmed)) { outLines.push(trimmed); continue; }
 
-    // Detect section headers: with colon OR known category names without colon or price
     const hasPrice = trimmed.includes('₽') || /\d{4,}/.test(trimmed);
-    const isHeader = (trimmed.endsWith(':') && trimmed.length < 80) ||
-      (!hasPrice && trimmed.length < 80 && getCategoryKey(trimmed) !== null);
+    const isHeader = (trimmed.endsWith(':') && trimmed.length < 80) || (!hasPrice && trimmed.length < 80 && getCategoryKey(trimmed) !== null);
+
     if (isHeader) {
       flushSection();
       const headerText = trimmed.endsWith(':') ? trimmed.slice(0,-1) : trimmed;
@@ -339,28 +633,34 @@ function generate() {
 
     const m = priceRe.exec(trimmed);
     if (m) {
-      const label = (m[1] || m[3] || '').trim();
-      const buyPrice = parseInt((m[2] || m[4] || '').replace(/\s/g,''), 10);
+      const label = m[1].trim();
+      const buyPrice = parseInt(m[2].replace(/\s/g,''), 10);
       if (isNaN(buyPrice)) continue;
-      // If no section detected yet, try to get category from the line itself
+
       if (currentCatKey === null) {
         const lineCat = getCategoryKey(label);
-        if (lineCat !== null) {
-          flushSection();
-          currentCatKey = lineCat;
-          currentMarkup = getMarkup(label);
-          currentSectionHeader = label;
-        }
+        if (lineCat !== null) { flushSection(); currentCatKey = lineCat; currentMarkup = getMarkup(label); currentSectionHeader = label; }
       }
-      // If category changed mid-stream (e.g. Samsung A then Samsung S)
-      const lineCat = getCategoryKey(label);
+
       let markup = currentMarkup !== null ? currentMarkup : getMarkup(label);
       if (markup === null) markup = 0.15;
-      const sellPrice = roundTo100(buyPrice * (1 + markup));
+      const sellPrice = roundTo100(buyPrice*(1+markup));
       const outLine = label + ' — ' + sellPrice.toLocaleString('ru-RU') + '₽';
       outLines.push(outLine);
       currentSectionLines.push(outLine);
-      parsedItems.push({ date: today, model: label, section: currentSectionHeader.replace(':','').trim(), buyPrice, sellPrice, markup: Math.round(markup*100) });
+      parsedItems.push({ date: today, model: label, section: currentSectionHeader, buyPrice, sellPrice, markup: Math.round(markup*100) });
+
+      // Diff
+      if (previousPrices[label]) {
+        const prev = previousPrices[label].sellPrice;
+        if (prev && prev !== sellPrice) {
+          const diff = sellPrice - prev;
+          const sign = diff > 0 ? '▲' : '▼';
+          const cls = diff > 0 ? 'diff-up' : 'diff-down';
+          diffLines.push(`<span class="${cls}">${sign} ${Math.abs(diff).toLocaleString('ru-RU')}₽ ${label}</span>`);
+          hasDiff = true;
+        }
+      }
     }
   }
   flushSection();
@@ -370,6 +670,16 @@ function generate() {
   document.getElementById('cnt').textContent = parsedItems.length + ' позиций';
   document.getElementById('out-wrap').style.display = 'block';
   document.getElementById('save-status').textContent = '';
+
+  // Show diff
+  if (hasDiff && diffLines.length) {
+    document.getElementById('diff-box').innerHTML = diffLines.join('<br>');
+    document.getElementById('diff-section').style.display = 'block';
+    document.getElementById('diff-badge').innerHTML = `<span class="badge badge-red">${diffLines.length} изменений</span>`;
+  } else {
+    document.getElementById('diff-section').style.display = 'none';
+    document.getElementById('diff-badge').innerHTML = Object.keys(previousPrices).length ? '<span class="badge badge-green">без изменений</span>' : '';
+  }
 }
 
 function clearAll() {
@@ -377,8 +687,8 @@ function clearAll() {
   document.getElementById('out').textContent = '';
   document.getElementById('err').textContent = '';
   document.getElementById('out-wrap').style.display = 'none';
-  parsedItems = [];
-  parsedSections = {};
+  document.getElementById('diff-section').style.display = 'none';
+  parsedItems = []; parsedSections = {};
 }
 
 function copyOut() {
@@ -389,77 +699,12 @@ function copyOut() {
   });
 }
 
-// ---- Settings ----
-function loadSettings() {
-  const token = localStorage.getItem('rbs_bot_token') || BOT_TOKEN;
-  const chId  = localStorage.getItem('rbs_channel_id') || CHANNEL_ID;
-  const url   = localStorage.getItem('rbs_sheets_url') || '';
-  document.getElementById('bot-token').value  = token;
-  document.getElementById('channel-id').value = chId;
-  document.getElementById('sheets-url').value = url;
-}
-
-function saveSettings() {
-  localStorage.setItem('rbs_bot_token',   document.getElementById('bot-token').value.trim());
-  localStorage.setItem('rbs_channel_id',  document.getElementById('channel-id').value.trim());
-  localStorage.setItem('rbs_sheets_url',  document.getElementById('sheets-url').value.trim());
-  document.getElementById('settings-status').innerHTML = '<span style="color:#16a34a">✓ Сохранено</span>';
-  document.getElementById('tg-status').innerHTML = '';
-}
-
-function getToken()   { return localStorage.getItem('rbs_bot_token')   || BOT_TOKEN; }
-function getChannel() { return localStorage.getItem('rbs_channel_id')  || CHANNEL_ID; }
-function getSheetsUrl(){ return localStorage.getItem('rbs_sheets_url') || ''; }
-
-// ---- Message IDs ----
-function getMsgIds() {
-  try { return JSON.parse(localStorage.getItem('rbs_msg_ids') || '{}'); } catch(e) { return {}; }
-}
-function saveMsgIds(ids) { localStorage.setItem('rbs_msg_ids', JSON.stringify(ids)); }
-
-function updateMsgId(key, value) {
-  const ids = getMsgIds();
-  if (value.trim()) {
-    ids[key] = parseInt(value.trim());
-  } else {
-    delete ids[key];
-  }
-  saveMsgIds(ids);
-  renderMsgIdTable();
-}
-
-function resetMessageIds() {
-  if (!confirm('Сбросить все ID? При следующей отправке создадутся новые сообщения с новыми ссылками.')) return;
-  localStorage.removeItem('rbs_msg_ids');
-  renderMsgIdTable();
-}
-
-function renderMsgIdTable() {
-  const ids = getMsgIds();
-  const chId = getChannel();
-  // Extract numeric channel id for link (remove -100 prefix)
-  const numId = chId.replace(/^-100/, '');
-  const tbody = document.getElementById('msg-id-body');
-  tbody.innerHTML = '';
-  CATEGORIES.forEach(cat => {
-    const msgId = ids[cat.key];
-    const hasId = !!msgId;
-    const link = hasId ? `https://t.me/c/${numId}/${msgId}` : '';
-    tbody.innerHTML += `<tr>
-      <td>${cat.label}</td>
-      <td><input id="msgid_${cat.key}" value="${msgId || ''}" placeholder="нет" style="background:${hasId ? '#f0fdf4' : '#fef2f2'}" onchange="updateMsgId('${cat.key}', this.value)"></td>
-      <td>${hasId ? `<a href="${link}" target="_blank" class="link-pill">открыть →</a>` : '<span class="link-pill missing">не создано</span>'}</td>
-    </tr>`;
-  });
-}
-
-// ---- Telegram ----
+// ================================================================
+// TELEGRAM
+// ================================================================
 async function tgApi(method, params) {
-  const token = getToken();
-  const resp = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(params)
+  const resp = await fetch(`https://api.telegram.org/bot${getToken()}/${method}`, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(params)
   });
   return await resp.json();
 }
@@ -468,120 +713,90 @@ async function testTelegram() {
   const el = document.getElementById('tg-status');
   el.textContent = 'Проверяем...';
   try {
-    const data = await tgApi('getMe', {});
-    if (data.ok) el.innerHTML = `<span style="color:#16a34a">✓ Бот работает: @${data.result.username}</span>`;
-    else el.innerHTML = `<span style="color:#c0392b">Ошибка: ${data.description}</span>`;
-  } catch(e) { el.innerHTML = `<span style="color:#c0392b">Нет соединения</span>`; }
+    const d = await tgApi('getMe', {});
+    el.innerHTML = d.ok ? `<span style="color:#16a34a">✓ Бот: @${d.result.username}</span>` : `<span style="color:#c0392b">Ошибка: ${d.description}</span>`;
+  } catch(e) { el.innerHTML = '<span style="color:#c0392b">Нет соединения</span>'; }
 }
 
-function splitText(text, maxLen = 3900) {
+function splitText(text, maxLen=3900) {
   const lines = text.split('\n');
   const chunks = [];
   let current = '';
   for (const line of lines) {
-    if ((current + '\n' + line).length > maxLen) {
-      if (current) chunks.push(current.trim());
-      current = line;
-    } else {
-      current = current ? current + '\n' + line : line;
-    }
+    if ((current+'\n'+line).length > maxLen) { if (current) chunks.push(current.trim()); current = line; }
+    else { current = current ? current+'\n'+line : line; }
   }
   if (current.trim()) chunks.push(current.trim());
   return chunks.length ? chunks : [text];
 }
 
 async function sendToTelegram() {
-  if (!Object.keys(parsedSections).length && !parsedItems.length) { alert('Сначала сформируй прайс'); return; }
-  if (!Object.keys(parsedSections).length) { alert('Прайс не содержит распознанных категорий. Проверь формат данных.'); return; }
-
+  if (!Object.keys(parsedSections).length) { alert('Сначала сформируй прайс'); return; }
   const btn = document.getElementById('tgbtn');
   const status = document.getElementById('save-status');
   const progressWrap = document.getElementById('progress-wrap');
   const progressFill = document.getElementById('progress-fill');
-  btn.disabled = true;
-  btn.textContent = 'Отправляем...';
-  progressWrap.style.display = 'block';
-  status.textContent = '';
+  btn.disabled = true; btn.textContent = 'Отправляем...';
+  progressWrap.style.display = 'block'; status.textContent = '';
 
   const ids = getMsgIds();
   const catKeys = Object.keys(parsedSections);
-  let done = 0;
-  let errors = [];
+  let done = 0; let errors = [];
 
   for (const key of catKeys) {
     const text = parsedSections[key];
     if (!text.trim()) continue;
-
     try {
       if (ids[key]) {
-        // Edit existing message
-        // For editing, only edit if text fits in one message
         const chunks = splitText(text);
         if (chunks.length === 1) {
-          const res = await tgApi('editMessageText', {
-            chat_id: getChannel(),
-            message_id: ids[key],
-            text: text
-          });
+          const res = await tgApi('editMessageText', { chat_id: getChannel(), message_id: ids[key], text });
           if (!res.ok) {
             const desc = res.description || '';
-            if (desc.includes('message is not modified')) {
-              // unchanged — ok
-            } else if (desc.includes('message to edit not found')) {
+            if (desc.includes('message is not modified')) {}
+            else if (desc.includes('not found')) {
               const res2 = await tgApi('sendMessage', { chat_id: getChannel(), text });
-              if (res2.ok) ids[key] = res2.result.message_id;
-              else errors.push(key);
-            } else { errors.push(key); }
+              if (res2.ok) ids[key] = res2.result.message_id; else errors.push(key);
+            } else errors.push(key);
           }
         } else {
-          // Too long — delete old and send new chunks
           await tgApi('deleteMessage', { chat_id: getChannel(), message_id: ids[key] });
           let firstId = null;
-          let chunkOk = true;
           for (const chunk of chunks) {
             const res = await tgApi('sendMessage', { chat_id: getChannel(), text: chunk });
             if (res.ok) { if (!firstId) firstId = res.result.message_id; }
-            else { chunkOk = false; break; }
             await new Promise(r => setTimeout(r, 300));
           }
-          if (chunkOk && firstId) ids[key] = firstId;
-          else errors.push(key);
+          if (firstId) ids[key] = firstId; else errors.push(key);
         }
       } else {
-        // Create new message — split if too long (Telegram limit 4096)
         const chunks = splitText(text);
         let firstId = null;
-        let chunkOk = true;
         for (const chunk of chunks) {
           const res = await tgApi('sendMessage', { chat_id: getChannel(), text: chunk });
           if (res.ok) { if (!firstId) firstId = res.result.message_id; }
-          else { chunkOk = false; break; }
           await new Promise(r => setTimeout(r, 300));
         }
-        if (chunkOk && firstId) ids[key] = firstId;
-        else errors.push(key);
+        if (firstId) ids[key] = firstId; else errors.push(key);
       }
     } catch(e) { errors.push(key); }
-
     done++;
-    progressFill.style.width = Math.round((done / catKeys.length) * 100) + '%';
-    await new Promise(r => setTimeout(r, 300)); // avoid rate limit
+    progressFill.style.width = Math.round((done/catKeys.length)*100)+'%';
+    await new Promise(r => setTimeout(r, 300));
   }
 
   saveMsgIds(ids);
   renderMsgIdTable();
   progressWrap.style.display = 'none';
-  btn.disabled = false;
-  btn.textContent = '✈️ Обновить канал';
-
-  if (errors.length) {
-    status.innerHTML = `<span class="err">Ошибка в категориях: ${errors.join(', ')}</span>`;
-  } else {
-    status.innerHTML = `<span class="ok">✓ Канал обновлён! ${done} категорий отредактировано. Ссылки не изменились.</span>`;
-  }
+  btn.disabled = false; btn.textContent = '✈️ В канал';
+  status.innerHTML = errors.length
+    ? `<span class="err">Ошибка: ${errors.join(', ')}</span>`
+    : `<span class="ok">✓ Канал обновлён! ${done} категорий</span>`;
 }
 
-// ---- Google Sheets ----
+// ================================================================
+// GOOGLE SHEETS
+// ================================================================
 async function saveToSheets() {
   const url = getSheetsUrl();
   if (!url) { alert('Укажи URL скрипта в настройках'); return; }
@@ -589,56 +804,28 @@ async function saveToSheets() {
   const btn = document.getElementById('savebtn');
   btn.disabled = true; btn.textContent = 'Сохраняем...';
   try {
-    const resp = await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'save', items: parsedItems }) });
+    const resp = await fetch(url, { method:'POST', body: JSON.stringify({ action:'save', items: parsedItems }) });
     const data = await resp.json();
-    if (data.ok) { btn.textContent = '✓ Сохранено'; }
-    else { btn.textContent = '💾 Сохранить в историю'; }
-  } catch(e) { btn.textContent = '💾 Сохранить в историю'; }
+    btn.textContent = data.ok ? '✓ Сохранено' : '💾 В историю';
+    if (data.ok) { await loadPreviousPrices(); } // reload for next diff
+  } catch(e) { btn.textContent = '💾 В историю'; }
   btn.disabled = false;
 }
 
-async function testConnection() {
-  const url = getSheetsUrl();
-  if (!url) { document.getElementById('settings-status').textContent = 'Укажи URL'; return; }
-  document.getElementById('settings-status').textContent = 'Проверяем...';
-  try {
-    const r = await fetch(url + '?action=ping');
-    const d = await r.json();
-    document.getElementById('settings-status').innerHTML = d.ok
-      ? '<span style="color:#16a34a">✓ Соединение установлено</span>'
-      : '<span style="color:#c0392b">Ошибка: ' + d.error + '</span>';
-  } catch(e) { document.getElementById('settings-status').innerHTML = '<span style="color:#c0392b">Не удалось подключиться</span>'; }
-}
-
-// ---- History ----
+// ================================================================
+// HISTORY
+// ================================================================
 function formatDate(raw) {
   if (!raw) return '';
-  if (typeof raw === 'string' && raw.includes('T')) {
-    return new Date(raw).toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit', year:'2-digit' });
-  }
-  if (raw instanceof Date) return raw.toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit', year:'2-digit' });
-  return String(raw).replace(/\//g, '.');
+  if (typeof raw === 'string' && raw.includes('T')) return new Date(raw).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit'});
+  if (raw instanceof Date) return raw.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit'});
+  return String(raw).replace(/\//g,'.');
 }
 
 function groupByDay(rows) {
   const byDay = {};
-  for (const r of rows) {
-    const day = formatDate(r.date);
-    if (!byDay[day]) byDay[day] = [];
-    byDay[day].push(r);
-  }
-  return Object.keys(byDay).sort().map(day => {
-    const minRow = byDay[day].reduce((a,b) => a.buyPrice < b.buyPrice ? a : b);
-    return { ...minRow, dateFormatted: day };
-  });
-}
-
-async function fetchHistory(model) {
-  const url = getSheetsUrl();
-  if (!url) { document.getElementById('no-history').textContent = 'Укажи URL скрипта в настройках'; return null; }
-  const q = model ? '?action=get&model=' + encodeURIComponent(model) : '?action=getAll';
-  const resp = await fetch(url + q);
-  return await resp.json();
+  rows.forEach(r => { const day = formatDate(r.date); if (!byDay[day]) byDay[day]=[]; byDay[day].push(r); });
+  return Object.keys(byDay).sort().map(day => { const minRow = byDay[day].reduce((a,b)=>a.buyPrice<b.buyPrice?a:b); return {...minRow,dateFormatted:day}; });
 }
 
 async function searchHistory() {
@@ -648,9 +835,12 @@ async function searchHistory() {
   document.getElementById('history-table').style.display = 'none';
   document.getElementById('history-stats').style.display = 'none';
   document.getElementById('chart-card').style.display = 'none';
+  const url = getSheetsUrl();
+  if (!url) { document.getElementById('no-history').textContent = 'Укажи URL скрипта в настройках'; return; }
   try {
-    const data = await fetchHistory(model);
-    if (data) renderHistory(data.rows || [], model);
+    const r = await fetch(url+'?action=get&model='+encodeURIComponent(model));
+    const d = await r.json();
+    if (d.ok) renderHistory(d.rows||[], model);
   } catch(e) { document.getElementById('no-history').textContent = 'Ошибка загрузки'; }
 }
 
@@ -659,9 +849,12 @@ async function loadAllHistory() {
   document.getElementById('history-table').style.display = 'none';
   document.getElementById('history-stats').style.display = 'none';
   document.getElementById('chart-card').style.display = 'none';
+  const url = getSheetsUrl();
+  if (!url) return;
   try {
-    const data = await fetchHistory(null);
-    if (data) renderHistory(data.rows || [], '');
+    const r = await fetch(url+'?action=getAll');
+    const d = await r.json();
+    if (d.ok) renderHistory(d.rows||[], '');
   } catch(e) { document.getElementById('no-history').textContent = 'Ошибка загрузки'; }
 }
 
@@ -669,24 +862,24 @@ function renderHistory(rows, modelQuery) {
   if (!rows.length) { document.getElementById('no-history').textContent = 'Ничего не найдено'; return; }
   document.getElementById('no-history').textContent = '';
 
-  const prices = rows.map(r => r.sellPrice).filter(Boolean);
-  const minP = Math.min(...prices), maxP = Math.max(...prices), latestP = prices[prices.length-1];
+  const prices = rows.map(r=>r.sellPrice).filter(Boolean);
+  const minP=Math.min(...prices), maxP=Math.max(...prices), latestP=prices[prices.length-1];
   document.getElementById('history-stats').innerHTML =
-    `<div class="stat"><div class="val">${latestP?.toLocaleString('ru-RU')}₽</div><div class="lbl">Последняя цена</div></div>
+    `<div class="stat"><div class="val">${latestP?.toLocaleString('ru-RU')}₽</div><div class="lbl">Последняя</div></div>
      <div class="stat"><div class="val">${minP?.toLocaleString('ru-RU')}₽</div><div class="lbl">Минимум</div></div>
      <div class="stat"><div class="val">${maxP?.toLocaleString('ru-RU')}₽</div><div class="lbl">Максимум</div></div>`;
   document.getElementById('history-stats').style.display = 'grid';
 
   const tbody = document.getElementById('history-body');
   tbody.innerHTML = '';
-  rows.slice().reverse().forEach((r, i, arr) => {
+  rows.slice().reverse().forEach((r,i,arr) => {
     const prev = arr[i+1];
     let trend = '';
     if (prev && r.sellPrice !== prev.sellPrice) {
       const diff = r.sellPrice - prev.sellPrice;
-      trend = diff > 0 ? `<span class="trend-up">▲ ${diff.toLocaleString('ru-RU')}</span>` : `<span class="trend-down">▼ ${Math.abs(diff).toLocaleString('ru-RU')}</span>`;
+      trend = diff>0 ? `<span class="trend-up">▲${diff.toLocaleString('ru-RU')}</span>` : `<span class="trend-down">▼${Math.abs(diff).toLocaleString('ru-RU')}</span>`;
     }
-    tbody.innerHTML += `<tr><td>${formatDate(r.date)}</td><td>${r.model}</td><td>${r.buyPrice?.toLocaleString('ru-RU')}₽</td><td>${r.sellPrice?.toLocaleString('ru-RU')}₽</td><td>${trend}</td></tr>`;
+    tbody.innerHTML += `<tr><td>${formatDate(r.date)}</td><td style="font-size:11px">${r.model}</td><td>${r.buyPrice?.toLocaleString('ru-RU')}₽</td><td>${r.sellPrice?.toLocaleString('ru-RU')}₽</td><td>${trend}</td></tr>`;
   });
   document.getElementById('history-table').style.display = 'table';
 
@@ -696,26 +889,18 @@ function renderHistory(rows, modelQuery) {
     document.getElementById('chart-card').style.display = 'block';
     if (chartInstance) chartInstance.destroy();
     chartInstance = new Chart(document.getElementById('priceChart'), {
-      type: 'line',
-      data: {
-        labels: daily.map(r => r.dateFormatted),
-        datasets: [
-          { label: 'Розничная', data: daily.map(r => r.sellPrice), borderColor: '#1a1a1a', backgroundColor: 'rgba(26,26,26,0.05)', tension: 0.2, pointRadius: 5, pointHoverRadius: 7, fill: true },
-          { label: 'Закупочная', data: daily.map(r => r.buyPrice), borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.04)', tension: 0.2, pointRadius: 5, borderDash: [5,3], fill: true }
-        ]
-      },
-      options: {
-        responsive: true,
-        interaction: { mode: 'index', intersect: false },
-        plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('ru-RU') + '₽' } } },
-        scales: { x: { ticks: { maxRotation: 0 } }, y: { ticks: { callback: v => v.toLocaleString('ru-RU') + '₽' } } }
+      type:'line',
+      data:{ labels: daily.map(r=>r.dateFormatted), datasets:[
+        { label:'Розничная', data:daily.map(r=>r.sellPrice), borderColor:'#1a1a1a', backgroundColor:'rgba(26,26,26,0.05)', tension:.2, pointRadius:5, fill:true },
+        { label:'Закупочная', data:daily.map(r=>r.buyPrice), borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.04)', tension:.2, pointRadius:5, borderDash:[5,3], fill:true }
+      ]},
+      options:{ responsive:true, interaction:{mode:'index',intersect:false},
+        plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+': '+ctx.parsed.y.toLocaleString('ru-RU')+'₽'}}},
+        scales:{x:{ticks:{maxRotation:0}},y:{ticks:{callback:v=>v.toLocaleString('ru-RU')+'₽'}}}
       }
     });
   }
 }
-
-// ---- Init ----
-window.onload = () => { loadSettings(); };
 </script>
 </body>
 </html>
