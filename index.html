@@ -417,7 +417,7 @@ function saveAllSettings() {
   document.getElementById('sheets-status').innerHTML = '<span style="color:#16a34a">✓ Сохранено</span>';
 }
 
-function getSheetsUrl() { return localStorage.getItem('rbs_sheets_url') || ''; }
+function getSheetsUrl() { return localStorage.getItem('rbs_sheets_url') || 'https://script.google.com/macros/s/AKfycbw56gEQb7yq6bsfZIjtqYDf5HHFzqc4-5aWkXJ1wBDShrBSXiEkTSsDFVj3EChRSBEFIw/exec'; }
 function getToken() { return localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4'; }
 function getChannel() { return localStorage.getItem('rbs_channel_id') || '-1003785797033'; }
 
@@ -488,7 +488,27 @@ async function testSheets() {
 // ================================================================
 // MSG IDs
 // ================================================================
-function getMsgIds() { try { return JSON.parse(localStorage.getItem('rbs_msg_ids') || '{}'); } catch(e) { return {}; } }
+function getDefaultMsgIds() {
+  return {
+    iphone_se_13_14: 32,
+    iphone_15: 33,
+    iphone_16: 34,
+    iphone_17: 24,
+    samsung: 35,
+    airpods: 30,
+    watch: 27,
+    ipad: 28,
+    macbook: 31,
+    ps5: 29
+  };
+}
+function getMsgIds() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('rbs_msg_ids') || '{}');
+    // Merge defaults with stored (stored takes priority)
+    return Object.assign({}, getDefaultMsgIds(), stored);
+  } catch(e) { return getDefaultMsgIds(); }
+}
 function saveMsgIds(ids) { localStorage.setItem('rbs_msg_ids', JSON.stringify(ids)); pushMsgIdsToSheets(ids); }
 function resetMessageIds() {
   if (!confirm('Сбросить все ID?')) return;
