@@ -1193,11 +1193,21 @@ async function updateClientChannel() {
     const text = texts[cat];
     if (!msgId || !text) continue;
     try {
-      const res = await tgApi('editMessageText', {
+      const cleanText = text.replace(/\n\n\n+/g, '\n\n').trim();
+      // Try editMessageCaption first (for messages with photos)
+      let res = await tgApi('editMessageCaption', {
         chat_id: CLIENT_CHANNEL_ID,
         message_id: msgId,
-        text: text.replace(/\n\n\n+/g, '\n\n').trim()
+        caption: cleanText
       });
+      // If failed, try editMessageText (for text-only messages)
+      if (!res.ok && res.description && !res.description.includes('not modified')) {
+        res = await tgApi('editMessageText', {
+          chat_id: CLIENT_CHANNEL_ID,
+          message_id: msgId,
+          text: cleanText
+        });
+      }
       if (res.ok) done++;
       else if (res.description && !res.description.includes('not modified')) errors.push(cat);
       else done++; // not modified = ok
