@@ -10,6 +10,7 @@
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231a1a1a'/><text y='65' x='50' text-anchor='middle' font-size='50' fill='white'>₽</text></svg>">
 <title>RBS — Прайс</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f0;color:#1a1a1a;min-height:100vh}
@@ -206,6 +207,8 @@ canvas{max-height:240px}
       <button class="btn btn-green" id="savebtn" onclick="saveToSheets()">💾 В историю</button>
       <button class="btn btn-tg" id="tgbtn" onclick="sendToTelegram()">✈️ В канал</button>
       <button class="btn btn-green" id="clientbtn" onclick="updateClientChannel()">📢 Клиентский канал</button>
+      <button class="btn btn-orange" id="pdfbtn" onclick="generateCategoryPDFs('download')">🖨 Скачать PDF А5</button>
+      <button class="btn btn-blue" id="pdftgbtn" onclick="generateCategoryPDFs('telegram')">📎 PDF → Telegram</button>
     </div>
     <div class="progress-bar" id="progress-wrap"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     <div id="save-status"></div>
@@ -252,6 +255,7 @@ canvas{max-height:240px}
     <div class="section-label">Telegram</div>
     <div class="settings-row"><label>Bot Token:</label><input type="text" id="s-token" placeholder="8835776..."></div>
     <div class="settings-row"><label>ID канала с ценами:</label><input type="text" id="s-channel" placeholder="-1003785797033"></div>
+    <div class="settings-row"><label>ID чата для PDF прайсов:</label><input type="text" id="s-pdf-chat" placeholder="-1001234567890"></div>
     <div class="btn-row">
       <button class="btn btn-dark" onclick="saveAllSettings()">Сохранить</button>
       <button class="btn btn-tg" onclick="testTelegram()">Проверить бота</button>
@@ -404,25 +408,29 @@ function loadLocalSettings() {
   const url = localStorage.getItem('rbs_sheets_url') || '';
   const token = localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4';
   const channel = localStorage.getItem('rbs_channel_id') || '-1003785797033';
+  const pdfChat = localStorage.getItem('rbs_pdf_chat_id') || '';
   if (document.getElementById('s-sheets')) document.getElementById('s-sheets').value = url;
   if (document.getElementById('s-token')) document.getElementById('s-token').value = token;
   if (document.getElementById('s-channel')) document.getElementById('s-channel').value = channel;
+  if (document.getElementById('s-pdf-chat')) document.getElementById('s-pdf-chat').value = pdfChat;
 }
 
 function loadSettingsUI() {
   document.getElementById('s-sheets').value = localStorage.getItem('rbs_sheets_url') || '';
   document.getElementById('s-token').value = localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4';
   document.getElementById('s-channel').value = localStorage.getItem('rbs_channel_id') || '-1003785797033';
+  document.getElementById('s-pdf-chat').value = localStorage.getItem('rbs_pdf_chat_id') || '';
 }
 
 function saveAllSettings() {
   const url = document.getElementById('s-sheets').value.trim();
   const token = document.getElementById('s-token').value.trim();
   const channel = document.getElementById('s-channel').value.trim();
+  const pdfChat = document.getElementById('s-pdf-chat').value.trim();
   localStorage.setItem('rbs_sheets_url', url);
   localStorage.setItem('rbs_bot_token', token);
   localStorage.setItem('rbs_channel_id', channel);
-  // Sync to Sheets
+  if (pdfChat) localStorage.setItem('rbs_pdf_chat_id', pdfChat);
   pushSettingsToSheets({ sheets_url: url, bot_token: token, channel_id: channel });
   document.getElementById('sheets-status').innerHTML = '<span style="color:#16a34a">✓ Сохранено</span>';
 }
@@ -430,6 +438,7 @@ function saveAllSettings() {
 function getSheetsUrl() { return localStorage.getItem('rbs_sheets_url') || 'https://script.google.com/macros/s/AKfycbw56gEQb7yq6bsfZIjtqYDf5HHFzqc4-5aWkXJ1wBDShrBSXiEkTSsDFVj3EChRSBEFIw/exec'; }
 function getToken() { return localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4'; }
 function getChannel() { return localStorage.getItem('rbs_channel_id') || '-1003785797033'; }
+function getPdfChatId() { return localStorage.getItem('rbs_pdf_chat_id') || ''; }
 
 // ================================================================
 // SETTINGS — SHEETS SYNC
@@ -1163,11 +1172,6 @@ async function updateClientChannel() {
   const minPrices = getMinPrices();
   const texts = buildAllClientTexts(minPrices, parsedItems);
 
-  // Determine which messages to update based on what's in the current price list
-  const toUpdate = [];
-  const catKeys = Object.keys(parsedSections);
-  
-  // Always try to update based on available data
   const mapping = {
     iphone_17: 'iphone', iphone_16: 'iphone', iphone_15: 'iphone', iphone_se_13_14: 'iphone',
     airpods: 'airpods',
@@ -1179,7 +1183,7 @@ async function updateClientChannel() {
   };
 
   const clientCats = new Set();
-  catKeys.forEach(k => { if (mapping[k]) clientCats.add(mapping[k]); });
+  Object.keys(parsedSections).forEach(k => { if (mapping[k]) clientCats.add(mapping[k]); });
   
   if (clientCats.size === 0) { 
     status.innerHTML = '<span class="err">Не найдено категорий для клиентского канала</span>';
@@ -1187,30 +1191,64 @@ async function updateClientChannel() {
     return;
   }
 
-  let done = 0; let errors = [];
+  // Load saved client message IDs (may be updated after first send)
+  let clientIds = {};
+  try { clientIds = JSON.parse(localStorage.getItem('rbs_client_msg_ids') || '{}'); } catch(e) {}
+  // Merge with defaults from CLIENT_MESSAGES
+  const effectiveIds = Object.assign({}, CLIENT_MESSAGES, clientIds);
+
+  let done = 0; let errors = []; let newMsgs = 0;
   for (const cat of clientCats) {
-    const msgId = CLIENT_MESSAGES[cat];
+    const msgId = effectiveIds[cat];
     const text = texts[cat];
-    if (!msgId || !text) continue;
+    if (!text) continue;
+    const cleanText = text.replace(/\n\n\n+/g, '\n\n').trim();
     try {
-      const cleanText = text.replace(/\n\n\n+/g, '\n\n').trim();
-      // Try editMessageCaption first (for messages with photos)
-      let res = await tgApi('editMessageCaption', {
-        chat_id: CLIENT_CHANNEL_ID,
-        message_id: msgId,
-        caption: cleanText
-      });
-      // If failed, try editMessageText (for text-only messages)
-      if (!res.ok && res.description && !res.description.includes('not modified')) {
-        res = await tgApi('editMessageText', {
+      let edited = false;
+      if (msgId) {
+        // Try editMessageCaption first (photo posts)
+        let res = await tgApi('editMessageCaption', {
           chat_id: CLIENT_CHANNEL_ID,
           message_id: msgId,
-          text: cleanText
+          caption: cleanText
         });
+        if (res.ok || (res.description && res.description.includes('not modified'))) {
+          edited = true;
+        } else {
+          // Try editMessageText (text posts)
+          res = await tgApi('editMessageText', {
+            chat_id: CLIENT_CHANNEL_ID,
+            message_id: msgId,
+            text: cleanText
+          });
+          if (res.ok || (res.description && res.description.includes('not modified'))) {
+            edited = true;
+          }
+        }
       }
-      if (res.ok) done++;
-      else if (res.description && !res.description.includes('not modified')) errors.push(cat);
-      else done++; // not modified = ok
+
+      if (!edited) {
+        // Can't edit (manual post / no id) → send new message as reply
+        const params = {
+          chat_id: CLIENT_CHANNEL_ID,
+          text: cleanText
+        };
+        // Reply to original photo post if we know its ID
+        const originalId = CLIENT_MESSAGES[cat];
+        if (originalId) params.reply_to_message_id = originalId;
+
+        const res = await tgApi('sendMessage', params);
+        if (res.ok) {
+          // Save new message ID so next time we can edit it
+          clientIds[cat] = res.result.message_id;
+          localStorage.setItem('rbs_client_msg_ids', JSON.stringify(clientIds));
+          newMsgs++;
+          edited = true;
+        } else {
+          errors.push(cat);
+        }
+      }
+      if (edited) done++;
     } catch(e) { errors.push(cat); }
     await new Promise(r => setTimeout(r, 400));
   }
@@ -1220,8 +1258,528 @@ async function updateClientChannel() {
   if (errors.length) {
     status.innerHTML = '<span class="err">Обновлено: ' + done + ', ошибки: ' + errors.join(', ') + '</span>';
   } else {
-    status.innerHTML = '<span class="ok">✓ Клиентский канал обновлён! ' + done + ' сообщений, дата обновлена</span>';
+    let msg = '✓ Клиентский канал обновлён! ' + done + ' сообщений';
+    if (newMsgs) msg += ' (' + newMsgs + ' новых — ID сохранены)';
+    status.innerHTML = '<span class="ok">' + msg + '</span>';
   }
+}
+
+// ================================================================
+// PDF А5 — генерация одного листа по категории
+// ================================================================
+function buildCategoryBlocks() {
+  // Returns array of { id, title, subtitle, lines:[{label,price}] }
+  const today = new Date().toLocaleDateString('ru-RU');
+  const blocks = [];
+
+  // ---- helpers ----
+  function minByPat(pat) {
+    const items = parsedItems.filter(i => pat.test(i.model));
+    if (!items.length) return null;
+    return Math.min(...items.map(i => i.sellPrice));
+  }
+  function fmt(n) { return n ? n.toLocaleString('ru-RU') + ' р.' : null; }
+  function row(label, pat) {
+    const p = minByPat(pat);
+    return p ? { label, price: 'от ' + fmt(p) } : null;
+  }
+
+  // iPhone
+  const iphoneRows = [
+    row('iPhone 13',         /^(?!.*plus|.*pro|.*14|.*15|.*16|.*17).*13/i),
+    row('iPhone 14',         /^(?!.*plus|.*pro).*\b14\b(?!.*15|.*16|.*17)/i),
+    row('iPhone 14 Plus',    /\b14\s*plus/i),
+    row('iPhone 14 Pro',     /\b14\s*pro(?!\s*max)/i),
+    row('iPhone 14 Pro Max', /\b14\s*pro\s*max/i),
+    row('iPhone 15',         /^(?!.*plus|.*pro).*\b15\b(?!.*16|.*17)/i),
+    row('iPhone 15 Plus',    /\b15\s*plus/i),
+    row('iPhone 15 Pro',     /\b15\s*pro(?!\s*max)/i),
+    row('iPhone 15 Pro Max', /\b15\s*pro\s*max/i),
+    row('iPhone 16e',        /\b16e\b/i),
+    row('iPhone 16',         /^(?!.*plus|.*pro|.*16e).*\b16\b(?!.*17)/i),
+    row('iPhone 16 Plus',    /\b16\s*plus/i),
+    row('iPhone 16 Pro',     /\b16\s*pro(?!\s*max)/i),
+    row('iPhone 16 Pro Max', /\b16\s*pro\s*max/i),
+    row('iPhone 17e',        /\b17e\b/i),
+    row('iPhone 17 Air',     /\b17\s*air/i),
+    row('iPhone 17',         /^(?!.*air|.*pro|.*17e).*\b17\b/i),
+    row('iPhone 17 Pro',     /\b17\s*pro(?!\s*max)/i),
+    row('iPhone 17 Pro Max', /\b17\s*pro\s*max/i),
+  ].filter(Boolean);
+  if (iphoneRows.length) blocks.push({ id:'iphone', title:'iPhone', subtitle:'Цены включают подарок на 10 000 ₽', lines: iphoneRows });
+
+  // Samsung
+  const samRows = [
+    row('Samsung A07',       /a07/i),
+    row('Samsung A17',       /a17/i),
+    row('Samsung A26',       /a26/i),
+    row('Samsung A36',       /a36/i),
+    row('Samsung A56',       /a56/i),
+    row('Samsung S24',       /s24(?!\s*ultra)/i),
+    row('Samsung S24 Ultra', /s24\s*ultra/i),
+    row('Samsung S25',       /s25(?!\+|ultra|edge)/i),
+    row('Samsung S25+',      /s25\+/i),
+    row('Samsung S25 Ultra', /s25\s*ultra/i),
+    row('Samsung S25 Edge',  /s25\s*edge/i),
+    row('Samsung S26',       /s26(?!\+|ultra)/i),
+    row('Samsung S26+',      /s26\+/i),
+    row('Samsung S26 Ultra', /s26\s*ultra/i),
+    row('Samsung Z Flip 7',  /z\s*flip/i),
+    row('Samsung Z Fold 7',  /z\s*fold/i),
+  ].filter(Boolean);
+  if (samRows.length) blocks.push({ id:'samsung', title:'Samsung Galaxy', subtitle:'Серии A, S, Z. Подарок для S и Z серий', lines: samRows });
+
+  // MacBook
+  const macRows = [
+    row('MacBook Air 13 M5',  /air\s*13.*m5|air.*m5.*13/i),
+    row('MacBook Air 15 M5',  /air\s*15.*m5|air.*m5.*15/i),
+    row('MacBook NEO',        /neo/i),
+    row('MacBook Pro 14 M5',  /pro\s*14.*m5(?!\s*max)/i),
+    row('MacBook Pro 14 Max', /pro\s*14\s*max/i),
+    row('MacBook Pro 16 M5',  /pro\s*16.*m5(?!\s*max)/i),
+    row('MacBook Pro 16 Max', /pro\s*16\s*max/i),
+  ].filter(Boolean);
+  if (macRows.length) blocks.push({ id:'macbook', title:'MacBook', subtitle:'Apple MacBook Air и MacBook Pro', lines: macRows });
+
+  // iPad
+  const ipadRows = [
+    row('iPad 11',          /ipad\s*11(?!.*air|.*pro|.*mini)/i),
+    row('iPad Air 11 M3',   /air\s*11.*m3/i),
+    row('iPad Air 11 M4',   /air\s*11.*m4/i),
+    row('iPad Air 13 M3',   /air\s*13.*m3/i),
+    row('iPad Air 13 M4',   /air\s*13.*m4/i),
+    row('iPad Mini 7',      /mini\s*7/i),
+    row('iPad Pro 11 M4',   /pro\s*11.*m4/i),
+    row('iPad Pro 11 M5',   /pro\s*11.*m5/i),
+    row('iPad Pro 13 M5',   /pro\s*13.*m5/i),
+  ].filter(Boolean);
+  if (ipadRows.length) blocks.push({ id:'ipad', title:'iPad', subtitle:'iPad, Air, Mini, Pro', lines: ipadRows });
+
+  // AirPods
+  const apRows = [
+    row('AirPods 4',     /airpods\s*4(?!\s*pro)/i),
+    row('AirPods Pro 2', /airpods.*pro\s*2|pro\s*2.*airpods/i),
+    row('AirPods Pro 3', /airpods.*pro\s*3|pro\s*3.*airpods/i),
+    row('AirPods Max',   /airpods.*max/i),
+  ].filter(Boolean);
+  if (apRows.length) blocks.push({ id:'airpods', title:'AirPods', subtitle:'AirPods 4, Pro 2, Pro 3, Max', lines: apRows });
+
+  // Apple Watch
+  const awRows = [
+    row('Watch SE 2',     /watch.*se\s*2|se\s*2.*watch/i),
+    row('Watch SE 3',     /watch.*se\s*3|se\s*3.*watch/i),
+    row('Watch Series 9', /\bs9\b/i),
+    row('Watch Series 10',/\bs10\b/i),
+    row('Watch Series 11',/\bs11\b/i),
+    row('Watch Ultra 2',  /ultra\s*2/i),
+    row('Watch Ultra 3',  /ultra\s*3/i),
+  ].filter(Boolean);
+  if (awRows.length) blocks.push({ id:'watch', title:'Apple Watch', subtitle:'SE, Series, Ultra', lines: awRows });
+
+  // PS5
+  const ps5Rows = [
+    row('PS5 Slim Digital',    /slim.*digital|digital.*slim/i),
+    row('PS5 Slim Disk',       /slim.*disk|disk.*slim/i),
+    row('PS5 Pro Digital 2TB', /pro.*digital|ps5\s*pro/i),
+    row('PS5 VR2',             /vr2/i),
+    row('DualSense',           /dualsense/i),
+  ].filter(Boolean);
+  if (ps5Rows.length) blocks.push({ id:'ps5', title:'PlayStation 5', subtitle:'Sony PS5 и аксессуары', lines: ps5Rows });
+
+  return blocks;
+}
+
+function buildOnePDF(block) {
+  const { jsPDF } = window.jspdf;
+  // A5 portrait: 148 x 210 mm
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
+  const W = 148, H = 210;
+  const today = new Date().toLocaleDateString('ru-RU');
+  const MARGIN = 6, PAD_L = 12, PAD_R = 12;
+
+  // White background
+  doc.setFillColor(255, 255, 255);
+  doc.rect(0, 0, W, H, 'F');
+
+  // Border (cut line for A4 printing)
+  doc.setDrawColor(0, 0, 0);
+  doc.setLineWidth(0.4);
+  doc.rect(MARGIN, MARGIN, W - 2*MARGIN, H - 2*MARGIN);
+
+  // ── Header — text only ──
+  const hY = H - MARGIN - 9;  // top text baseline (from bottom = H - margin - offset)
+  const headerTop = MARGIN + 6;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(10, 10, 10);
+  doc.text('RBS', PAD_L, headerTop + 8);
+
+  // Orange dot
+  doc.setFillColor(235, 87, 13);
+  doc.circle(PAD_L + 14, headerTop + 5, 1.8, 'F');
+
+  // Category title
+  doc.setFontSize(14);
+  doc.text(block.title, PAD_L + 18, headerTop + 8);
+
+  // Date right
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(120, 120, 120);
+  doc.text(today, W - PAD_R, headerTop + 4, { align: 'right' });
+
+  // Subtitle
+  doc.setFontSize(7);
+  doc.setTextColor(130, 130, 130);
+  doc.text(block.subtitle, PAD_L, headerTop + 14);
+
+  // Orange underline
+  doc.setDrawColor(235, 87, 13);
+  doc.setLineWidth(0.6);
+  doc.line(PAD_L, headerTop + 16, W - PAD_R, headerTop + 16);
+
+  // ── Table ──
+  const n = block.lines.length;
+  const tblX = PAD_L;
+  const tblW = W - PAD_L - PAD_R;
+  const tblTop = headerTop + 19;
+  const HDR_H = 7;
+  const avail = H - MARGIN - 10 - tblTop - HDR_H;
+  const rowH = avail / n;
+  const labelFs = Math.max(7, Math.min(14, rowH * 0.44));
+  const priceFs = Math.max(8, Math.min(15, rowH * 0.50));
+
+  // Table header
+  doc.setFillColor(220, 220, 220);
+  doc.rect(tblX, tblTop, tblW, HDR_H, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  doc.setTextColor(30, 30, 30);
+  doc.text('Модель', tblX + 3, tblTop + 5);
+  doc.text('Цена', tblX + tblW - 3, tblTop + 5, { align: 'right' });
+
+  // Rows
+  block.lines.forEach((line, i) => {
+    const y0 = tblTop + HDR_H + i * rowH;
+    if (i % 2 === 0) {
+      doc.setFillColor(245, 245, 245);
+      doc.rect(tblX, y0, tblW, rowH, 'F');
+    }
+    // separator
+    doc.setDrawColor(210, 210, 210);
+    doc.setLineWidth(0.2);
+    doc.line(tblX, y0 + rowH, tblX + tblW, y0 + rowH);
+
+    // orange bar
+    doc.setFillColor(235, 87, 13);
+    doc.rect(tblX, y0, 1.5, rowH, 'F');
+
+    const textY = y0 + rowH * 0.65;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(labelFs);
+    doc.setTextColor(20, 20, 20);
+    doc.text(line.label, tblX + 4, textY);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(priceFs);
+    doc.text(line.price, tblX + tblW - 3, textY, { align: 'right' });
+  });
+
+  // Table border
+  doc.setDrawColor(50, 50, 50);
+  doc.setLineWidth(0.5);
+  doc.rect(tblX, tblTop, tblW, HDR_H + n * rowH);
+
+  // Footer
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.5);
+  doc.setTextColor(140, 140, 140);
+  doc.text('RBS — г. Тобольск | г. Урай | Уточняйте наличие у менеджера',
+    W / 2, H - MARGIN - 2, { align: 'center' });
+
+  return doc;
+}
+
+async function generateCategoryPDFs(mode) {
+  if (!parsedItems.length) { alert('Сначала сформируй прайс'); return; }
+
+  const btnDl  = document.getElementById('pdfbtn');
+  const btnTg  = document.getElementById('pdftgbtn');
+  const status = document.getElementById('save-status');
+  btnDl.disabled = true; btnTg.disabled = true;
+  status.innerHTML = '<span style="color:#888">Генерируем PDF...</span>';
+
+  if (mode === 'telegram') {
+    const chatId = getPdfChatId();
+    if (!chatId) {
+      alert('Укажи ID чата для PDF в Настройках → Telegram → «ID чата для PDF прайсов»');
+      btnDl.disabled = false; btnTg.disabled = false; return;
+    }
+  }
+
+  const blocks = buildCategoryBlocks();
+  if (!blocks.length) {
+    status.innerHTML = '<span class="err">Нет данных для PDF</span>';
+    btnDl.disabled = false; btnTg.disabled = false; return;
+  }
+
+  const today = new Date().toLocaleDateString('ru-RU').replace(/\./g, '-');
+  let done = 0, errors = [];
+
+  for (const block of blocks) {
+    try {
+      const doc = buildOnePDF(block);
+      const filename = `RBS_${block.id}_${today}.pdf`;
+
+      if (mode === 'download') {
+        doc.save(filename);
+        await new Promise(r => setTimeout(r, 300)); // pause between downloads
+      } else {
+        // Send to Telegram as document
+        const pdfBlob = doc.output('blob');
+        const formData = new FormData();
+        formData.append('chat_id', getPdfChatId());
+        formData.append('document', pdfBlob, filename);
+        formData.append('caption', `📋 Прайс ${block.title} — ${new Date().toLocaleDateString('ru-RU')}`);
+        const res = await fetch(`https://api.telegram.org/bot${getToken()}/sendDocument`, {
+          method: 'POST', body: formData
+        });
+        const data = await res.json();
+        if (!data.ok) errors.push(block.title);
+        await new Promise(r => setTimeout(r, 500));
+      }
+      done++;
+    } catch(e) { errors.push(block.title); }
+
+    status.innerHTML = `<span style="color:#888">Обрабатываем... ${done}/${blocks.length}</span>`;
+  }
+
+  btnDl.disabled = false; btnTg.disabled = false;
+  if (errors.length) {
+    status.innerHTML = `<span class="err">Готово: ${done}, ошибки: ${errors.join(', ')}</span>`;
+  } else if (mode === 'download') {
+    status.innerHTML = `<span class="ok">✓ Скачано ${done} PDF файлов</span>`;
+  } else {
+    status.innerHTML = `<span class="ok">✓ Отправлено в Telegram: ${done} файлов</span>`;
+  }
+}
+
+// Kept for compatibility — old function replaced
+function generateA3PDF() {
+  if (!parsedItems.length) { alert('Сначала сформируй прайс'); return; }
+
+  try {
+    const { jsPDF } = window.jspdf;
+    // A3 landscape: 420 x 297 mm
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a3' });
+    const W = 420, H = 297;
+    const today = new Date().toLocaleDateString('ru-RU');
+
+    // Background
+    doc.setFillColor(26, 26, 26);
+    doc.rect(0, 0, W, H, 'F');
+
+    // Header bar
+    doc.setFillColor(20, 20, 20);
+    doc.rect(0, 0, W, 28, 'F');
+
+    // Logo / title
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('RBS', 14, 18);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(170, 170, 170);
+    doc.text('Актуальные цены на технику', 40, 18);
+    doc.setTextColor(120, 120, 120);
+    doc.text('Обновлено: ' + today, W - 14, 18, { align: 'right' });
+
+    // Accent line
+    doc.setDrawColor(229, 88, 12);
+    doc.setLineWidth(1.2);
+    doc.line(0, 28, W, 28);
+
+    // Collect min prices by category for display
+    const mp = getMinPrices();
+
+    // Build display blocks
+    const blocks = [];
+
+    // iPhone
+    const iphoneLines = [];
+    const iphoneModels = [
+      ['iPhone 13', 'iPhone 13'], ['iPhone 14', 'iPhone 14'], ['iPhone 14 Plus', 'iPhone 14 Plus'],
+      ['iPhone 14 Pro', 'iPhone 14 Pro'], ['iPhone 14 Pro Max', 'iPhone 14 Pro Max'],
+      ['iPhone 15', 'iPhone 15'], ['iPhone 15 Plus', 'iPhone 15 Plus'],
+      ['iPhone 15 Pro', 'iPhone 15 Pro'], ['iPhone 15 Pro Max', 'iPhone 15 Pro Max'],
+      ['iPhone 16e', 'iPhone 16e'], ['iPhone 16', 'iPhone 16'], ['iPhone 16 Plus', 'iPhone 16 Plus'],
+      ['iPhone 16 Pro', 'iPhone 16 Pro'], ['iPhone 16 Pro Max', 'iPhone 16 Pro Max'],
+      ['iPhone 17e', 'iPhone 17e'], ['iPhone 17', 'iPhone 17'], ['iPhone 17 Air', 'iPhone 17 Air'],
+      ['iPhone 17 Pro', 'iPhone 17 Pro'], ['iPhone 17 Pro Max', 'iPhone 17 Pro Max'],
+    ];
+    iphoneModels.forEach(([key, label]) => { if (mp[key]) iphoneLines.push({ label, price: mp[key] }); });
+    if (iphoneLines.length) blocks.push({ title: '📱 iPhone', lines: iphoneLines, accent: [37, 99, 235] });
+
+    // Samsung
+    const samsungLines = [];
+    ['sa07','sa17','sa26','sa36','sa56','ss24','ss24u','ss25','ss25p','ss25u','ss25e','ss26','ss26p','ss26u','zflip','zfold'].forEach(k => {
+      const labMap = {sa07:'Samsung A07',sa17:'Samsung A17',sa26:'Samsung A26',sa36:'Samsung A36',sa56:'Samsung A56',
+        ss24:'Samsung S24',ss24u:'Samsung S24 Ultra',ss25:'Samsung S25',ss25p:'Samsung S25+',ss25u:'Samsung S25 Ultra',
+        ss25e:'Samsung S25 Edge',ss26:'Samsung S26',ss26p:'Samsung S26+',ss26u:'Samsung S26 Ultra',
+        zflip:'Samsung Z Flip',zfold:'Samsung Z Fold'};
+      // We derive from parsedItems for Samsung since CLIENT_MODELS doesn't cover Samsung
+      const pat = {sa07:/a07/i,sa17:/a17/i,sa26:/a26/i,sa36:/a36/i,sa56:/a56/i,
+        ss24:/s24(?!\s*ultra)/i,ss24u:/s24\s*ultra/i,ss25:/s25(?!\+|ultra|edge)/i,ss25p:/s25\+/i,
+        ss25u:/s25\s*ultra/i,ss25e:/s25\s*edge/i,ss26:/s26(?!\+|ultra)/i,ss26p:/s26\+/i,
+        ss26u:/s26\s*ultra/i,zflip:/z\s*flip/i,zfold:/z\s*fold/i}[k];
+      if (!pat) return;
+      const items = parsedItems.filter(i => pat.test(i.model));
+      if (items.length) {
+        const min = Math.min(...items.map(i => i.sellPrice));
+        samsungLines.push({ label: labMap[k], price: min });
+      }
+    });
+    if (samsungLines.length) blocks.push({ title: '📱 Samsung', lines: samsungLines, accent: [22, 163, 74] });
+
+    // MacBook
+    const macLines = [];
+    const macPats = [
+      {k:'MacBook Air 13 M5', p:/air\s*13.*m5|air.*m5.*13/i},
+      {k:'MacBook Air 15 M5', p:/air\s*15.*m5|air.*m5.*15/i},
+      {k:'MacBook NEO', p:/neo/i},
+      {k:'MacBook Pro 14 M5', p:/pro\s*14.*m5/i},
+      {k:'MacBook Pro 14 Max', p:/pro\s*14\s*max/i},
+      {k:'MacBook Pro 16 M5', p:/pro\s*16.*m5/i},
+      {k:'MacBook Pro 16 Max', p:/pro\s*16\s*max/i},
+    ];
+    macPats.forEach(({k,p}) => {
+      const items = parsedItems.filter(i => p.test(i.model));
+      if (items.length) macLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
+    });
+    if (macLines.length) blocks.push({ title: '💻 MacBook', lines: macLines, accent: [124, 58, 237] });
+
+    // iPad
+    const ipadLines = [];
+    const ipadPats = [
+      {k:'iPad 11', p:/ipad\s*11(?!.*air|.*pro|.*mini)/i},
+      {k:'iPad Air 11 M3', p:/air\s*11.*m3/i},{k:'iPad Air 11 M4', p:/air\s*11.*m4/i},
+      {k:'iPad Air 13 M3', p:/air\s*13.*m3/i},{k:'iPad Air 13 M4', p:/air\s*13.*m4/i},
+      {k:'iPad Mini 7', p:/mini\s*7/i},
+      {k:'iPad Pro 11 M4', p:/pro\s*11.*m4/i},{k:'iPad Pro 11 M5', p:/pro\s*11.*m5/i},
+      {k:'iPad Pro 13 M5', p:/pro\s*13.*m5/i},
+    ];
+    ipadPats.forEach(({k,p}) => {
+      const items = parsedItems.filter(i => p.test(i.model));
+      if (items.length) ipadLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
+    });
+    if (ipadLines.length) blocks.push({ title: '📋 iPad', lines: ipadLines, accent: [8, 145, 178] });
+
+    // AirPods
+    const apLines = [];
+    const apPats = [
+      {k:'AirPods 4', p:/airpods\s*4(?!\s*pro)/i},{k:'AirPods Pro 2', p:/pro\s*2/i},
+      {k:'AirPods Pro 3', p:/pro\s*3/i},{k:'AirPods Max', p:/max/i},
+    ];
+    apPats.forEach(({k,p}) => {
+      const items = parsedItems.filter(i => /airpods|наушник/i.test(i.model) && p.test(i.model));
+      if (items.length) apLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
+    });
+    if (apLines.length) blocks.push({ title: '🎧 AirPods', lines: apLines, accent: [245, 158, 11] });
+
+    // Apple Watch
+    const awLines = [];
+    const awPats = [
+      {k:'Watch SE 2', p:/se\s*2/i},{k:'Watch SE 3', p:/se\s*3/i},
+      {k:'Watch S9', p:/\bs9\b/i},{k:'Watch S10', p:/\bs10\b/i},{k:'Watch S11', p:/\bs11\b/i},
+      {k:'Watch Ultra 2', p:/ultra\s*2/i},{k:'Watch Ultra 3', p:/ultra\s*3/i},
+    ];
+    awPats.forEach(({k,p}) => {
+      const items = parsedItems.filter(i => /apple\s*watch|watch\s*(se|s\d|ultra)/i.test(i.model) && p.test(i.model));
+      if (items.length) awLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
+    });
+    if (awLines.length) blocks.push({ title: '⌚ Apple Watch', lines: awLines, accent: [239, 68, 68] });
+
+    // PS5
+    const ps5Lines = [];
+    const ps5Pats = [
+      {k:'PS5 Pro Digital', p:/pro.*digital|ps5\s*pro/i},
+      {k:'PS5 Slim Disk', p:/slim.*disk|disk.*slim/i},
+      {k:'PS5 Slim Digital', p:/slim.*digital|digital.*slim/i},
+      {k:'PS5 VR2', p:/vr2/i},
+      {k:'DualSense', p:/dualsense/i},
+    ];
+    ps5Pats.forEach(({k,p}) => {
+      const items = parsedItems.filter(i => p.test(i.model));
+      if (items.length) ps5Lines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
+    });
+    if (ps5Lines.length) blocks.push({ title: '🎮 PlayStation', lines: ps5Lines, accent: [99, 102, 241] });
+
+    // Layout: up to 4 columns
+    const COLS = 4;
+    const padL = 10, padT = 36, padR = 10;
+    const contentW = W - padL - padR;
+    const colW = contentW / COLS;
+    const contentH = H - padT - 10;
+
+    let col = 0, y = padT;
+    const colX = (c) => padL + c * colW;
+
+    blocks.forEach((block, bi) => {
+      // Check if block fits in current column
+      const blockH = 8 + block.lines.length * 6.2 + 5;
+      if (y + blockH > padT + contentH && col < COLS - 1) {
+        col++; y = padT;
+      }
+      const x = colX(col);
+
+      // Category header
+      doc.setFillColor(...block.accent);
+      doc.roundedRect(x + 2, y, colW - 6, 7, 1.5, 1.5, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8.5);
+      doc.setFont('helvetica', 'bold');
+      doc.text(block.title, x + 5, y + 5);
+      y += 9;
+
+      // Lines
+      block.lines.forEach((line, li) => {
+        const isEven = li % 2 === 0;
+        if (isEven) {
+          doc.setFillColor(35, 35, 35);
+          doc.rect(x + 2, y - 1, colW - 6, 6, 'F');
+        }
+        doc.setTextColor(220, 220, 220);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7.2);
+        // Label
+        const labelText = line.label.length > 22 ? line.label.substring(0, 22) + '…' : line.label;
+        doc.text(labelText, x + 4, y + 3.5);
+        // Price — right aligned with accent color
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(...block.accent);
+        doc.text('от ' + line.price.toLocaleString('ru-RU') + ' ₽', x + colW - 8, y + 3.5, { align: 'right' });
+        y += 6.2;
+      });
+      y += 5;
+    });
+
+    // Footer
+    doc.setFillColor(15, 15, 15);
+    doc.rect(0, H - 10, W, 10, 'F');
+    doc.setTextColor(80, 80, 80);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'normal');
+    doc.text('RBS — Real Best Store | Тобольск | Урай | rbs81.github.io/rbs-price', W / 2, H - 4, { align: 'center' });
+
+    doc.save('RBS_Прайс_А3_' + today.replace(/\./g, '-') + '.pdf');
+  } catch(e) {
+    alert('Ошибка генерации PDF: ' + e.message);
+    console.error(e);
+  }
+
+  btn.disabled = false; btn.textContent = '🖨 PDF А3 для стойки';
 }
 </script>
 </body>
