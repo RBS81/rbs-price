@@ -568,8 +568,8 @@ function getMarkup(text) {
     if (/\b17\b/.test(n)) return +document.getElementById('m17').value/100;
     if (/\b1[3456]\b/.test(n)) return +document.getElementById('m1316').value/100;
   }
-  if (/samsung|galaxy|\ba\d{2}\b/.test(n)) {
-    if (/galaxy s|galaxy z|z flip|z fold|\bs\d{2}\b/.test(n)) return +document.getElementById('msamS').value/100;
+  if (/samsung|galaxy|\ba\d{2}\b|\bs2[0-9]\b|\bz\s*(flip|fold)/.test(n)) {
+    if (/galaxy s|galaxy z|z flip|z fold|\bs\d{2}\b|\bz\s*(flip|fold)/.test(n)) return +document.getElementById('msamS').value/100;
     return +document.getElementById('msamA').value/100;
   }
   if (/ipad/.test(n)) return +document.getElementById('mipad').value/100;
@@ -588,7 +588,7 @@ function getCategoryKey(text) {
     if (/\b15\b/.test(n)) return 'iphone_15';
     if (/\b1[234]\b/.test(n)||/iphone se/.test(n)) return 'iphone_se_13_14';
   }
-  if (/samsung|galaxy|\ba\d{2}\b/.test(n)) return 'samsung';
+  if (/samsung|galaxy|\ba\d{2}\b|\bs2[0-9]\b|\bz\s*(flip|fold)/.test(n)) return 'samsung';
   if (/ipad/.test(n)) return 'ipad';
   if (/airpods|наушник/.test(n)) return 'airpods';
   if (/ps5|playstation|dualsense/.test(n)) return 'ps5';
@@ -621,9 +621,11 @@ async function loadPreviousPrices() {
 function isGiftCategory(label, section) {
   const n = (label + ' ' + section).toLowerCase();
   // iPhone — all models
-  if (/iphone|sim.esim|1[3456789]/.test(n) && !/samsung|galaxy|macbook|ipad|airpods|watch|ps5/.test(n)) return true;
-  // Samsung S / Z Flip / Z Fold
-  if (/galaxy s|galaxy z|z flip|z fold|s\d{2}|z flip|z fold/.test(n)) return true;
+  if (/iphone|sim.esim|1[3456789]/.test(n) && !/samsung|galaxy|macbook|ipad|airpods|watch|ps5/.test(n)) return true;
+  // Samsung S23-S26 / Z Flip / Z Fold (строки без слова samsung)
+  if (/galaxy s|galaxy z|z flip|z fold/.test(n)) return true;
+  if (/\bs2[3-9](\+| ultra| edge|\b)/.test(n)) return true;
+  if (/\bz\s*(flip|fold)/.test(n)) return true;
   return false;
 }
 
@@ -795,9 +797,13 @@ async function sendToTelegram() {
   const catKeys = Object.keys(parsedSections);
   let done = 0; let errors = [];
 
+  const todayStr = new Date().toLocaleDateString('ru-RU');
+  const dateStamp = `📅 Обновлено: ${todayStr}`;
+
   for (const key of catKeys) {
-    const text = parsedSections[key];
-    if (!text.trim()) continue;
+    const rawText = parsedSections[key];
+    if (!rawText.trim()) continue;
+    const text = dateStamp + '\n\n' + rawText.trim();
     try {
       if (ids[key]) {
         const chunks = splitText(text);
