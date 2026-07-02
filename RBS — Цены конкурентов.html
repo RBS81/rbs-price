@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!-- saved from url=(0055)file:///Users/evgenytupota/Downloads/konkurenty_10.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RBS — Цены конкурентов</title>
+<script src="./RBS — Цены конкурентов_files/chart.umd.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0D2137; color: #E8EDF2; min-height: 100vh; }
+
+header { background: #0A1C2E; border-bottom: 3px solid #1565C0; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 200; }
+.logo { font-size: 18px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+.logo span { color: #42A5F5; }
+.header-date { font-size: 13px; color: #90A4AE; }
+
+.tabs { display: flex; background: #0A1C2E; border-bottom: 1px solid #1A3550; padding: 0 20px; }
+.tab { padding: 11px 20px; font-size: 13px; font-weight: 600; color: #90A4AE; cursor: pointer; border-bottom: 3px solid transparent; transition: color 0.15s, border-color 0.15s; white-space: nowrap; }
+.tab:hover { color: #E8EDF2; }
+.tab.active { color: #42A5F5; border-bottom-color: #42A5F5; }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+.input-panel { padding: 16px 16px 80px; }
+.top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: #90A4AE; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 5px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-changed { background: #FFC107; }
+.dot-sent    { background: #43A047; }
+.dot-old     { background: #37474F; }
+.session-date { font-size: 12px; color: #546E7A; background: #0A1C2E; border: 1px solid #1A3550; border-radius: 6px; padding: 5px 10px; }
+
+table { border-collapse: collapse; width: 100%; min-width: 920px; background: #132333; border-radius: 10px; overflow: hidden; }
+thead tr { background: #1565C0; }
+thead th { padding: 9px 6px; font-size: 11px; font-weight: 600; color: #fff; text-align: center; white-space: nowrap; }
+thead th:first-child { text-align: left; padding-left: 14px; min-width: 185px; }
+tbody tr { border-bottom: 1px solid #1A3550; transition: background 0.1s; }
+tbody tr:hover { background: #1A3550 !important; }
+tbody tr:nth-child(even) { background: #0F2030; }
+td { padding: 5px 4px; text-align: center; vertical-align: middle; }
+td:first-child { text-align: left; padding-left: 14px; font-size: 13px; font-weight: 500; color: #E8EDF2; white-space: nowrap; }
+.section-row td { background: #0A1C2E !important; font-size: 11px; font-weight: 700; color: #42A5F5; text-transform: uppercase; letter-spacing: 0.5px; padding: 5px 14px; border-bottom: 1px solid #1565C0; }
+
+.cell-wrap { position: relative; display: inline-block; }
+input[type="number"] { width: 84px; background: #0D2137; border: 1px solid #1E3A55; border-radius: 5px; color: #E8EDF2; font-size: 13px; padding: 5px 6px; text-align: center; outline: none; transition: border-color 0.15s, background 0.15s; -moz-appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+input[type="number"]:focus { border-color: #42A5F5; background: #1A3550; }
+input.state-changed { border-color: #FFC107; background: #2A200A; color: #FFE082; }
+input.state-sent    { border-color: #43A047; background: #0A2010; color: #A5D6A7; }
+input.state-old     { border-color: #37474F; background: #0D2137; color: #546E7A; }
+.change-badge { position: absolute; top: -5px; right: -5px; width: 8px; height: 8px; border-radius: 50%; background: #FFC107; display: none; }
+input.state-changed + .change-badge { display: block; }
+
+.footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0A1C2E; border-top: 2px solid #1565C0; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 150; }
+.footer-stats { display: flex; gap: 16px; font-size: 12px; color: #90A4AE; }
+.footer-stats span { color: #42A5F5; font-weight: 700; }
+.footer-btns { display: flex; gap: 8px; }
+.btn { border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; padding: 10px 20px; transition: background 0.15s, transform 0.1s; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: #1565C0; color: #fff; }
+.btn-primary:hover { background: #1976D2; }
+.btn-primary:disabled { background: #37474F; cursor: not-allowed; transform: none; }
+.btn-secondary { background: transparent; color: #90A4AE; border: 1px solid #37474F; font-size: 13px; padding: 9px 16px; }
+.btn-secondary:hover { border-color: #90A4AE; color: #E8EDF2; }
+
+.history-panel { padding: 20px 16px 40px; }
+.history-panel h2 { font-size: 16px; color: #42A5F5; margin-bottom: 14px; }
+.history-filters { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.history-filters select, .chart-filters select { background: #132333; border: 1px solid #1E3A55; border-radius: 6px; color: #E8EDF2; font-size: 13px; padding: 7px 10px; outline: none; cursor: pointer; }
+.history-filters select:focus, .chart-filters select:focus { border-color: #42A5F5; }
+.history-table-wrap { overflow-x: auto; }
+.history-table { width: 100%; border-collapse: collapse; background: #132333; border-radius: 10px; overflow: hidden; min-width: 500px; }
+.history-table th { background: #1565C0; color: #fff; font-size: 12px; padding: 9px 12px; text-align: left; white-space: nowrap; }
+.history-table td { padding: 7px 12px; font-size: 13px; border-bottom: 1px solid #1A3550; text-align: left; color: #E8EDF2; }
+.history-table tr:last-child td { border-bottom: none; }
+.price-up { color: #EF9A9A; }
+.price-down { color: #A5D6A7; }
+.price-new { color: #90CAF9; }
+
+.chart-panel { padding: 20px 16px 40px; }
+.chart-panel h2 { font-size: 16px; color: #42A5F5; margin-bottom: 14px; }
+.chart-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.chart-wrap { background: #132333; border-radius: 10px; padding: 16px; max-width: 900px; }
+.chart-empty { color: #546E7A; font-size: 14px; text-align: center; padding: 40px; }
+
+.toast { position: fixed; top: 70px; left: 50%; transform: translateX(-50%) translateY(-20px); background: #1B5E20; color: #fff; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 600; opacity: 0; transition: opacity 0.3s, transform 0.3s; z-index: 300; pointer-events: none; white-space: nowrap; }
+.toast.error { background: #B71C1C; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.loading { text-align: center; padding: 40px; color: #546E7A; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">RBS <span>·</span> Цены конкурентов</div>
+  <div class="header-date" id="headerDate">02 июля 2026 г.</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab(&#39;input&#39;)">✏️ Ввод цен</div>
+  <div class="tab" onclick="switchTab(&#39;history&#39;)">📋 История</div>
+  <div class="tab" onclick="switchTab(&#39;chart&#39;)">📈 График</div>
+</div>
+
+<div class="panel active" id="panel-input">
+  <div class="input-panel">
+    <div class="top-bar">
+      <div class="legend">
+        <div class="legend-item"><div class="dot dot-changed"></div> Изменено сейчас</div>
+        <div class="legend-item"><div class="dot dot-sent"></div> Отправлено</div>
+        <div class="legend-item"><div class="dot dot-old"></div> Старые данные</div>
+      </div>
+      <div class="session-date" id="sessionDateLabel">Последняя отправка: 01.07.2026</div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table id="priceTable">
+        <thead>
+          <tr>
+            <th>Модель</th>
+            <th style="background:#0D47A1;color:#90CAF9">RBS</th>
+            <th>Тоб. Яблоко</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>LeaderStore</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>9:41</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>re:premium</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>New Mobile</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>Перв. яблочный</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>ISHOP 72</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>DNS</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>МТС</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>Мегафон</th><th style="font-size:10px;color:#78909C">±RBS</th>
+            <th>МВидео</th><th style="font-size:10px;color:#78909C">±RBS</th>
+
+          </tr>
+        </thead>
+        <tbody id="tableBody"><tr class="section-row"><td colspan="12">iPhone 16</td></tr><tr><td>iPhone 16 256 ГБ</td><td id="rbs-iPhone 16 256 ГБ" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">70&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 256 ГБ" data-comp="Тобольское Яблоко" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-790</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 256 ГБ" data-comp="LeaderStore" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-790</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 256 ГБ" data-comp="9:41" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+4&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 256 ГБ" data-comp="re:premium" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+12&nbsp;810</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 256 ГБ" data-comp="New Mobile" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 256 ГБ" data-comp="Первый яблочный" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 256 ГБ" data-comp="ISHOP 72" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 256 ГБ" data-comp="DNS" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-7&nbsp;290</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 256 ГБ" data-comp="МТС" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 256 ГБ" data-comp="Мегафон" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-7&nbsp;290</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 256 ГБ" data-comp="МВидео" data-model="iPhone 16 256 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 256 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-7&nbsp;290</td></tr><tr><td>iPhone 16 512 ГБ</td><td id="rbs-iPhone 16 512 ГБ" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">95&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 512 ГБ" data-comp="Тобольское Яблоко" data-model="iPhone 16 512 ГБ" class="state-changed"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+15&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 512 ГБ" data-comp="LeaderStore" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-7&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 512 ГБ" data-comp="9:41" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+15&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 512 ГБ" data-comp="re:premium" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+15&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 512 ГБ" data-comp="New Mobile" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 512 ГБ" data-comp="Первый яблочный" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-4&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 512 ГБ" data-comp="ISHOP 72" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-4&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 512 ГБ" data-comp="DNS" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 512 ГБ" data-comp="МТС" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-4&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 512 ГБ" data-comp="Мегафон" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 512 ГБ" data-comp="МВидео" data-model="iPhone 16 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td></tr><tr class="section-row"><td colspan="12">iPhone 16 Pro / Pro Max</td></tr><tr><td>iPhone 16 Pro 256 eSIM</td><td id="rbs-iPhone 16 Pro 256 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">89&nbsp;400</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro 256 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro 256 eSIM" data-comp="LeaderStore" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-15&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro 256 eSIM" data-comp="9:41" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+15&nbsp;010</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro 256 eSIM" data-comp="re:premium" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;400</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro 256 eSIM" data-comp="New Mobile" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;400</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro 256 eSIM" data-comp="Первый яблочный" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro 256 eSIM" data-comp="ISHOP 72" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-15&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro 256 eSIM" data-comp="DNS" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro 256 eSIM" data-comp="МТС" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro 256 eSIM" data-comp="Мегафон" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro 256 eSIM" data-comp="МВидео" data-model="iPhone 16 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td></tr><tr><td>iPhone 16 Pro 256 SIM</td><td id="rbs-iPhone 16 Pro 256 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">95&nbsp;900</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro 256 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-20&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro 256 SIM" data-comp="LeaderStore" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-20&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro 256 SIM" data-comp="9:41" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-13&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro 256 SIM" data-comp="re:premium" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+14&nbsp;010</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro 256 SIM" data-comp="New Mobile" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro 256 SIM" data-comp="Первый яблочный" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro 256 SIM" data-comp="ISHOP 72" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro 256 SIM" data-comp="DNS" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-21&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro 256 SIM" data-comp="МТС" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-21&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro 256 SIM" data-comp="Мегафон" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-21&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro 256 SIM" data-comp="МВидео" data-model="iPhone 16 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-21&nbsp;090</td></tr><tr><td>iPhone 16 Pro 512 eSIM</td><td id="rbs-iPhone 16 Pro 512 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro 512 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro 512 eSIM" data-comp="LeaderStore" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro 512 eSIM" data-comp="9:41" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro 512 eSIM" data-comp="re:premium" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro 512 eSIM" data-comp="New Mobile" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro 512 eSIM" data-comp="Первый яблочный" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro 512 eSIM" data-comp="ISHOP 72" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro 512 eSIM" data-comp="DNS" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro 512 eSIM" data-comp="МТС" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro 512 eSIM" data-comp="Мегафон" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro 512 eSIM" data-comp="МВидео" data-model="iPhone 16 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td></tr><tr><td>iPhone 16 Pro 512 SIM</td><td id="rbs-iPhone 16 Pro 512 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">128&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro 512 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-7&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro 512 SIM" data-comp="LeaderStore" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+15&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro 512 SIM" data-comp="9:41" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+15&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro 512 SIM" data-comp="re:premium" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+40&nbsp;710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro 512 SIM" data-comp="New Mobile" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro 512 SIM" data-comp="Первый яблочный" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro 512 SIM" data-comp="ISHOP 72" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro 512 SIM" data-comp="DNS" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-5&nbsp;890</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro 512 SIM" data-comp="МТС" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-6&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro 512 SIM" data-comp="Мегафон" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-6&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro 512 SIM" data-comp="МВидео" data-model="iPhone 16 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-6&nbsp;390</td></tr><tr><td>iPhone 16 Pro Max 256 SIM</td><td id="rbs-iPhone 16 Pro Max 256 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">100&nbsp;900</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro Max 256 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-12&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro Max 256 SIM" data-comp="LeaderStore" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-12&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro Max 256 SIM" data-comp="9:41" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+11&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro Max 256 SIM" data-comp="re:premium" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+14&nbsp;010</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro Max 256 SIM" data-comp="New Mobile" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+11&nbsp;900</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro Max 256 SIM" data-comp="Первый яблочный" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro Max 256 SIM" data-comp="ISHOP 72" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro Max 256 SIM" data-comp="DNS" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-26&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro Max 256 SIM" data-comp="МТС" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-26&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro Max 256 SIM" data-comp="Мегафон" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-26&nbsp;090</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro Max 256 SIM" data-comp="МВидео" data-model="iPhone 16 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-26&nbsp;090</td></tr><tr><td>iPhone 16 Pro Max 256 eSIM</td><td id="rbs-iPhone 16 Pro Max 256 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">92&nbsp;100</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro Max 256 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-17&nbsp;890</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro Max 256 eSIM" data-comp="LeaderStore" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-17&nbsp;890</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro Max 256 eSIM" data-comp="9:41" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-890</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro Max 256 eSIM" data-comp="re:premium" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro Max 256 eSIM" data-comp="New Mobile" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;100</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro Max 256 eSIM" data-comp="Первый яблочный" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro Max 256 eSIM" data-comp="ISHOP 72" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro Max 256 eSIM" data-comp="DNS" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro Max 256 eSIM" data-comp="МТС" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro Max 256 eSIM" data-comp="Мегафон" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro Max 256 eSIM" data-comp="МВидео" data-model="iPhone 16 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td></tr><tr><td>iPhone 16 Pro Max 512 ГБ</td><td id="rbs-iPhone 16 Pro Max 512 ГБ" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">124&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 16 Pro Max 512 ГБ" data-comp="Тобольское Яблоко" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-5&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 16 Pro Max 512 ГБ" data-comp="LeaderStore" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-5&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 16 Pro Max 512 ГБ" data-comp="9:41" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+20&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 16 Pro Max 512 ГБ" data-comp="re:premium" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+20&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 16 Pro Max 512 ГБ" data-comp="New Mobile" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+19&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 16 Pro Max 512 ГБ" data-comp="Первый яблочный" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+14&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 16 Pro Max 512 ГБ" data-comp="ISHOP 72" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+14&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 16 Pro Max 512 ГБ" data-comp="DNS" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;890</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 16 Pro Max 512 ГБ" data-comp="МТС" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 16 Pro Max 512 ГБ" data-comp="Мегафон" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 16 Pro Max 512 ГБ" data-comp="МВидео" data-model="iPhone 16 Pro Max 512 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 16 Pro Max 512 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-10&nbsp;390</td></tr><tr class="section-row"><td colspan="12">iPhone 17</td></tr><tr><td>iPhone 17 256 eSIM</td><td id="rbs-iPhone 17 256 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">74&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 256 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 256 eSIM" data-comp="LeaderStore" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 256 eSIM" data-comp="9:41" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;110</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 256 eSIM" data-comp="re:premium" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+17&nbsp;710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 256 eSIM" data-comp="New Mobile" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+9&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 256 eSIM" data-comp="Первый яблочный" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+12&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 256 eSIM" data-comp="ISHOP 72" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+11&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 256 eSIM" data-comp="DNS" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-11&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 256 eSIM" data-comp="МТС" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 256 eSIM" data-comp="Мегафон" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 256 eSIM" data-comp="МВидео" data-model="iPhone 17 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td></tr><tr><td>iPhone 17 256 SIM</td><td id="rbs-iPhone 17 256 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">76&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 256 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 256 SIM" data-comp="LeaderStore" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 256 SIM" data-comp="9:41" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 256 SIM" data-comp="re:premium" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+14&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 256 SIM" data-comp="New Mobile" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+9&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 256 SIM" data-comp="Первый яблочный" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 256 SIM" data-comp="ISHOP 72" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 256 SIM" data-comp="DNS" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 256 SIM" data-comp="МТС" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 256 SIM" data-comp="Мегафон" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;190</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 256 SIM" data-comp="МВидео" data-model="iPhone 17 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td></tr><tr class="section-row"><td colspan="12">iPhone 17 Pro / Pro Max</td></tr><tr><td>iPhone 17 Pro 256 eSIM</td><td id="rbs-iPhone 17 Pro 256 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">94&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro 256 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro 256 eSIM" data-comp="LeaderStore" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-13&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro 256 eSIM" data-comp="9:41" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro 256 eSIM" data-comp="re:premium" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+9&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro 256 eSIM" data-comp="New Mobile" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro 256 eSIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro 256 eSIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro 256 eSIM" data-comp="DNS" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-23&nbsp;990</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro 256 eSIM" data-comp="МТС" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-5&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro 256 eSIM" data-comp="Мегафон" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-34&nbsp;190</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro 256 eSIM" data-comp="МВидео" data-model="iPhone 17 Pro 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-34&nbsp;190</td></tr><tr><td>iPhone 17 Pro 256 SIM</td><td id="rbs-iPhone 17 Pro 256 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">104&nbsp;700</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro 256 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro 256 SIM" data-comp="LeaderStore" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-23&nbsp;290</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro 256 SIM" data-comp="9:41" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+5&nbsp;710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro 256 SIM" data-comp="re:premium" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;700</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro 256 SIM" data-comp="New Mobile" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;700</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro 256 SIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+9&nbsp;710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro 256 SIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro 256 SIM" data-comp="DNS" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-23&nbsp;790</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro 256 SIM" data-comp="МТС" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+710</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro 256 SIM" data-comp="Мегафон" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-23&nbsp;790</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro 256 SIM" data-comp="МВидео" data-model="iPhone 17 Pro 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-23&nbsp;790</td></tr><tr><td>iPhone 17 Pro 512 eSIM</td><td id="rbs-iPhone 17 Pro 512 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">113&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro 512 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro 512 eSIM" data-comp="LeaderStore" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-8&nbsp;790</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro 512 eSIM" data-comp="9:41" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+11&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro 512 eSIM" data-comp="re:premium" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+11&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro 512 eSIM" data-comp="New Mobile" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+9&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro 512 eSIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro 512 eSIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro 512 eSIM" data-comp="DNS" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;290</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro 512 eSIM" data-comp="МТС" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro 512 eSIM" data-comp="Мегафон" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;290</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro 512 eSIM" data-comp="МВидео" data-model="iPhone 17 Pro 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;290</td></tr><tr><td>iPhone 17 Pro 512 SIM</td><td id="rbs-iPhone 17 Pro 512 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">121&nbsp;500</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro 512 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro 512 SIM" data-comp="LeaderStore" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-6&nbsp;490</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro 512 SIM" data-comp="9:41" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro 512 SIM" data-comp="re:premium" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+13&nbsp;500</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro 512 SIM" data-comp="New Mobile" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+13&nbsp;500</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro 512 SIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro 512 SIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro 512 SIM" data-comp="DNS" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-26&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro 512 SIM" data-comp="МТС" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro 512 SIM" data-comp="Мегафон" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;490</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro 512 SIM" data-comp="МВидео" data-model="iPhone 17 Pro 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;490</td></tr><tr><td>iPhone 17 Pro Max 256 eSIM</td><td id="rbs-iPhone 17 Pro Max 256 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">99&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro Max 256 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-4&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro Max 256 eSIM" data-comp="LeaderStore" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-20&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro Max 256 eSIM" data-comp="9:41" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro Max 256 eSIM" data-comp="re:premium" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro Max 256 eSIM" data-comp="New Mobile" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-4&nbsp;700</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro Max 256 eSIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro Max 256 eSIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro Max 256 eSIM" data-comp="DNS" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro Max 256 eSIM" data-comp="МТС" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro Max 256 eSIM" data-comp="Мегафон" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-28&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro Max 256 eSIM" data-comp="МВидео" data-model="iPhone 17 Pro Max 256 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro Max 256 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-44&nbsp;690</td></tr><tr><td>iPhone 17 Pro Max 256 SIM</td><td id="rbs-iPhone 17 Pro Max 256 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">114&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro Max 256 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro Max 256 SIM" data-comp="LeaderStore" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro Max 256 SIM" data-comp="9:41" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+13&nbsp;910</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro Max 256 SIM" data-comp="re:premium" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+10&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro Max 256 SIM" data-comp="New Mobile" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+10&nbsp;300</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro Max 256 SIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro Max 256 SIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro Max 256 SIM" data-comp="DNS" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-29&nbsp;290</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro Max 256 SIM" data-comp="МТС" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+5&nbsp;310</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro Max 256 SIM" data-comp="Мегафон" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-29&nbsp;690</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro Max 256 SIM" data-comp="МВидео" data-model="iPhone 17 Pro Max 256 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro Max 256 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-29&nbsp;690</td></tr><tr><td>iPhone 17 Pro Max 512 eSIM</td><td id="rbs-iPhone 17 Pro Max 512 eSIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">122&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro Max 512 eSIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro Max 512 eSIM" data-comp="LeaderStore" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-9&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro Max 512 eSIM" data-comp="9:41" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro Max 512 eSIM" data-comp="re:premium" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+11&nbsp;600</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro Max 512 eSIM" data-comp="New Mobile" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+7&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro Max 512 eSIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+9&nbsp;610</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro Max 512 eSIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-2&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro Max 512 eSIM" data-comp="DNS" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-31&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro Max 512 eSIM" data-comp="МТС" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-2&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro Max 512 eSIM" data-comp="Мегафон" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-31&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro Max 512 eSIM" data-comp="МВидео" data-model="iPhone 17 Pro Max 512 eSIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro Max 512 eSIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-31&nbsp;390</td></tr><tr><td>iPhone 17 Pro Max 512 SIM</td><td id="rbs-iPhone 17 Pro Max 512 SIM" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">133&nbsp;400</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 17 Pro Max 512 SIM" data-comp="Тобольское Яблоко" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-4&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 17 Pro Max 512 SIM" data-comp="LeaderStore" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-5&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 17 Pro Max 512 SIM" data-comp="9:41" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+12&nbsp;400</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 17 Pro Max 512 SIM" data-comp="re:premium" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+12&nbsp;400</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 17 Pro Max 512 SIM" data-comp="New Mobile" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+8&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 17 Pro Max 512 SIM" data-comp="Первый яблочный" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+20&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 17 Pro Max 512 SIM" data-comp="ISHOP 72" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 17 Pro Max 512 SIM" data-comp="DNS" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-30&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 17 Pro Max 512 SIM" data-comp="МТС" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;410</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 17 Pro Max 512 SIM" data-comp="Мегафон" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-30&nbsp;590</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 17 Pro Max 512 SIM" data-comp="МВидео" data-model="iPhone 17 Pro Max 512 SIM" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 17 Pro Max 512 SIM" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-30&nbsp;590</td></tr><tr class="section-row"><td colspan="12">Другое</td></tr><tr><td>iPhone 15 128 ГБ</td><td id="rbs-iPhone 15 128 ГБ" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">56&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||iPhone 15 128 ГБ" data-comp="Тобольское Яблоко" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||iPhone 15 128 ГБ" data-comp="LeaderStore" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||iPhone 15 128 ГБ" data-comp="9:41" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+5&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||iPhone 15 128 ГБ" data-comp="re:premium" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+5&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||iPhone 15 128 ГБ" data-comp="New Mobile" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+5&nbsp;200</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||iPhone 15 128 ГБ" data-comp="Первый яблочный" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||iPhone 15 128 ГБ" data-comp="ISHOP 72" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+6&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||iPhone 15 128 ГБ" data-comp="DNS" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-2&nbsp;790</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||iPhone 15 128 ГБ" data-comp="МТС" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||iPhone 15 128 ГБ" data-comp="Мегафон" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;210</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||iPhone 15 128 ГБ" data-comp="МВидео" data-model="iPhone 15 128 ГБ" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-iPhone 15 128 ГБ" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;210</td></tr><tr><td>Sony PlayStation slim digital</td><td id="rbs-Sony PlayStation slim digital" style="font-weight: 700; color: rgb(144, 202, 249); font-size: 13px; background: rgba(13, 71, 161, 0.2);">49&nbsp;500</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Тобольское Яблоко||Sony PlayStation slim digital" data-comp="Тобольское Яблоко" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Тобольское Яблоко-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="LeaderStore||Sony PlayStation slim digital" data-comp="LeaderStore" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-LeaderStore-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+2&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="9:41||Sony PlayStation slim digital" data-comp="9:41" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-9:41-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-2&nbsp;390</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="re:premium||Sony PlayStation slim digital" data-comp="re:premium" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-re:premium-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-500</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="New Mobile||Sony PlayStation slim digital" data-comp="New Mobile" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-New Mobile-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Первый яблочный||Sony PlayStation slim digital" data-comp="Первый яблочный" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Первый яблочный-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+3&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="ISHOP 72||Sony PlayStation slim digital" data-comp="ISHOP 72" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-ISHOP 72-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(165, 214, 167);">+1&nbsp;510</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="DNS||Sony PlayStation slim digital" data-comp="DNS" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-DNS-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-5&nbsp;990</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МТС||Sony PlayStation slim digital" data-comp="МТС" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МТС-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="Мегафон||Sony PlayStation slim digital" data-comp="Мегафон" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-Мегафон-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(84, 110, 122);">—</td><td><div class="cell-wrap"><input type="number" min="0" placeholder="—" data-key="МВидео||Sony PlayStation slim digital" data-comp="МВидео" data-model="Sony PlayStation slim digital" class="state-old"><div class="change-badge"></div></div></td><td id="diff-МВидео-Sony PlayStation slim digital" style="font-size: 12px; font-weight: 600; min-width: 55px; color: rgb(239, 154, 154);">-10&nbsp;490</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="footer-bar">
+    <div class="footer-stats">
+      <div>Изменено: <span id="countChanged">1</span></div>
+      <div>Отправлено: <span id="countSent">0</span></div>
+    </div>
+    <div class="footer-btns">
+      <button class="btn btn-secondary" onclick="clearChanged()">Сбросить</button>
+      <button class="btn btn-primary" id="sendBtn" onclick="sendData()">✈️ Отправить</button>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-history">
+  <div class="history-panel">
+    <h2>История изменений цен</h2>
+    <div class="history-filters">
+      <select id="filterComp" onchange="renderHistory()"><option value="">Все конкуренты</option></select>
+      <select id="filterModel" onchange="renderHistory()"><option value="">Все модели</option></select>
+      <select id="filterDate" onchange="renderHistory()"><option value="">Все даты</option></select>
+    </div>
+    <div class="history-table-wrap">
+      <div class="loading" id="historyLoading" style="display: none;">Загрузка истории...</div>
+      <table class="history-table" id="historyTable" style="">
+        <thead><tr><th>Дата</th><th>Конкурент</th><th>Модель</th><th>Старая цена</th><th>Новая цена</th><th>Изменение</th></tr></thead>
+        <tbody id="historyBody"><tr><td colspan="6" style="text-align:center;color:#546E7A;padding:20px">Нет данных</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-chart">
+  <div class="chart-panel">
+    <h2>Динамика цен</h2>
+    <div class="chart-filters">
+      <select id="chartComp" onchange="renderChart()"><option value="">Выбери конкурента</option></select>
+      <select id="chartModel" onchange="renderChart()"><option value="">Выбери модель</option></select>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-empty" id="chartEmpty">Выбери конкурента и модель</div>
+      <canvas id="priceChart" style="display:none"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwaFqv7WaBtujBTEXR7IStv9PMYTniGrMzSRia8VWtCesV1dn4P87o4IV9_-zXB7p9V/exec";
+
+const COMPETITORS = ["Тобольское Яблоко","LeaderStore","9:41","re:premium","New Mobile","Первый яблочный","ISHOP 72","DNS","МТС","Мегафон","МВидео"];
+
+const SECTIONS = [
+  { label: "iPhone 16", models: ["iPhone 16 256 ГБ","iPhone 16 512 ГБ"] },
+  { label: "iPhone 16 Pro / Pro Max", models: ["iPhone 16 Pro 256 eSIM","iPhone 16 Pro 256 SIM","iPhone 16 Pro 512 eSIM","iPhone 16 Pro 512 SIM","iPhone 16 Pro Max 256 SIM","iPhone 16 Pro Max 256 eSIM","iPhone 16 Pro Max 512 ГБ"] },
+  { label: "iPhone 17", models: ["iPhone 17 256 eSIM","iPhone 17 256 SIM"] },
+  { label: "iPhone 17 Pro / Pro Max", models: ["iPhone 17 Pro 256 eSIM","iPhone 17 Pro 256 SIM","iPhone 17 Pro 512 eSIM","iPhone 17 Pro 512 SIM","iPhone 17 Pro Max 256 eSIM","iPhone 17 Pro Max 256 SIM","iPhone 17 Pro Max 512 eSIM","iPhone 17 Pro Max 512 SIM"] },
+  { label: "Другое", models: ["iPhone 15 128 ГБ","Sony PlayStation slim digital"] }
+];
+
+let prices    = {};
+let rbsPrices = {}; // { "iPhone 16 256 ГБ": 70200 } — приходят с прайс-сайта
+
+// Обновить разницы и среднюю цену рынка для одной модели
+function updateRow(model) {
+  const rbs = rbsPrices[model] || null;
+  const compVals = [];
+
+  COMPETITORS.forEach(comp => {
+    const inp = document.querySelector(`input[data-comp="${CSS.escape(comp)}"][data-model="${CSS.escape(model)}"]`);
+    const val = inp ? parseInt(inp.value) : null;
+    const tdDiff = document.getElementById(`diff-${comp}-${model}`);
+    if (tdDiff) {
+      if (val > 0 && rbs) {
+        const diff = rbs - val; // отрицательное = конкурент дешевле RBS (хорошо), положительное = дороже (плохо)
+        tdDiff.textContent = (diff >= 0 ? "+" : "") + diff.toLocaleString("ru");
+        // diff = rbs - val: положительное = конкурент дороже RBS (зелёный = хорошо для нас)
+        //                    отрицательное = конкурент дешевле RBS (красный = плохо для нас)
+        tdDiff.style.color = diff > 0 ? "#A5D6A7" : diff < 0 ? "#EF9A9A" : "#546E7A";
+      } else {
+        tdDiff.textContent = "—";
+        tdDiff.style.color = "#546E7A";
+      }
+    }
+    if (val > 0) compVals.push(val);
+  });
+}
+
+// Обновить все строки (после загрузки данных RBS)
+function updateAllRows() {
+  SECTIONS.forEach(s => s.models.forEach(m => updateRow(m)));
+}
+
+// Начальные данные из таблицы мониторинга (01.07.2026)
+const INITIAL_PRICES = {
+  // Тобольское Яблоко
+  "Тобольское Яблоко||iPhone 16 256 ГБ":       { value: 70990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 16 512 ГБ":       { value: null,  state: "old", sentDate: null },
+  "Тобольское Яблоко||iPhone 16 Pro 256 eSIM": { value: null,  state: "old", sentDate: null },
+  "Тобольское Яблоко||iPhone 16 Pro 256 SIM":  { value: 115990,state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 16 Pro 512 eSIM": { value: 125990,state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 16 Pro 512 SIM":  { value: 135990,state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 16 Pro Max 256 SIM":  { value: 112990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 16 Pro Max 256 eSIM": { value: 109990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 16 Pro Max 512 ГБ":   { value: 129990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 256 eSIM":     { value: 65990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 256 SIM":      { value: 75990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro 256 eSIM": { value: 94990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro 256 SIM":  { value: 103990,state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro 512 eSIM": { value: 111990,state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro 512 SIM":  { value: 117990,state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro Max 256 eSIM": { value: 103990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro Max 256 SIM":  { value: 105990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro Max 512 eSIM": { value: 119990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 17 Pro Max 512 SIM":  { value: 137990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||iPhone 15 128 ГБ":       { value: 54990, state: "old", sentDate: "01.07.2026" },
+  "Тобольское Яблоко||Sony PlayStation slim digital": { value: null, state: "old", sentDate: null },
+
+  // LeaderStore
+  "LeaderStore||iPhone 16 256 ГБ":       { value: 70990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 512 ГБ":       { value: 102990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro 256 eSIM": { value: 104990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro 256 SIM":  { value: 115990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro 512 eSIM": { value: 112990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro 512 SIM":  { value: 112990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro Max 256 SIM":  { value: 112990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro Max 256 eSIM": { value: 109990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 16 Pro Max 512 ГБ":   { value: 129990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 256 eSIM":     { value: 67990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 256 SIM":      { value: 68990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro 256 eSIM": { value: 107990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro 256 SIM":  { value: 127990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro 512 eSIM": { value: 121990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro 512 SIM":  { value: 127990,state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro Max 256 eSIM": { value: 119990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro Max 256 SIM":  { value: 107990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro Max 512 eSIM": { value: 131990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 17 Pro Max 512 SIM":  { value: 138990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||iPhone 15 128 ГБ":       { value: 54990, state: "old", sentDate: "01.07.2026" },
+  "LeaderStore||Sony PlayStation slim digital": { value: 46990, state: "old", sentDate: "01.07.2026" },
+
+  // 9:41
+  "9:41||iPhone 16 256 ГБ":       { value: 65990, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 512 ГБ":       { value: 79890, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro 256 eSIM": { value: 74390, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro 256 SIM":  { value: 108990,state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro 512 eSIM": { value: 112990,state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro 512 SIM":  { value: 112990,state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro Max 256 SIM":  { value: 88990,  state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro Max 256 eSIM": { value: 92990,  state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 16 Pro Max 512 ГБ":   { value: 104390, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 256 eSIM":     { value: 66490, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 256 SIM":      { value: 68990, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro 256 eSIM": { value: 87990, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro 256 SIM":  { value: 98990, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro 512 eSIM": { value: 101890,state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro 512 SIM":  { value: 113990,state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro Max 256 eSIM": { value: 90390,  state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro Max 256 SIM":  { value: 100390, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro Max 512 eSIM": { value: 120000, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 17 Pro Max 512 SIM":  { value: 121000, state: "old", sentDate: "01.07.2026" },
+  "9:41||iPhone 15 128 ГБ":       { value: 50990, state: "old", sentDate: "01.07.2026" },
+  "9:41||Sony PlayStation slim digital": { value: 51890, state: "old", sentDate: "01.07.2026" },
+
+  // re:premium
+  "re:premium||iPhone 16 256 ГБ":       { value: 57390, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 512 ГБ":       { value: 79890, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro 256 eSIM": { value: 86000, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro 256 SIM":  { value: 81890, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro 512 eSIM": { value: 91390, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro 512 SIM":  { value: 87890, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro Max 256 SIM":  { value: 86890, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro Max 256 eSIM": { value: 85390, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 16 Pro Max 512 ГБ":   { value: 104390,state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 256 eSIM":     { value: 56890, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 256 SIM":      { value: 61390, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro 256 eSIM": { value: 84390, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro 256 SIM":  { value: 96000, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro 512 eSIM": { value: 101890,state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro 512 SIM":  { value: 108000,state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro Max 256 eSIM": { value: 92000,  state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro Max 256 SIM":  { value: 104000, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro Max 512 eSIM": { value: 111000, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 17 Pro Max 512 SIM":  { value: 121000, state: "old", sentDate: "01.07.2026" },
+  "re:premium||iPhone 15 128 ГБ":       { value: 51000, state: "old", sentDate: "01.07.2026" },
+  "re:premium||Sony PlayStation slim digital": { value: 50000, state: "old", sentDate: "01.07.2026" },
+
+  // New Mobile
+  "New Mobile||iPhone 16 256 ГБ":       { value: 63000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 16 512 ГБ":       { value: null,  state: "old", sentDate: null },
+  "New Mobile||iPhone 16 Pro 256 eSIM": { value: 86000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 16 Pro 256 SIM":  { value: 93990, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 16 Pro 512 eSIM": { value: 99000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 16 Pro 512 SIM":  { value: null,  state: "old", sentDate: null },
+  "New Mobile||iPhone 16 Pro Max 256 SIM":  { value: 89000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 16 Pro Max 256 eSIM": { value: 89000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 16 Pro Max 512 ГБ":   { value: 105000,state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 256 eSIM":     { value: 65000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 256 SIM":      { value: 67000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro 256 eSIM": { value: 87000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro 256 SIM":  { value: 96000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro 512 eSIM": { value: 104000,state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro 512 SIM":  { value: 108000,state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro Max 256 eSIM": { value: 104000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro Max 256 SIM":  { value: 104000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro Max 512 eSIM": { value: 114990, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 17 Pro Max 512 SIM":  { value: 124990, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||iPhone 15 128 ГБ":       { value: 51000, state: "old", sentDate: "01.07.2026" },
+  "New Mobile||Sony PlayStation slim digital": { value: 45990, state: "old", sentDate: "01.07.2026" },
+
+  // Первый яблочный
+  "Первый яблочный||iPhone 16 256 ГБ":       { value: 63990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 16 512 ГБ":       { value: 99990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 16 Pro 256 eSIM": { value: 82990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 16 Pro 256 SIM":  { value: null,  state: "old", sentDate: null },
+  "Первый яблочный||iPhone 16 Pro 512 eSIM": { value: null,  state: "old", sentDate: null },
+  "Первый яблочный||iPhone 16 Pro 512 SIM":  { value: null,  state: "old", sentDate: null },
+  "Первый яблочный||iPhone 16 Pro Max 256 SIM":  { value: 91990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 16 Pro Max 256 eSIM": { value: 89900, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 16 Pro Max 512 ГБ":   { value: 109990,state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 256 eSIM":     { value: 61990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 256 SIM":      { value: 67990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro 256 eSIM": { value: 90990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro 256 SIM":  { value: 94990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro 512 eSIM": { value: 106990,state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro 512 SIM":  { value: 113990,state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro Max 256 eSIM": { value: 108990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro Max 256 SIM":  { value: 105990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro Max 512 eSIM": { value: 112990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 17 Pro Max 512 SIM":  { value: 112990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||iPhone 15 128 ГБ":       { value: 49990, state: "old", sentDate: "01.07.2026" },
+  "Первый яблочный||Sony PlayStation slim digital": { value: 45990, state: "old", sentDate: "01.07.2026" },
+
+  // ISHOP 72
+  "ISHOP 72||iPhone 16 256 ГБ":       { value: 63990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 512 ГБ":       { value: 99990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 Pro 256 eSIM": { value: 104990,state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 Pro 256 SIM":  { value: 104990,state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 Pro 512 eSIM": { value: 117990,state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 Pro 512 SIM":  { value: null,  state: "old", sentDate: null },
+  "ISHOP 72||iPhone 16 Pro Max 256 SIM":  { value: 91990,  state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 Pro Max 256 eSIM": { value: 89900,  state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 16 Pro Max 512 ГБ":   { value: 109990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 256 eSIM":     { value: 62990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 256 SIM":      { value: 67990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro 256 eSIM": { value: 90990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro 256 SIM":  { value: 103990,state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro 512 eSIM": { value: 110990,state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro 512 SIM":  { value: 119990,state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro Max 256 eSIM": { value: 108990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro Max 256 SIM":  { value: 112990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro Max 512 eSIM": { value: 124990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 17 Pro Max 512 SIM":  { value: 129990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||iPhone 15 128 ГБ":       { value: 49990, state: "old", sentDate: "01.07.2026" },
+  "ISHOP 72||Sony PlayStation slim digital": { value: 47990, state: "old", sentDate: "01.07.2026" },
+
+  // DNS
+  "DNS||iPhone 16 256 ГБ":       { value: 77490, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 16 512 ГБ":       { value: null,  state: "old", sentDate: null },
+  "DNS||iPhone 16 Pro 256 eSIM": { value: null,  state: "old", sentDate: null },
+  "DNS||iPhone 16 Pro 256 SIM":  { value: 116990,state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 16 Pro 512 eSIM": { value: null,  state: "old", sentDate: null },
+  "DNS||iPhone 16 Pro 512 SIM":  { value: 134490,state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 16 Pro Max 256 SIM":  { value: 127490, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 16 Pro Max 256 eSIM": { value: null,   state: "old", sentDate: null },
+  "DNS||iPhone 16 Pro Max 512 ГБ":   { value: 134490, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 256 eSIM":     { value: 86290, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 256 SIM":      { value: null,  state: "old", sentDate: null },
+  "DNS||iPhone 17 Pro 256 eSIM": { value: 118290,state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro 256 SIM":  { value: 128490,state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro 512 eSIM": { value: 141490,state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro 512 SIM":  { value: 147890,state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro Max 256 eSIM": { value: 127990, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro Max 256 SIM":  { value: 143590, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro Max 512 eSIM": { value: 153990, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 17 Pro Max 512 SIM":  { value: 163990, state: "old", sentDate: "01.07.2026" },
+  "DNS||iPhone 15 128 ГБ":       { value: 58990, state: "old", sentDate: "01.07.2026" },
+  "DNS||Sony PlayStation slim digital": { value: 55490, state: "old", sentDate: "01.07.2026" },
+
+  // МТС
+  "МТС||iPhone 16 256 ГБ":            { value: 77490,  state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 16 Pro 256 SIM":       { value: 116990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 16 Pro 512 SIM":       { value: 134499, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 16 Pro Max 256 SIM":   { value: 127499, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 16 Pro Max 512 ГБ":    { value: 134499, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro 256 eSIM":      { value: 99990,  state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro 256 SIM":       { value: 103990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro 512 eSIM":      { value: 110990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro 512 SIM":       { value: 119990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro Max 256 eSIM":  { value: 108990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro Max 256 SIM":   { value: 112990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro Max 512 eSIM":  { value: 141499, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 17 Pro Max 512 SIM":   { value: 129990, state: "old", sentDate: "01.07.2026" },
+  "МТС||iPhone 15 128 ГБ":            { value: 58999,  state: "old", sentDate: "01.07.2026" },
+  "МТС||Sony PlayStation slim digital": { value: 55499, state: "old", sentDate: "01.07.2026" },
+  // Мегафон — нет данных
+  // МВидео — нет данных
+};
+let history = [];
+let chartInstance = null;
+
+function today() {
+  return new Date().toLocaleDateString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric"}).replace(/\//g,".");
+}
+function nowStr() {
+  return new Date().toLocaleDateString("ru-RU",{day:"2-digit",month:"long",year:"numeric"});
+}
+
+async function init() {
+  document.getElementById("headerDate").textContent = nowStr();
+  loadFromStorage();
+  await loadRbsPrices(); // загружаем цены RBS с сервера
+  buildTable();
+  updateAllRows();
+  await loadHistoryFromServer();
+  updateCounters();
+  updateSessionLabel();
+}
+
+function buildTable() {
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+  SECTIONS.forEach(section => {
+    const sep = document.createElement("tr");
+    sep.className = "section-row";
+    const td = document.createElement("td");
+    td.colSpan = COMPETITORS.length + 1;
+    td.textContent = section.label;
+    sep.appendChild(td);
+    tbody.appendChild(sep);
+
+    section.models.forEach(model => {
+      const tr = document.createElement("tr");
+
+      // Модель
+      const tdM = document.createElement("td");
+      tdM.textContent = model;
+      tr.appendChild(tdM);
+
+      // RBS — только отображение, не редактируется
+      const rbsKey = `RBS||${model}`;
+      const rbsVal = rbsPrices[model] || null;
+      const tdRBS  = document.createElement("td");
+      tdRBS.id = `rbs-${model}`;
+      tdRBS.textContent = rbsVal ? rbsVal.toLocaleString("ru") : "—";
+      tdRBS.style.cssText = "font-weight:700;color:#90CAF9;font-size:13px;background:rgba(13,71,161,0.2)";
+      tr.appendChild(tdRBS);
+
+      // Конкуренты + разница
+      COMPETITORS.forEach(comp => {
+        const key  = `${comp}||${model}`;
+        const data = prices[key] || { value: "", state: "old" };
+
+        // Цена конкурента
+        const tdC  = document.createElement("td");
+        const wrap = document.createElement("div");
+        wrap.className = "cell-wrap";
+        const inp = document.createElement("input");
+        inp.type = "number"; inp.min = "0"; inp.placeholder = "—";
+        inp.dataset.key = key; inp.dataset.comp = comp; inp.dataset.model = model;
+        if (data.value) inp.value = data.value;
+        applyState(inp, data.state);
+        inp.addEventListener("input", () => { onInput(inp, key); updateRow(model); });
+        inp.addEventListener("keydown", e => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            const inputs = Array.from(document.querySelectorAll("input[type=number]"));
+            const next = inputs[inputs.indexOf(inp) + COMPETITORS.length];
+            if (next) next.focus();
+          }
+        });
+        const badge = document.createElement("div");
+        badge.className = "change-badge";
+        wrap.appendChild(inp); wrap.appendChild(badge);
+        tdC.appendChild(wrap); tr.appendChild(tdC);
+
+        // Разница с RBS
+        const tdDiff = document.createElement("td");
+        tdDiff.id = `diff-${comp}-${model}`;
+        tdDiff.style.cssText = "font-size:12px;font-weight:600;min-width:55px";
+        tr.appendChild(tdDiff);
+      });
+
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+function applyState(inp, state) {
+  inp.classList.remove("state-changed","state-sent","state-old");
+  if (state) inp.classList.add("state-" + state);
+}
+
+function onInput(inp, key) {
+  const val  = parseInt(inp.value);
+  const prev = prices[key];
+  if (val > 0) {
+    const isSameSent = prev && prev.state === "sent" && prev.value == val;
+    prices[key] = { value: val, state: isSameSent ? "sent" : "changed", sentDate: prev ? prev.sentDate : null };
+  } else {
+    prices[key] = { value: "", state: "old", sentDate: null };
+  }
+  applyState(inp, prices[key].state);
+  saveToStorage();
+  updateCounters();
+}
+
+function updateCounters() {
+  let changed = 0, sent = 0;
+  Object.values(prices).forEach(d => { if (d.state==="changed") changed++; if (d.state==="sent") sent++; });
+  document.getElementById("countChanged").textContent = changed;
+  document.getElementById("countSent").textContent    = sent;
+}
+
+function updateSessionLabel() {
+  const dates = [...new Set(Object.values(prices).filter(d=>d.sentDate).map(d=>d.sentDate))].sort().reverse();
+  document.getElementById("sessionDateLabel").textContent = dates.length ? `Последняя отправка: ${dates[0]}` : "Ещё не отправлялось";
+}
+
+function clearChanged() {
+  if (!confirm("Сбросить несохранённые изменения?")) return;
+  Object.keys(prices).forEach(key => { if (prices[key].state==="changed") prices[key].state = "old"; });
+  document.querySelectorAll("input[type=number]").forEach(inp => {
+    const k = inp.dataset.key;
+    if (prices[k]) applyState(inp, prices[k].state);
+  });
+  saveToStorage(); updateCounters();
+}
+
+async function sendData() {
+  const changedEntries = Object.entries(prices).filter(([,d]) => d.state === "changed");
+  if (!changedEntries.length) { showToast("Нет изменений для отправки", true); return; }
+
+  const btn = document.getElementById("sendBtn");
+  btn.disabled = true; btn.textContent = "Отправка...";
+
+  try {
+    const todayStr = today();
+    const compPayload = {};
+    changedEntries.forEach(([key,d]) => { if (d.value > 0) compPayload[key] = d.value; });
+
+    const historyRows = changedEntries.map(([key,d]) => {
+      const [comp,model] = key.split("||");
+      const prev = [...history].filter(h=>h.comp===comp&&h.model===model).sort((a,b)=>b.date.localeCompare(a.date))[0];
+      return { date: todayStr, comp, model, oldPrice: prev ? prev.newPrice : "новая", newPrice: d.value };
+    });
+
+    await fetch(WEBAPP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ competitors: compPayload, historyRows, sendPdf: true })
+    });
+
+    changedEntries.forEach(([key]) => {
+      if (prices[key]) { prices[key].state = "sent"; prices[key].sentDate = todayStr; }
+    });
+
+    history.push(...historyRows);
+    saveHistoryToStorage();
+
+    document.querySelectorAll("input[type=number]").forEach(inp => {
+      const k = inp.dataset.key;
+      if (prices[k]) applyState(inp, prices[k].state);
+    });
+
+    saveToStorage(); updateCounters(); updateSessionLabel();
+    buildFilters();
+    showToast(`✅ Отправлено ${changedEntries.length} цен! PDF летит в группу`);
+  } catch(err) {
+    showToast("Ошибка: " + err.message, true);
+  } finally {
+    btn.disabled = false; btn.textContent = "✈️ Отправить";
+  }
+}
+
+async function loadRbsPrices() {
+  try {
+    const resp = await fetch(WEBAPP_URL + "?action=getRbsPrices");
+    const data = await resp.json();
+    if (data.ok && data.rbsPrices) {
+      rbsPrices = data.rbsPrices;
+      // Обновляем ячейки RBS в таблице если она уже построена
+      Object.entries(rbsPrices).forEach(([model, price]) => {
+        const td = document.getElementById(`rbs-${model}`);
+        if (td) td.textContent = price.toLocaleString("ru");
+      });
+      updateAllRows();
+    }
+  } catch(e) { /* нет сети — оставляем пустым */ }
+}
+
+async function loadHistoryFromServer() {
+  try {
+    const resp = await fetch(WEBAPP_URL + "?action=getHistory");
+    const data = await resp.json();
+    if (data.ok && data.history) { history = data.history; saveHistoryToStorage(); }
+  } catch(e) { loadHistoryFromStorage(); }
+  document.getElementById("historyLoading").style.display = "none";
+  document.getElementById("historyTable").style.display   = "";
+  buildFilters();
+  renderHistory();
+}
+
+function buildFilters() {
+  const comps  = [...new Set(history.map(h=>h.comp))].sort();
+  const models = [...new Set(history.map(h=>h.model))].sort();
+  const dates  = [...new Set(history.map(h=>h.date))].sort().reverse();
+  fillSelect("filterComp",  comps,  "Все конкуренты");
+  fillSelect("filterModel", models, "Все модели");
+  fillSelect("filterDate",  dates,  "Все даты");
+  fillSelect("chartComp",  comps,  "Выбери конкурента");
+  fillSelect("chartModel", models, "Выбери модель");
+}
+
+function fillSelect(id, opts, ph) {
+  const sel = document.getElementById(id);
+  const cur = sel.value;
+  sel.innerHTML = `<option value="">${ph}</option>`;
+  opts.forEach(o => {
+    const opt = document.createElement("option");
+    opt.value = o; opt.textContent = o;
+    if (o === cur) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+function renderHistory() {
+  const comp  = document.getElementById("filterComp").value;
+  const model = document.getElementById("filterModel").value;
+  const date  = document.getElementById("filterDate").value;
+  let rows = [...history].sort((a,b) => b.date.localeCompare(a.date) || a.comp.localeCompare(b.comp));
+  if (comp)  rows = rows.filter(r=>r.comp===comp);
+  if (model) rows = rows.filter(r=>r.model===model);
+  if (date)  rows = rows.filter(r=>r.date===date);
+  const tbody = document.getElementById("historyBody");
+  tbody.innerHTML = "";
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#546E7A;padding:20px">Нет данных</td></tr>`;
+    return;
+  }
+  rows.forEach(r => {
+    const isNew = r.oldPrice === "новая";
+    const diff  = isNew ? null : r.newPrice - r.oldPrice;
+    const diffStr = isNew
+      ? '<span class="price-new">новая</span>'
+      : diff > 0 ? `<span class="price-up">+${diff.toLocaleString("ru")} ₽</span>`
+      : diff < 0 ? `<span class="price-down">${diff.toLocaleString("ru")} ₽</span>`
+      : '<span style="color:#546E7A">без изменений</span>';
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${r.date}</td><td>${r.comp}</td><td>${r.model}</td>
+      <td style="color:#90A4AE">${isNew?"—":Number(r.oldPrice).toLocaleString("ru")+" ₽"}</td>
+      <td>${Number(r.newPrice).toLocaleString("ru")} ₽</td><td>${diffStr}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderChart() {
+  const comp  = document.getElementById("chartComp").value;
+  const model = document.getElementById("chartModel").value;
+  const empty  = document.getElementById("chartEmpty");
+  const canvas = document.getElementById("priceChart");
+  if (!comp || !model) { empty.style.display=""; canvas.style.display="none"; return; }
+  const rows = history.filter(r=>r.comp===comp&&r.model===model).sort((a,b)=>a.date.localeCompare(b.date));
+  if (!rows.length) { empty.textContent="Нет данных"; empty.style.display=""; canvas.style.display="none"; return; }
+  empty.style.display="none"; canvas.style.display="";
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(canvas, {
+    type: "line",
+    data: {
+      labels: rows.map(r=>r.date),
+      datasets: [{ label: `${comp} — ${model}`, data: rows.map(r=>r.newPrice),
+        borderColor:"#42A5F5", backgroundColor:"rgba(66,165,245,0.1)",
+        borderWidth:2, pointBackgroundColor:"#42A5F5", pointRadius:5, pointHoverRadius:7, tension:0.3, fill:true }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color:"#90A4AE", font:{size:13} } },
+        tooltip: { callbacks: { label: ctx => ctx.parsed.y.toLocaleString("ru")+" ₽" } }
+      },
+      scales: {
+        x: { ticks:{color:"#90A4AE",font:{size:11}}, grid:{color:"#1A3550"} },
+        y: { ticks:{color:"#90A4AE",font:{size:11},callback:v=>v.toLocaleString("ru")+" ₽"}, grid:{color:"#1A3550"} }
+      }
+    }
+  });
+}
+
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("active",["input","history","chart"][i]===name));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.getElementById(`panel-${name}`).classList.add("active");
+  if (name==="history") renderHistory();
+  if (name==="chart") renderChart();
+}
+
+function saveToStorage() { try { localStorage.setItem("rbs_comp_v2",JSON.stringify(prices)); } catch(e){} }
+function loadFromStorage() {
+  try {
+    const s = localStorage.getItem("rbs_comp_v2");
+    if (s) { prices = JSON.parse(s); } else {
+      prices = {};
+      Object.entries(INITIAL_PRICES).forEach(([k,v]) => { if (v.value) prices[k] = v; });
+      saveToStorage();
+    }
+  } catch(e) {
+    prices = {};
+    Object.entries(INITIAL_PRICES).forEach(([k,v]) => { if (v.value) prices[k] = v; });
+  }
+}
+function saveHistoryToStorage() { try { localStorage.setItem("rbs_comp_hist",JSON.stringify(history)); } catch(e){} }
+function loadHistoryFromStorage() { try { const s=localStorage.getItem("rbs_comp_hist"); if(s) history=JSON.parse(s); } catch(e){} }
+
+function showToast(msg, isError=false) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast"+(isError?" error":"")+" show";
+  setTimeout(()=>{ t.className="toast"+(isError?" error":""); }, 3500);
+}
+
+init();
+</script>
+
+
+</body></html>
