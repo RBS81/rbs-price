@@ -14,8 +14,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f0;color:#1a1a1a;min-height:100vh}
-
-/* LOGIN */
 .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#1a1a1a;padding:20px}
 .login-box{background:#fff;border-radius:16px;padding:32px 28px;width:100%;max-width:360px;text-align:center}
 .login-logo{font-size:40px;margin-bottom:8px}
@@ -24,38 +22,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .login-box input{width:100%;padding:12px 14px;font-size:15px;border:1px solid #ddd;border-radius:10px;margin-bottom:12px;text-align:center;letter-spacing:4px}
 .login-box input:focus{outline:none;border-color:#1a1a1a}
 .login-err{font-size:12px;color:#c0392b;margin-top:-6px;margin-bottom:10px;min-height:16px}
-
-/* TOPBAR */
 .topbar{background:#1a1a1a;color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
 .topbar h1{font-size:15px;font-weight:600}
 .topbar .version{font-size:10px;color:#666;margin-left:auto}
 .topbar .sync-status{font-size:11px;color:#888;margin-left:auto}
 .topbar .sync-status.ok{color:#16a34a}
 .topbar .sync-status.err{color:#c0392b}
-
-/* TABS */
 .tabs{display:flex;background:#fff;border-bottom:1px solid #e0e0e0;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tab{padding:12px 16px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:#666;white-space:nowrap;flex-shrink:0}
 .tab.active{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:500}
-
-/* PAGES */
 .page{display:none;padding:16px;max-width:860px;margin:0 auto}
 .page.active{display:block}
 .card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;border:1px solid #e8e8e8}
 .section-label{font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-
-/* MARKUPS */
 .markups-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
 .markup-card{background:#f9f9f9;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px}
 .markup-card label{flex:1;font-size:13px}
 .markup-card input[type=number]{width:52px;text-align:center;padding:4px 6px;font-size:13px;border:1px solid #ddd;border-radius:6px;background:#fff}
-
-/* TEXTAREA */
 textarea{width:100%;min-height:160px;font-size:13px;font-family:'Courier New',monospace;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fafafa;color:#1a1a1a;resize:vertical;line-height:1.6}
 textarea:focus{outline:none;border-color:#888}
-
-/* BUTTONS */
 .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .btn{font-size:13px;padding:10px 16px;border-radius:10px;cursor:pointer;border:1px solid #ddd;background:#fff;color:#1a1a1a;font-weight:500;transition:opacity .15s}
 .btn:active{opacity:.7}
@@ -64,42 +50,26 @@ textarea:focus{outline:none;border-color:#888}
 .btn-tg{background:#229ed9;color:#fff;border-color:#229ed9}
 .btn-orange{background:#ea580c;color:#fff;border-color:#ea580c}
 .btn-blue{background:#2563eb;color:#fff;border-color:#2563eb}
-
-/* OUTPUT */
 .out-box{width:100%;min-height:80px;font-size:13px;font-family:'Courier New',monospace;padding:12px;border:1px solid #ddd;border-radius:8px;background:#fafafa;white-space:pre-wrap;line-height:1.7;margin-bottom:10px}
-
-/* DIFF */
 .diff-box{font-size:12px;font-family:'Courier New',monospace;padding:10px;border:1px solid #e8e8e8;border-radius:8px;background:#fafafa;max-height:200px;overflow-y:auto;margin-bottom:10px}
 .diff-up{color:#c0392b}.diff-down{color:#16a34a}.diff-same{color:#aaa}
-
-/* BADGES */
 .badge{font-size:11px;padding:2px 8px;border-radius:20px;background:#e8f0fe;color:#1a56db;margin-left:6px}
 .badge-green{background:#dcfce7;color:#16a34a}
 .badge-red{background:#fee2e2;color:#dc2626}
-
-/* STATUS */
 .err{font-size:12px;color:#c0392b;margin-top:8px}
 .ok{font-size:12px;color:#16a34a;margin-top:8px;font-weight:500}
 .hint{font-size:12px;color:#888;margin-top:6px;line-height:1.5}
-
-/* PROGRESS */
 .progress-bar{height:4px;background:#e8e8e8;border-radius:4px;margin-top:10px;overflow:hidden;display:none}
 .progress-fill{height:100%;background:#229ed9;border-radius:4px;transition:width .3s}
-
-/* SETTINGS */
 .settings-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
 .settings-row label{font-size:13px;color:#555;min-width:160px}
 .settings-row input[type=text],.settings-row input[type=password]{flex:1;min-width:200px;padding:9px 10px;font-size:13px;border:1px solid #ddd;border-radius:8px;font-family:monospace}
-
-/* MSG ID TABLE */
 .msg-table{width:100%;border-collapse:collapse;font-size:13px}
 .msg-table th{text-align:left;padding:8px 10px;color:#888;font-weight:500;border-bottom:1px solid #e8e8e8;font-size:11px}
 .msg-table td{padding:7px 10px;border-bottom:1px solid #f0f0f0}
 .msg-table input{width:80px;padding:4px 6px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:4px}
 .link-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;background:#dcfce7;color:#16a34a;text-decoration:none}
 .link-pill.missing{background:#fee2e2;color:#dc2626}
-
-/* HISTORY */
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
 .stat{background:#f9f9f9;border-radius:8px;padding:10px;text-align:center}
 .stat .val{font-size:20px;font-weight:600}
@@ -111,8 +81,6 @@ td{padding:7px 10px;border-bottom:1px solid #f0f0f0}
 .trend-down{color:#16a34a;font-size:11px}
 canvas{max-height:240px}
 #no-history{text-align:center;color:#aaa;padding:32px;font-size:14px}
-
-/* INSTALL BANNER */
 .install-banner{background:#1a1a1a;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px}
 .install-banner button{margin-left:auto;background:#fff;color:#1a1a1a;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;flex-shrink:0}
 .install-banner .close-btn{background:none;color:#888;padding:4px 8px;font-size:16px;min-width:auto}
@@ -120,7 +88,6 @@ canvas{max-height:240px}
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen" style="display:none">
   <div class="login-wrap">
     <div class="login-box">
@@ -134,19 +101,17 @@ canvas{max-height:240px}
   </div>
 </div>
 
-<!-- INSTALL BANNER -->
 <div class="install-banner" id="install-banner" style="display:none">
   <span>📲 Добавьте на главный экран для быстрого доступа</span>
   <button onclick="showInstallHelp()">Как?</button>
   <button class="close-btn" onclick="document.getElementById('install-banner').style.display='none'">✕</button>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none">
 <div class="topbar">
   <h1>RBS — Прайс</h1>
   <span class="sync-status" id="sync-status">●</span>
-  <span class="version">v4.0</span>
+  <span class="version">v4.1</span>
 </div>
 
 <div class="tabs">
@@ -155,7 +120,6 @@ canvas{max-height:240px}
   <div class="tab" onclick="showTab('settings')">Настройки</div>
 </div>
 
-<!-- TAB: CALC -->
 <div class="page active" id="tab-calc">
   <div class="card">
     <div class="section-label">Наценки по категориям</div>
@@ -212,7 +176,6 @@ canvas{max-height:240px}
   </div>
 </div>
 
-<!-- TAB: HISTORY -->
 <div class="page" id="tab-history">
   <div class="card">
     <div class="section-label">Поиск модели</div>
@@ -236,7 +199,6 @@ canvas{max-height:240px}
   </div>
 </div>
 
-<!-- TAB: SETTINGS -->
 <div class="page" id="tab-settings">
   <div class="card">
     <div class="section-label">Пароль</div>
@@ -272,7 +234,7 @@ canvas{max-height:240px}
   </div>
 
   <div class="card">
-    <div class="section-label">ID сообщений в канале <span style="font-size:11px;color:#888;font-weight:400">— синхронизируются автоматически</span></div>
+    <div class="section-label">ID сообщений в канале</div>
     <table class="msg-table" id="msg-id-table">
       <thead><tr><th>Категория</th><th>Message ID</th><th>Ссылка</th></tr></thead>
       <tbody id="msg-id-body"></tbody>
@@ -281,26 +243,13 @@ canvas{max-height:240px}
       <button class="btn btn-orange" onclick="resetMessageIds()">🗑 Сбросить ID</button>
     </div>
   </div>
-
-  <div class="card">
-    <div class="section-label">Инструкция — Google Apps Script</div>
-    <ol style="font-size:13px;line-height:2;color:#444;padding-left:18px">
-      <li>Открой <a href="https://sheets.google.com" target="_blank" style="color:#2563eb">sheets.google.com</a> → таблица <b>RBS История цен</b></li>
-      <li>Меню: <b>Расширения → Apps Script</b></li>
-      <li>Удали весь код, вставь файл <b>rbs_google_script.gs</b></li>
-      <li><b>Развернуть → Управление → обнови версию</b> (или создай новое если первый раз)</li>
-      <li>Скопируй URL → вставь выше → Сохранить</li>
-    </ol>
-  </div>
 </div>
-</div><!-- /app -->
+</div>
 
 <script>
-// ================================================================
-// CONFIG
-// ================================================================
-const APP_VERSION = '4.0';
+const APP_VERSION = '4.1';
 const DEFAULT_PWD = 'rbs2024';
+const MONITORING_URL = 'https://script.google.com/macros/s/AKfycbzSYyBS714vkmYPhSMeonvID9Or6iFYsCzMMrtNjHLECyjVxd2ej1M2iiEl7To2PhpB/exec';
 
 const CATEGORIES = [
   { key: 'iphone_se_13_14', label: 'iPhone SE-13-14' },
@@ -309,23 +258,17 @@ const CATEGORIES = [
   { key: 'iphone_17',       label: 'iPhone 17/air/pro/pro max' },
   { key: 'samsung',         label: 'Samsung A/S/Ultra/Z/Flip' },
   { key: 'airpods',         label: 'AirPods 4/Pro 2 3/Max' },
-  { key: 'watch',           label: 'Apple Watch SE 2 3/S 9-11/Ultra' },
-  { key: 'ipad',            label: 'iPad 10/11/mini/Pro' },
+  { key: 'watch',           label: 'Apple Watch SE/S/Ultra' },
+  { key: 'ipad',            label: 'iPad' },
   { key: 'macbook',         label: 'MacBook Air/Pro' },
   { key: 'ps5',             label: 'PS5' },
 ];
 
-// ================================================================
-// STATE
-// ================================================================
 let parsedItems = [];
 let parsedSections = {};
 let chartInstance = null;
-let previousPrices = {}; // for diff
+let previousPrices = {};
 
-// ================================================================
-// AUTH
-// ================================================================
 function getPwd() { return localStorage.getItem('rbs_pwd') || DEFAULT_PWD; }
 
 function checkPwd() {
@@ -349,9 +292,6 @@ function changePwd() {
   document.getElementById('s-pwd').value = '';
 }
 
-// ================================================================
-// INIT
-// ================================================================
 function initApp() {
   loadLocalSettings();
   syncFromSheets();
@@ -369,27 +309,19 @@ window.onload = () => {
   }
 };
 
-// ================================================================
-// INSTALL PROMPT
-// ================================================================
 function showInstallPrompt() {
   const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
   const isStandalone = window.navigator.standalone;
   const dismissed = localStorage.getItem('rbs_install_dismissed');
-  if (isIOS && !isStandalone && !dismissed) {
-    document.getElementById('install-banner').style.display = 'flex';
-  }
+  if (isIOS && !isStandalone && !dismissed) document.getElementById('install-banner').style.display = 'flex';
 }
 
 function showInstallHelp() {
-  alert('Чтобы добавить на главный экран:\n\n1. Нажмите кнопку «Поделиться» (квадрат со стрелкой) внизу Safari\n2. Выберите «На экран «Домой»\n3. Нажмите «Добавить»\n\nПосле этого приложение откроется как обычное!');
+  alert('Чтобы добавить на главный экран:\n\n1. Нажмите кнопку «Поделиться» внизу Safari\n2. Выберите «На экран «Домой»\n3. Нажмите «Добавить»');
   localStorage.setItem('rbs_install_dismissed', '1');
   document.getElementById('install-banner').style.display = 'none';
 }
 
-// ================================================================
-// TAB
-// ================================================================
 function showTab(name) {
   const tabs = ['calc','history','settings'];
   document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', tabs[i] === name));
@@ -398,9 +330,6 @@ function showTab(name) {
   if (name === 'settings') { loadSettingsUI(); renderMsgIdTable(); }
 }
 
-// ================================================================
-// SETTINGS — LOCAL
-// ================================================================
 function loadLocalSettings() {
   const url = localStorage.getItem('rbs_sheets_url') || '';
   const token = localStorage.getItem('rbs_bot_token') || '8835776799:AAGuitbEEkwtK3zbaCUUyLe0nOmiUVJbxD4';
@@ -437,15 +366,11 @@ function getToken() { return localStorage.getItem('rbs_bot_token') || '883577679
 function getChannel() { return localStorage.getItem('rbs_channel_id') || '-1003785797033'; }
 function getPdfChatId() { return localStorage.getItem('rbs_pdf_chat_id') || ''; }
 
-// ================================================================
-// SETTINGS — SHEETS SYNC
-// ================================================================
 async function syncFromSheets() {
   const url = getSheetsUrl();
   if (!url) { setSyncStatus('no-url'); return; }
   setSyncStatus('loading');
   try {
-    // Load settings
     const sr = await fetch(url + '?action=getSettings');
     const sd = await sr.json();
     if (sd.ok && sd.settings) {
@@ -453,12 +378,9 @@ async function syncFromSheets() {
       if (sd.settings.channel_id) localStorage.setItem('rbs_channel_id', sd.settings.channel_id);
       if (sd.settings.rbs_pwd) localStorage.setItem('rbs_pwd', sd.settings.rbs_pwd);
     }
-    // Load msg IDs
     const mr = await fetch(url + '?action=getMsgIds');
     const md = await mr.json();
-    if (md.ok && md.ids) {
-      localStorage.setItem('rbs_msg_ids', JSON.stringify(md.ids));
-    }
+    if (md.ok && md.ids) localStorage.setItem('rbs_msg_ids', JSON.stringify(md.ids));
     setSyncStatus('ok');
   } catch(e) { setSyncStatus('err'); }
 }
@@ -466,17 +388,13 @@ async function syncFromSheets() {
 async function pushSettingsToSheets(settings) {
   const url = getSheetsUrl();
   if (!url) return;
-  try {
-    await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', settings }) });
-  } catch(e) {}
+  try { await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'saveSettings', settings }) }); } catch(e) {}
 }
 
 async function pushMsgIdsToSheets(ids) {
   const url = getSheetsUrl();
   if (!url) return;
-  try {
-    await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'saveMsgIds', ids }) });
-  } catch(e) {}
+  try { await fetch(url, { method: 'POST', body: JSON.stringify({ action: 'saveMsgIds', ids }) }); } catch(e) {}
 }
 
 function setSyncStatus(state) {
@@ -501,41 +419,19 @@ async function testSheets() {
   } catch(e) { document.getElementById('sheets-status').innerHTML = '<span style="color:#c0392b">Не удалось подключиться</span>'; }
 }
 
-// ================================================================
-// MSG IDs
-// ================================================================
 function getDefaultMsgIds() {
-  return {
-    iphone_se_13_14: 32,
-    iphone_15: 33,
-    iphone_16: 34,
-    iphone_17: 24,
-    samsung: 35,
-    airpods: 30,
-    watch: 27,
-    ipad: 28,
-    macbook: 31,
-    ps5: 29
-  };
+  return { iphone_se_13_14:32, iphone_15:33, iphone_16:34, iphone_17:24, samsung:35, airpods:30, watch:27, ipad:28, macbook:31, ps5:29 };
 }
 function getMsgIds() {
-  try {
-    const stored = JSON.parse(localStorage.getItem('rbs_msg_ids') || '{}');
-    // Merge defaults with stored (stored takes priority)
-    return Object.assign({}, getDefaultMsgIds(), stored);
-  } catch(e) { return getDefaultMsgIds(); }
+  try { return Object.assign({}, getDefaultMsgIds(), JSON.parse(localStorage.getItem('rbs_msg_ids') || '{}')); }
+  catch(e) { return getDefaultMsgIds(); }
 }
 function saveMsgIds(ids) { localStorage.setItem('rbs_msg_ids', JSON.stringify(ids)); pushMsgIdsToSheets(ids); }
-function resetMessageIds() {
-  if (!confirm('Сбросить все ID?')) return;
-  localStorage.removeItem('rbs_msg_ids');
-  renderMsgIdTable();
-}
+function resetMessageIds() { if (!confirm('Сбросить все ID?')) return; localStorage.removeItem('rbs_msg_ids'); renderMsgIdTable(); }
 function updateMsgId(key, value) {
   const ids = getMsgIds();
   if (value.trim()) ids[key] = parseInt(value.trim()); else delete ids[key];
-  saveMsgIds(ids);
-  renderMsgIdTable();
+  saveMsgIds(ids); renderMsgIdTable();
 }
 function renderMsgIdTable() {
   const ids = getMsgIds();
@@ -547,17 +443,10 @@ function renderMsgIdTable() {
     const msgId = ids[cat.key];
     const hasId = !!msgId;
     const link = hasId ? `https://t.me/c/${chId}/${msgId}` : '';
-    tbody.innerHTML += `<tr>
-      <td style="font-size:12px">${cat.label}</td>
-      <td><input value="${msgId||''}" placeholder="нет" style="background:${hasId?'#f0fdf4':'#fef2f2'}" onchange="updateMsgId('${cat.key}',this.value)"></td>
-      <td>${hasId?`<a href="${link}" target="_blank" class="link-pill">→</a>`:'<span class="link-pill missing">нет</span>'}</td>
-    </tr>`;
+    tbody.innerHTML += `<tr><td style="font-size:12px">${cat.label}</td><td><input value="${msgId||''}" placeholder="нет" style="background:${hasId?'#f0fdf4':'#fef2f2'}" onchange="updateMsgId('${cat.key}',this.value)"></td><td>${hasId?`<a href="${link}" target="_blank" class="link-pill">→</a>`:'<span class="link-pill missing">нет</span>'}</td></tr>`;
   });
 }
 
-// ================================================================
-// MARKUP
-// ================================================================
 function getMarkup(text) {
   const n = text.toLowerCase();
   if (/macbook|макбук/.test(n)) return +document.getElementById('mmac').value/100;
@@ -597,9 +486,6 @@ function getCategoryKey(text) {
 
 function roundTo100(n) { return Math.round(n/100)*100; }
 
-// ================================================================
-// PREVIOUS PRICES (for diff)
-// ================================================================
 async function loadPreviousPrices() {
   const url = getSheetsUrl();
   if (!url) return;
@@ -607,51 +493,32 @@ async function loadPreviousPrices() {
     const r = await fetch(url + '?action=getAll');
     const d = await r.json();
     if (!d.ok || !d.rows) return;
-    // Get latest price for each model
     previousPrices = {};
-    d.rows.forEach(row => {
-      previousPrices[row.model] = { buyPrice: row.buyPrice, sellPrice: row.sellPrice, date: row.date };
-    });
+    d.rows.forEach(row => { previousPrices[row.model] = { buyPrice: row.buyPrice, sellPrice: row.sellPrice, date: row.date }; });
   } catch(e) {}
 }
 
-// ================================================================
-// GIFT LOGIC
-// ================================================================
 function isGiftCategory(label, section) {
   const n = (label + ' ' + section).toLowerCase();
-  // iPhone — all models
   if (/iphone|sim.esim|1[3456789]/.test(n) && !/samsung|galaxy|macbook|ipad|airpods|watch|ps5/.test(n)) return true;
-  // Samsung S23-S26 / Z Flip / Z Fold (строки без слова samsung)
   if (/galaxy s|galaxy z|z flip|z fold/.test(n)) return true;
   if (/\bs2[3-9](\+| ultra| edge|\b)/.test(n)) return true;
   if (/\bz\s*(flip|fold)/.test(n)) return true;
   return false;
 }
 
-// ================================================================
-// GENERATE
-// ================================================================
 function generate() {
   const raw = document.getElementById('inp').value.trim();
   const errEl = document.getElementById('err');
   errEl.textContent = '';
   if (!raw) { errEl.textContent = 'Вставь закупочный прайс выше'; return; }
-
   const lines = raw.split('\n');
   const outLines = [];
-  parsedItems = [];
-  parsedSections = {};
-  let currentMarkup = null;
-  let currentCatKey = null;
-  let currentSectionLines = [];
-  let currentSectionHeader = '';
+  parsedItems = []; parsedSections = {};
+  let currentMarkup = null, currentCatKey = null, currentSectionLines = [], currentSectionHeader = '';
   const priceRe = /(.+?)\s*[—–\-]\s*([\d\s]+)₽/;
   const today = new Date().toLocaleDateString('ru-RU');
-
-  // Diff tracking
-  const diffLines = [];
-  let hasDiff = false;
+  const diffLines = []; let hasDiff = false;
 
   function flushSection() {
     if (currentCatKey && currentSectionLines.length) {
@@ -666,45 +533,32 @@ function generate() {
     if (!trimmed) { outLines.push(''); if (currentSectionLines.length) currentSectionLines.push(''); continue; }
     if (/оформление|менеджер|отзыв|условия|faq|отправк|@\w/i.test(trimmed)) continue;
     if (/^\d{2}[./]\d{2}/.test(trimmed)) { outLines.push(trimmed); continue; }
-
     const hasPrice = trimmed.includes('₽') || /\d{4,}/.test(trimmed);
     const isHeader = (trimmed.endsWith(':') && trimmed.length < 80) || (!hasPrice && trimmed.length < 80 && getCategoryKey(trimmed) !== null);
-
     if (isHeader) {
       flushSection();
       const headerText = trimmed.endsWith(':') ? trimmed.slice(0,-1) : trimmed;
-      currentSectionHeader = headerText;
-      currentMarkup = getMarkup(headerText);
-      currentCatKey = getCategoryKey(headerText);
-      outLines.push(trimmed);
-      currentSectionLines.push(trimmed);
-      continue;
+      currentSectionHeader = headerText; currentMarkup = getMarkup(headerText); currentCatKey = getCategoryKey(headerText);
+      outLines.push(trimmed); currentSectionLines.push(trimmed); continue;
     }
-
     const m = priceRe.exec(trimmed);
     if (m) {
       const label = m[1].trim();
       const buyPrice = parseInt(m[2].replace(/\s/g,''), 10);
       if (isNaN(buyPrice)) continue;
-
       if (currentCatKey === null) {
         const lineCat = getCategoryKey(label);
         if (lineCat !== null) { flushSection(); currentCatKey = lineCat; currentMarkup = getMarkup(label); currentSectionHeader = label; }
       }
-
       let markup = currentMarkup !== null ? currentMarkup : getMarkup(label);
       if (markup === null) markup = 0.15;
       const basePrice = roundTo100(buyPrice*(1+markup));
-      // Add gift cost (+1000) for iPhone and Samsung S/Z
       const hasGift = isGiftCategory(label, currentSectionHeader);
       const giftCost = parseInt(document.getElementById('gift-cost')?.value || '1000');
       const sellPrice = hasGift ? basePrice + giftCost : basePrice;
       const outLine = label + ' — ' + sellPrice.toLocaleString('ru-RU') + '₽' + (hasGift ? ' 🎁' : '');
-      outLines.push(outLine);
-      currentSectionLines.push(outLine);
+      outLines.push(outLine); currentSectionLines.push(outLine);
       parsedItems.push({ date: today, model: label, section: currentSectionHeader, buyPrice, sellPrice, basePrice, markup: Math.round(markup*100), hasGift });
-
-      // Diff
       if (previousPrices[label]) {
         const prev = previousPrices[label].sellPrice;
         if (prev && prev !== sellPrice) {
@@ -718,14 +572,11 @@ function generate() {
     }
   }
   flushSection();
-
   const result = outLines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
   document.getElementById('out').textContent = result;
   document.getElementById('cnt').textContent = parsedItems.length + ' позиций';
   document.getElementById('out-wrap').style.display = 'block';
   document.getElementById('save-status').textContent = '';
-
-  // Show diff
   if (hasDiff && diffLines.length) {
     document.getElementById('diff-box').innerHTML = diffLines.join('<br>');
     document.getElementById('diff-section').style.display = 'block';
@@ -753,9 +604,6 @@ function copyOut() {
   });
 }
 
-// ================================================================
-// TELEGRAM
-// ================================================================
 async function tgApi(method, params) {
   const resp = await fetch(`https://api.telegram.org/bot${getToken()}/${method}`, {
     method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(params)
@@ -773,9 +621,7 @@ async function testTelegram() {
 }
 
 function splitText(text, maxLen=3900) {
-  const lines = text.split('\n');
-  const chunks = [];
-  let current = '';
+  const lines = text.split('\n'); const chunks = []; let current = '';
   for (const line of lines) {
     if ((current+'\n'+line).length > maxLen) { if (current) chunks.push(current.trim()); current = line; }
     else { current = current ? current+'\n'+line : line; }
@@ -792,14 +638,11 @@ async function sendToTelegram() {
   const progressFill = document.getElementById('progress-fill');
   btn.disabled = true; btn.textContent = 'Отправляем...';
   progressWrap.style.display = 'block'; status.textContent = '';
-
   const ids = getMsgIds();
   const catKeys = Object.keys(parsedSections);
   let done = 0; let errors = [];
-
   const todayStr = new Date().toLocaleDateString('ru-RU');
   const dateStamp = `📅 Обновлено: ${todayStr}`;
-
   for (const key of catKeys) {
     const rawText = parsedSections[key];
     if (!rawText.trim()) continue;
@@ -828,8 +671,7 @@ async function sendToTelegram() {
           if (firstId) ids[key] = firstId; else errors.push(key);
         }
       } else {
-        const chunks = splitText(text);
-        let firstId = null;
+        const chunks = splitText(text); let firstId = null;
         for (const chunk of chunks) {
           const res = await tgApi('sendMessage', { chat_id: getChannel(), text: chunk });
           if (res.ok) { if (!firstId) firstId = res.result.message_id; }
@@ -842,9 +684,7 @@ async function sendToTelegram() {
     progressFill.style.width = Math.round((done/catKeys.length)*100)+'%';
     await new Promise(r => setTimeout(r, 300));
   }
-
-  saveMsgIds(ids);
-  renderMsgIdTable();
+  saveMsgIds(ids); renderMsgIdTable();
   progressWrap.style.display = 'none';
   btn.disabled = false; btn.textContent = '✈️ В канал';
   status.innerHTML = errors.length
@@ -853,26 +693,73 @@ async function sendToTelegram() {
 }
 
 // ================================================================
-// GOOGLE SHEETS
+// СОХРАНЕНИЕ В ИСТОРИЮ + ОТПРАВКА ЦЕН RBS В ТАБЛИЦУ МОНИТОРИНГА
 // ================================================================
 async function saveToSheets() {
   const url = getSheetsUrl();
   if (!url) { alert('Укажи URL скрипта в настройках'); return; }
   if (!parsedItems.length) return;
   const btn = document.getElementById('savebtn');
+  const status = document.getElementById('save-status');
   btn.disabled = true; btn.textContent = 'Сохраняем...';
+
   try {
+    // 1. Сохраняем в историю RBS
     const resp = await fetch(url, { method:'POST', body: JSON.stringify({ action:'save', items: parsedItems }) });
     const data = await resp.json();
+    if (data.ok) await loadPreviousPrices();
+
+    // 2. Собираем цены RBS для таблицы мониторинга (минимальная цена по каждой модели)
+    const rbsPrices = {};
+    for (const item of parsedItems) {
+      const lbl = item.model.toLowerCase();
+      let mon = null;
+
+      if      (/\b16\b(?!.*pro|.*e)/.test(lbl) && /256/i.test(lbl))                                    mon = "iPhone 16 256 ГБ";
+      else if (/\b16\b(?!.*pro|.*e)/.test(lbl) && /512/i.test(lbl))                                    mon = "iPhone 16 512 ГБ";
+      else if (/16\s*pro(?!\s*max)/.test(lbl) && /256/i.test(lbl) && /esim/i.test(lbl))                mon = "iPhone 16 Pro 256 eSIM";
+      else if (/16\s*pro(?!\s*max)/.test(lbl) && /256/i.test(lbl) && /sim/i.test(lbl))                 mon = "iPhone 16 Pro 256 SIM";
+      else if (/16\s*pro(?!\s*max)/.test(lbl) && /512/i.test(lbl) && /esim/i.test(lbl))                mon = "iPhone 16 Pro 512 eSIM";
+      else if (/16\s*pro(?!\s*max)/.test(lbl) && /512/i.test(lbl) && /sim/i.test(lbl))                 mon = "iPhone 16 Pro 512 SIM";
+      else if (/16\s*pro\s*max/.test(lbl) && /256/i.test(lbl) && /esim/i.test(lbl))                    mon = "iPhone 16 Pro Max 256 eSIM";
+      else if (/16\s*pro\s*max/.test(lbl) && /256/i.test(lbl) && /sim/i.test(lbl))                     mon = "iPhone 16 Pro Max 256 SIM";
+      else if (/16\s*pro\s*max/.test(lbl) && /512/i.test(lbl))                                         mon = "iPhone 16 Pro Max 512 ГБ";
+      else if (/\b17\b(?!.*pro|.*air|.*e)/.test(lbl) && /256/i.test(lbl) && /esim/i.test(lbl))        mon = "iPhone 17 256 eSIM";
+      else if (/\b17\b(?!.*pro|.*air|.*e)/.test(lbl) && /256/i.test(lbl) && /sim/i.test(lbl))         mon = "iPhone 17 256 SIM";
+      else if (/17\s*pro(?!\s*max)/.test(lbl) && /256/i.test(lbl) && /esim/i.test(lbl))                mon = "iPhone 17 Pro 256 eSIM";
+      else if (/17\s*pro(?!\s*max)/.test(lbl) && /256/i.test(lbl) && /sim/i.test(lbl))                 mon = "iPhone 17 Pro 256 SIM";
+      else if (/17\s*pro(?!\s*max)/.test(lbl) && /512/i.test(lbl) && /esim/i.test(lbl))                mon = "iPhone 17 Pro 512 eSIM";
+      else if (/17\s*pro(?!\s*max)/.test(lbl) && /512/i.test(lbl) && /sim/i.test(lbl))                 mon = "iPhone 17 Pro 512 SIM";
+      else if (/17\s*pro\s*max/.test(lbl) && /256/i.test(lbl) && /esim/i.test(lbl))                    mon = "iPhone 17 Pro Max 256 eSIM";
+      else if (/17\s*pro\s*max/.test(lbl) && /256/i.test(lbl) && /sim/i.test(lbl))                     mon = "iPhone 17 Pro Max 256 SIM";
+      else if (/17\s*pro\s*max/.test(lbl) && /512/i.test(lbl) && /esim/i.test(lbl))                    mon = "iPhone 17 Pro Max 512 eSIM";
+      else if (/17\s*pro\s*max/.test(lbl) && /512/i.test(lbl) && /sim/i.test(lbl))                     mon = "iPhone 17 Pro Max 512 SIM";
+      else if (/\b15\b/.test(lbl) && /128/i.test(lbl))                                                  mon = "iPhone 15 128 ГБ";
+      else if (/slim.*digital|digital.*slim/i.test(lbl))                                                 mon = "Sony PlayStation slim digital";
+
+      if (mon && (!rbsPrices[mon] || item.sellPrice < rbsPrices[mon])) {
+        rbsPrices[mon] = item.sellPrice;
+      }
+    }
+
+    // 3. Отправляем цены RBS в таблицу мониторинга
+    if (Object.keys(rbsPrices).length > 0) {
+      fetch(MONITORING_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rbsPrices })
+      }).catch(() => {});
+    }
+
     btn.textContent = data.ok ? '✓ Сохранено' : '💾 В историю';
-    if (data.ok) { await loadPreviousPrices(); } // reload for next diff
-  } catch(e) { btn.textContent = '💾 В историю'; }
+    if (data.ok) status.innerHTML = '<span class="ok">✓ Сохранено и отправлено в мониторинг</span>';
+
+  } catch(e) {
+    btn.textContent = '💾 В историю';
+  }
   btn.disabled = false;
 }
 
-// ================================================================
-// HISTORY
-// ================================================================
 function formatDate(raw) {
   if (!raw) return '';
   if (typeof raw === 'string' && raw.includes('T')) return new Date(raw).toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit'});
@@ -919,7 +806,6 @@ async function loadAllHistory() {
 function renderHistory(rows, modelQuery) {
   if (!rows.length) { document.getElementById('no-history').textContent = 'Ничего не найдено'; return; }
   document.getElementById('no-history').textContent = '';
-
   const prices = rows.map(r=>r.sellPrice).filter(Boolean);
   const minP=Math.min(...prices), maxP=Math.max(...prices), latestP=prices[prices.length-1];
   document.getElementById('history-stats').innerHTML =
@@ -927,7 +813,6 @@ function renderHistory(rows, modelQuery) {
      <div class="stat"><div class="val">${minP?.toLocaleString('ru-RU')}₽</div><div class="lbl">Минимум</div></div>
      <div class="stat"><div class="val">${maxP?.toLocaleString('ru-RU')}₽</div><div class="lbl">Максимум</div></div>`;
   document.getElementById('history-stats').style.display = 'grid';
-
   const tbody = document.getElementById('history-body');
   tbody.innerHTML = '';
   rows.slice().reverse().forEach((r,i,arr) => {
@@ -940,7 +825,6 @@ function renderHistory(rows, modelQuery) {
     tbody.innerHTML += `<tr><td>${formatDate(r.date)}</td><td style="font-size:11px">${r.model}</td><td>${r.buyPrice?.toLocaleString('ru-RU')}₽</td><td>${r.sellPrice?.toLocaleString('ru-RU')}₽</td><td>${trend}</td></tr>`;
   });
   document.getElementById('history-table').style.display = 'table';
-
   if (modelQuery && rows.length >= 1) {
     const daily = groupByDay(rows);
     document.getElementById('chart-model-label').textContent = modelQuery;
@@ -958,831 +842,6 @@ function renderHistory(rows, modelQuery) {
       }
     });
   }
-}
-
-// ================================================================
-// CLIENT CHANNEL
-// ================================================================
-const CLIENT_CHANNEL_ID = '-1002892907543';
-
-const CLIENT_MESSAGES = {
-  iphone:  503,
-  airpods: 502,
-  watch:   500,
-  ipad:    499,
-  macbook: 498,
-  ps5:     496,
-  samsung: 495,
-};
-
-// Models to track for client price list
-const CLIENT_MODELS = [
-  { key: 'iPhone 13',        pattern: /^(?!.*plus|.*pro).*13/i },
-  { key: 'iPhone 14',        pattern: /^(?!.*plus|.*pro).*14/i },
-  { key: 'iPhone 14 Plus',   pattern: /14\s*plus/i },
-  { key: 'iPhone 14 Pro Max',pattern: /14\s*pro\s*max/i },
-  { key: 'iPhone 14 Pro',    pattern: /14\s*pro(?!\s*max)/i },
-  { key: 'iPhone 15',        pattern: /^(?!.*plus|.*pro).*15/i },
-  { key: 'iPhone 15 Plus',   pattern: /15\s*plus/i },
-  { key: 'iPhone 15 Pro Max',pattern: /15\s*pro\s*max/i },
-  { key: 'iPhone 15 Pro',    pattern: /15\s*pro(?!\s*max)/i },
-  { key: 'iPhone 16e',       pattern: /16e/i },
-  { key: 'iPhone 16',        pattern: /^(?!.*plus|.*pro|.*16e).*16/i },
-  { key: 'iPhone 16 Plus',   pattern: /16\s*plus/i },
-  { key: 'iPhone 16 Pro Max',pattern: /16\s*pro\s*max/i },
-  { key: 'iPhone 16 Pro',    pattern: /16\s*pro(?!\s*max)/i },
-  { key: 'iPhone 17e',       pattern: /17e/i },
-  { key: 'iPhone 17 Air',    pattern: /17\s*air/i },
-  { key: 'iPhone 17 Pro Max',pattern: /17\s*pro\s*max/i },
-  { key: 'iPhone 17 Pro',    pattern: /17\s*pro(?!\s*max)/i },
-  { key: 'iPhone 17',        pattern: /^(?!.*air|.*pro|.*17e).*17/i },
-];
-
-function getMinPrices() {
-  const minPrices = {};
-  for (const item of parsedItems) {
-    for (const model of CLIENT_MODELS) {
-      if (model.pattern.test(item.model)) {
-        if (!minPrices[model.key] || item.sellPrice < minPrices[model.key]) {
-          minPrices[model.key] = item.sellPrice;
-        }
-        break;
-      }
-    }
-  }
-  return minPrices;
-}
-
-function buildClientText(minPrices) {
-  const today = new Date().toLocaleDateString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric'});
-  
-  const header = `⚡️ Актуальный прайс на iPhone
-Обновлено: ${today}
-
-Написать менеджеру для заказа ⬇️
-📞 8-962-519-61-51 | @RBS_TOBOLSK
-
-——————————————
-
-Почему покупают iPhone в RBS:
-
-📄 Договор поставки — фиксируем цену и сроки на бумаге. Юридическая защита с первого рубля.
-🛡 Гарантия 1 год — на каждое устройство.
-♻️ Обмен (Trade-In) — принимаем iPhone, iPad, MacBook, Apple Watch. Оцениваем за 10 минут, сумма идёт в счёт покупки.
-💳 Рассрочка — оформляем на месте, подбираем платёж под ваш бюджет.
-📲 Перенос данных бесплатно — перенесём всё при получении: фото, контакты, приложения.
-🔍 Нашли дешевле?
-
-Покажите нам ссылку — предложим лучше или честно объясним разницу. Без обид 😉`;
-
-  const groups = [
-    ['iPhone 13', 'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max'],
-    ['iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max'],
-    ['iPhone 16e', 'iPhone 16', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max'],
-    ['iPhone 17e', 'iPhone 17', 'iPhone 17 Air', 'iPhone 17 Pro', 'iPhone 17 Pro Max'],
-  ];
-
-  let priceLines = '';
-  for (const group of groups) {
-    const lines = [];
-    for (const modelKey of group) {
-      if (minPrices[modelKey]) {
-        lines.push(`📱 ${modelKey} — от ${minPrices[modelKey].toLocaleString('ru-RU')}₽`);
-      }
-    }
-    if (lines.length) priceLines += '\n' + lines.join('\n');
-  }
-
-  return header + priceLines;
-}
-
-function buildAllClientTexts(minPrices, parsedItems) {
-  const today = new Date().toLocaleDateString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric'});
-  const header = (cat) => `Написать менеджеру для заказа ⬇️\n📞 8-962-519-61-51 | @RBS_TOBOLSK\n\n——————————————\n\nПочему покупают ${cat} в RBS:\n\n📄 Договор поставки — фиксируем цену и сроки на бумаге. Юридическая защита с первого рубля.\n🛡 Гарантия 1 год — на каждое устройство.\n♻️ Обмен (Trade-In) — принимаем iPhone, iPad, MacBook, Apple Watch. Оцениваем за 10 минут, сумма идёт в счёт покупки.\n💳 Рассрочка — оформляем на месте, подбираем платёж под ваш бюджет.\n📲 Перенос данных бесплатно — перенесём всё при получении: фото, контакты, приложения.\n🔍 Нашли дешевле?\n\nПокажите нам ссылку — предложим лучше или честно объясним разницу. Без обид 😉`;
-
-  const texts = {};
-
-  // ---- iPhone ----
-  const ip = minPrices;
-  texts.iphone = `⚡️ Актуальный прайс на iPhone\nОбновлено: ${today}\n\n${header('iPhone')}\n📱 iPhone 13 — от ${(ip['iPhone 13']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 14 — от ${(ip['iPhone 14']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 14 Plus — от ${(ip['iPhone 14 Plus']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 14 Pro Max — от ${(ip['iPhone 14 Pro Max']||'?').toLocaleString('ru-RU')}₽\n\n📱 iPhone 15 — от ${(ip['iPhone 15']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 15 Plus — от ${(ip['iPhone 15 Plus']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 15 Pro — от ${(ip['iPhone 15 Pro']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 15 Pro Max — от ${(ip['iPhone 15 Pro Max']||'?').toLocaleString('ru-RU')}₽\n\n📱 iPhone 16e — от ${(ip['iPhone 16e']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 16 — от ${(ip['iPhone 16']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 16 Plus — от ${(ip['iPhone 16 Plus']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 16 Pro — от ${(ip['iPhone 16 Pro']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 16 Pro Max — от ${(ip['iPhone 16 Pro Max']||'?').toLocaleString('ru-RU')}₽\n\n📱 iPhone 17e — от ${(ip['iPhone 17e']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 17 — от ${(ip['iPhone 17']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 17 Air — от ${(ip['iPhone 17 Air']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 17 Pro — от ${(ip['iPhone 17 Pro']||'?').toLocaleString('ru-RU')}₽\n📱 iPhone 17 Pro Max — от ${(ip['iPhone 17 Pro Max']||'?').toLocaleString('ru-RU')}₽`;
-
-  // ---- AirPods ----
-  function minByPattern(pat) {
-    const matches = parsedItems.filter(i => pat.test(i.model));
-    return matches.length ? Math.min(...matches.map(i=>i.sellPrice)) : null;
-  }
-  const ap4     = minByPattern(/airpods\s*4(?!\s*anc)/i);
-  const ap4anc  = minByPattern(/airpods\s*4\s*anc/i);
-  const appro2  = minByPattern(/airpods\s*pro\s*2/i);
-  const appro3  = minByPattern(/airpods\s*pro\s*3/i);
-  const apmax   = minByPattern(/airpods\s*max/i);
-  const pencil2 = minByPattern(/pencil\s*2/i);
-  const pencilc = minByPattern(/pencil\s*usb/i);
-  const pencilp = minByPattern(/pencil\s*pro/i);
-  const mmb     = minByPattern(/magic\s*mouse.*black/i);
-  const mms     = minByPattern(/magic\s*mouse.*silver/i);
-
-  texts.airpods = `⚡️ Актуальный прайс на AirPods\nОбновлено: ${today}\n\n${header('AirPods')}\n\n—————————————\n\n🍏 Аксессуары (${today})\n\n✒️ Pencil\n\n${pencil2?'Pencil 2 — '+pencil2.toLocaleString('ru-RU'):''}\n${pencilc?'Pencil USB-C — '+pencilc.toLocaleString('ru-RU'):''}\n${pencilp?'Pencil Pro — '+pencilp.toLocaleString('ru-RU'):''}\n\n⸻\n\n🐭 Magic Mouse\n\n${mmb?'Magic Mouse Black USB-C — '+mmb.toLocaleString('ru-RU'):''}\n${mms?'Magic Mouse Silver USB-C — '+mms.toLocaleString('ru-RU'):''}\n\n⸻\n\n🎧 AirPods\n\n${ap4?'AirPods 4 — '+ap4.toLocaleString('ru-RU'):''}\n${ap4anc?'AirPods 4 ANC — '+ap4anc.toLocaleString('ru-RU'):''}\n${appro2?'AirPods Pro 2 — '+appro2.toLocaleString('ru-RU'):''}\n${appro3?'AirPods Pro 3 — '+appro3.toLocaleString('ru-RU'):''}\n\n${apmax?'AirPods Max — от '+apmax.toLocaleString('ru-RU'):''}`;
-
-  // ---- Watch ----
-  function minW(pat) { return minByPattern(pat); }
-  const wse3  = minW(/se\s*3|se3/i);
-  const ws9   = minW(/s9/i);
-  const ws10  = minW(/s10/i);
-  const ws11  = minW(/s11/i);
-  const wu2   = minW(/ultra\s*2/i);
-  const wu3   = minW(/ultra\s*3/i);
-  const wmin  = Math.min(...[wse3,ws9,ws10,ws11].filter(Boolean));
-  const wumin = Math.min(...[wu2,wu3].filter(Boolean));
-
-  texts.watch = `⚡️ Актуальный прайс на Apple Watch\nОбновлено: ${today}\n\n${header('Apple Watch')}\n\n——————————————\n⌚ Apple Watch — от ${wmin?wmin.toLocaleString('ru-RU')+'₽':'?'}\n⌚ Apple Watch Ultra — от ${wumin?wumin.toLocaleString('ru-RU')+'₽':'?'}\n\n⸻\n\n${wse3?'⌚ Apple Watch SE3 — от '+wse3.toLocaleString('ru-RU')+'₽':''}\n${ws9?'⌚ Apple Watch S9 — от '+ws9.toLocaleString('ru-RU')+'₽':''}\n${ws10?'⌚ Apple Watch S10 — от '+ws10.toLocaleString('ru-RU')+'₽':''}\n${ws11?'⌚ Apple Watch S11 — от '+ws11.toLocaleString('ru-RU')+'₽':''}\n\n${wu2?'⌚ Apple Watch Ultra 2 — от '+wu2.toLocaleString('ru-RU')+'₽':''}\n${wu3?'⌚ Apple Watch Ultra 3 — от '+wu3.toLocaleString('ru-RU')+'₽':''}`;
-
-  // ---- iPad ----
-  function minI(pat) { return minByPattern(pat); }
-  const ipad11    = minI(/ipad\s*(?:11|mini\s*6|10th|11th)/i);
-  const ipadm3_11 = minI(/air\s*11.*m3|air.*m3.*11/i);
-  const ipadm4_11 = minI(/air\s*11.*m4|air.*m4.*11/i);
-  const ipadm3_13 = minI(/air\s*13.*m3|air.*m3.*13/i);
-  const ipadm4_13 = minI(/air\s*13.*m4|air.*m4.*13/i);
-  const ipadmini7 = minI(/mini\s*7/i);
-  const ipadpro11m4 = minI(/pro\s*11.*m4/i);
-  const ipadpro11m5 = minI(/pro\s*11.*m5/i);
-  const ipadpro13m5 = minI(/pro\s*13.*m5/i);
-
-  texts.ipad = `⚡️ Актуальный прайс на iPad\nОбновлено: ${today}\n\n${header('iPad')}\n\n——————————————\n${ipad11?'📱 iPad 11 — от '+ipad11.toLocaleString('ru-RU')+'₽':''}\n\n${ipadm3_11?'📱 iPad Air 11 M3 — от '+ipadm3_11.toLocaleString('ru-RU')+'₽':''}\n${ipadm4_11?'📱 iPad Air 11 M4 — от '+ipadm4_11.toLocaleString('ru-RU')+'₽':''}\n\n${ipadm3_13?'📱 iPad Air 13 M3 — от '+ipadm3_13.toLocaleString('ru-RU')+'₽':''}\n${ipadm4_13?'📱 iPad Air 13 M4 — от '+ipadm4_13.toLocaleString('ru-RU')+'₽':''}\n\n${ipadmini7?'📱 iPad Mini 7 — от '+ipadmini7.toLocaleString('ru-RU')+'₽':''}\n\n${ipadpro11m4?'📱 iPad Pro 11 M4 — от '+ipadpro11m4.toLocaleString('ru-RU')+'₽':''}\n${ipadpro11m5?'📱 iPad Pro 11 M5 — от '+ipadpro11m5.toLocaleString('ru-RU')+'₽':''}\n\n${ipadpro13m5?'📱 iPad Pro 13 M5 — от '+ipadpro13m5.toLocaleString('ru-RU')+'₽':''}`;
-
-  // ---- MacBook ----
-  function minM(pat) { return minByPattern(pat); }
-  const mba13m5 = minM(/air\s*13.*m5|air.*m5.*13/i);
-  const mba15m5 = minM(/air\s*15.*m5|air.*m5.*15/i);
-  const mbneo   = minM(/neo/i);
-  const mbp14m5 = minM(/pro\s*14.*m5|pro.*m5.*14/i);
-  const mbp14mx = minM(/pro\s*14\s*max/i);
-  const mbp16m5 = minM(/pro\s*16.*m5|pro.*m5.*16/i);
-  const mbp16mx = minM(/pro\s*16\s*max/i);
-  const mbaMin  = Math.min(...[mba13m5,mba15m5].filter(Boolean));
-  const mbpMin  = Math.min(...[mbp14m5,mbp14mx,mbp16m5,mbp16mx].filter(Boolean));
-
-  texts.macbook = `⚡️ Актуальный прайс на MacBook\nОбновлено: ${today}\n\n${header('MacBook')}\n\n——————————————\n${mbaMin?'💻 MacBook Air — от '+mbaMin.toLocaleString('ru-RU')+'₽':''}\n${mbpMin?'💻 MacBook Pro — от '+mbpMin.toLocaleString('ru-RU')+'₽':''}\n${mbneo?'💻 MacBook NEO — от '+mbneo.toLocaleString('ru-RU')+'₽':''}\n\n${mba13m5?'💻 MacBook Air 13 (M5) — от '+mba13m5.toLocaleString('ru-RU')+'₽':''}\n${mba15m5?'💻 MacBook Air 15 (M5) — от '+mba15m5.toLocaleString('ru-RU')+'₽':''}\n\n${mbneo?'💻 MacBook NEO (A18) — от '+mbneo.toLocaleString('ru-RU')+'₽':''}\n\n${mbp14m5?'💻 MacBook Pro 14 (M5) — от '+mbp14m5.toLocaleString('ru-RU')+'₽':''}\n${mbp14mx?'💻 MacBook Pro 14 Max (M5) — от '+mbp14mx.toLocaleString('ru-RU')+'₽':''}\n\n${mbp16m5?'💻 MacBook Pro 16 (M5) — от '+mbp16m5.toLocaleString('ru-RU')+'₽':''}\n${mbp16mx?'💻 MacBook Pro 16 Max (M4) — от '+mbp16mx.toLocaleString('ru-RU')+'₽':''}`;
-
-  // ---- PS5 ----
-  function minP(pat) { return minByPattern(pat); }
-  const vr2    = minP(/vr2/i);
-  const ps5pro = minP(/pro.*digital|ps5\s*pro/i);
-  const ps5disk= minP(/slim.*disk|disk.*slim/i);
-  const ps5dig = minP(/slim.*digital|digital.*slim/i);
-  const dual   = minP(/dualsense/i);
-
-  texts.ps5 = `⚡️ Актуальный прайс на PlayStation\nОбновлено: ${today}\n\n${header('PlayStation')}\n\n—————————————\n🎮 PlayStation (${today})\n\n${vr2?'PS5 VR2 — от '+vr2.toLocaleString('ru-RU'):''}\n\n${ps5pro?'PS5 Pro Digital 2TB — от '+ps5pro.toLocaleString('ru-RU'):''}\n\n${ps5disk?'PS5 Slim Disk — от '+ps5disk.toLocaleString('ru-RU'):''}\n${ps5dig?'PS5 Slim Digital 1TB — от '+ps5dig.toLocaleString('ru-RU'):''}\n\n${dual?'DualSense — от '+dual.toLocaleString('ru-RU'):''}`;
-
-  // ---- Samsung ----
-  function minS(pat) { return minByPattern(pat); }
-  const sa07  = minS(/a07/i);
-  const sa17  = minS(/a17/i);
-  const sa26  = minS(/a26/i);
-  const sa36  = minS(/a36/i);
-  const sa56  = minS(/a56/i);
-  const ss24  = minS(/s24(?!\s*ultra)/i);
-  const ss24u = minS(/s24\s*ultra/i);
-  const ss25  = minS(/s25(?!\+|ultra|edge)/i);
-  const ss25p = minS(/s25\+/i);
-  const ss25u = minS(/s25\s*ultra/i);
-  const ss25e = minS(/s25\s*edge/i);
-  const ss26  = minS(/s26(?!\+|ultra)/i);
-  const ss26p = minS(/s26\+/i);
-  const ss26u = minS(/s26\s*ultra/i);
-  const zflip = minS(/z\s*flip/i);
-  const zfold = minS(/z\s*fold/i);
-  const saMin = Math.min(...[sa07,sa17,sa26,sa36,sa56].filter(Boolean));
-  const ssMin = Math.min(...[ss24,ss24u,ss25,ss25p,ss25u,ss25e,ss26,ss26p,ss26u].filter(Boolean));
-  const zfMin = zflip||null;
-  const zfoldMin = zfold||null;
-
-  texts.samsung = `⚡️ Актуальный прайс на Android\nОбновлено: ${today}\n\n${header('Android')}\n\n——————————————\n${saMin?'📱Samsung A — от '+saMin.toLocaleString('ru-RU')+'₽':''}\n${ssMin?'📱 Samsung S — от '+ssMin.toLocaleString('ru-RU')+'₽':''}\n${zfMin?'📱 Samsung Z Flip — от '+zfMin.toLocaleString('ru-RU')+'₽':''}\n${zfoldMin?'📱 Samsung Z Fold — от '+zfoldMin.toLocaleString('ru-RU')+'₽':''}\n\n⸻\n\n${sa07?'📱 Samsung A07 — от '+sa07.toLocaleString('ru-RU')+'₽':''}\n${sa17?'📱 Samsung A17 — от '+sa17.toLocaleString('ru-RU')+'₽':''}\n${sa26?'📱 Samsung A26 — от '+sa26.toLocaleString('ru-RU')+'₽':''}\n${sa36?'📱 Samsung A36 — от '+sa36.toLocaleString('ru-RU')+'₽':''}\n${sa56?'📱 Samsung A56 — от '+sa56.toLocaleString('ru-RU')+'₽':''}\n\n${ss24?'📱 Samsung S24 — от '+ss24.toLocaleString('ru-RU')+'₽':''}\n${ss24u?'📱 Samsung S24 Ultra — от '+ss24u.toLocaleString('ru-RU')+'₽':''}\n\n${ss25?'📱 Samsung S25 — от '+ss25.toLocaleString('ru-RU')+'₽':''}\n${ss25p?'📱 Samsung S25+ — от '+ss25p.toLocaleString('ru-RU')+'₽':''}\n${ss25u?'📱 Samsung S25 Ultra — от '+ss25u.toLocaleString('ru-RU')+'₽':''}\n${ss25e?'📱 Samsung S25 Edge — от '+ss25e.toLocaleString('ru-RU')+'₽':''}\n\n${ss26?'📱 Samsung S26 — от '+ss26.toLocaleString('ru-RU')+'₽':''}\n${ss26p?'📱 Samsung S26+ — от '+ss26p.toLocaleString('ru-RU')+'₽':''}\n${ss26u?'📱 Samsung S26 Ultra — от '+ss26u.toLocaleString('ru-RU')+'₽':''}\n\n${zflip?'📱 Samsung Z Flip 7 — от '+zflip.toLocaleString('ru-RU')+'₽':''}\n${zfold?'📱 Samsung Z Fold 7 — от '+zfold.toLocaleString('ru-RU')+'₽':''}`;
-
-  return texts;
-}
-
-async function updateClientChannel() {
-  if (!parsedItems.length) { alert('Сначала сформируй прайс'); return; }
-
-  const btn = document.getElementById('clientbtn');
-  const status = document.getElementById('save-status');
-  btn.disabled = true;
-  btn.textContent = 'Обновляем...';
-  status.innerHTML = '';
-
-  const minPrices = getMinPrices();
-  const texts = buildAllClientTexts(minPrices, parsedItems);
-
-  const mapping = {
-    iphone_17: 'iphone', iphone_16: 'iphone', iphone_15: 'iphone', iphone_se_13_14: 'iphone',
-    airpods: 'airpods',
-    watch: 'watch',
-    ipad: 'ipad',
-    macbook: 'macbook',
-    ps5: 'ps5',
-    samsung: 'samsung',
-  };
-
-  const clientCats = new Set();
-  Object.keys(parsedSections).forEach(k => { if (mapping[k]) clientCats.add(mapping[k]); });
-  
-  if (clientCats.size === 0) { 
-    status.innerHTML = '<span class="err">Не найдено категорий для клиентского канала</span>';
-    btn.disabled = false; btn.textContent = '📢 Клиентский канал';
-    return;
-  }
-
-  // Load saved client message IDs (may be updated after first send)
-  let clientIds = {};
-  try { clientIds = JSON.parse(localStorage.getItem('rbs_client_msg_ids') || '{}'); } catch(e) {}
-  // Merge with defaults from CLIENT_MESSAGES
-  const effectiveIds = Object.assign({}, CLIENT_MESSAGES, clientIds);
-
-  let done = 0; let errors = []; let newMsgs = 0;
-  for (const cat of clientCats) {
-    const msgId = effectiveIds[cat];
-    const text = texts[cat];
-    if (!text) continue;
-    const cleanText = text.replace(/\n\n\n+/g, '\n\n').trim();
-    try {
-      let edited = false;
-      if (msgId) {
-        // Try editMessageCaption first (photo posts)
-        let res = await tgApi('editMessageCaption', {
-          chat_id: CLIENT_CHANNEL_ID,
-          message_id: msgId,
-          caption: cleanText
-        });
-        if (res.ok || (res.description && res.description.includes('not modified'))) {
-          edited = true;
-        } else {
-          // Try editMessageText (text posts)
-          res = await tgApi('editMessageText', {
-            chat_id: CLIENT_CHANNEL_ID,
-            message_id: msgId,
-            text: cleanText
-          });
-          if (res.ok || (res.description && res.description.includes('not modified'))) {
-            edited = true;
-          }
-        }
-      }
-
-      if (!edited) {
-        // Can't edit (manual post / no id) → send new message as reply
-        const params = {
-          chat_id: CLIENT_CHANNEL_ID,
-          text: cleanText
-        };
-        // Reply to original photo post if we know its ID
-        const originalId = CLIENT_MESSAGES[cat];
-        if (originalId) params.reply_to_message_id = originalId;
-
-        const res = await tgApi('sendMessage', params);
-        if (res.ok) {
-          // Save new message ID so next time we can edit it
-          clientIds[cat] = res.result.message_id;
-          localStorage.setItem('rbs_client_msg_ids', JSON.stringify(clientIds));
-          newMsgs++;
-          edited = true;
-        } else {
-          errors.push(cat);
-        }
-      }
-      if (edited) done++;
-    } catch(e) { errors.push(cat); }
-    await new Promise(r => setTimeout(r, 400));
-  }
-
-  btn.disabled = false;
-  btn.textContent = '📢 Клиентский канал';
-  if (errors.length) {
-    status.innerHTML = '<span class="err">Обновлено: ' + done + ', ошибки: ' + errors.join(', ') + '</span>';
-  } else {
-    let msg = '✓ Клиентский канал обновлён! ' + done + ' сообщений';
-    if (newMsgs) msg += ' (' + newMsgs + ' новых — ID сохранены)';
-    status.innerHTML = '<span class="ok">' + msg + '</span>';
-  }
-}
-
-// ================================================================
-// PDF А5 — генерация одного листа по категории
-// ================================================================
-function buildCategoryBlocks() {
-  // Returns array of { id, title, subtitle, lines:[{label,price}] }
-  const today = new Date().toLocaleDateString('ru-RU');
-  const blocks = [];
-
-  // ---- helpers ----
-  function minByPat(pat) {
-    const items = parsedItems.filter(i => pat.test(i.model));
-    if (!items.length) return null;
-    return Math.min(...items.map(i => i.sellPrice));
-  }
-  function fmt(n) { return n ? n.toLocaleString('ru-RU') + ' р.' : null; }
-  function row(label, pat) {
-    const p = minByPat(pat);
-    return p ? { label, price: 'от ' + fmt(p) } : null;
-  }
-
-  // iPhone
-  const iphoneRows = [
-    row('iPhone 13',         /^(?!.*plus|.*pro|.*14|.*15|.*16|.*17).*13/i),
-    row('iPhone 14',         /^(?!.*plus|.*pro).*\b14\b(?!.*15|.*16|.*17)/i),
-    row('iPhone 14 Plus',    /\b14\s*plus/i),
-    row('iPhone 14 Pro',     /\b14\s*pro(?!\s*max)/i),
-    row('iPhone 14 Pro Max', /\b14\s*pro\s*max/i),
-    row('iPhone 15',         /^(?!.*plus|.*pro).*\b15\b(?!.*16|.*17)/i),
-    row('iPhone 15 Plus',    /\b15\s*plus/i),
-    row('iPhone 15 Pro',     /\b15\s*pro(?!\s*max)/i),
-    row('iPhone 15 Pro Max', /\b15\s*pro\s*max/i),
-    row('iPhone 16e',        /\b16e\b/i),
-    row('iPhone 16',         /^(?!.*plus|.*pro|.*16e).*\b16\b(?!.*17)/i),
-    row('iPhone 16 Plus',    /\b16\s*plus/i),
-    row('iPhone 16 Pro',     /\b16\s*pro(?!\s*max)/i),
-    row('iPhone 16 Pro Max', /\b16\s*pro\s*max/i),
-    row('iPhone 17e',        /\b17e\b/i),
-    row('iPhone 17 Air',     /\b17\s*air/i),
-    row('iPhone 17',         /^(?!.*air|.*pro|.*17e).*\b17\b/i),
-    row('iPhone 17 Pro',     /\b17\s*pro(?!\s*max)/i),
-    row('iPhone 17 Pro Max', /\b17\s*pro\s*max/i),
-  ].filter(Boolean);
-  if (iphoneRows.length) blocks.push({ id:'iphone', title:'iPhone', subtitle:'Цены включают подарок на 10 000 ₽', lines: iphoneRows });
-
-  // Samsung
-  const samRows = [
-    row('Samsung A07',       /a07/i),
-    row('Samsung A17',       /a17/i),
-    row('Samsung A26',       /a26/i),
-    row('Samsung A36',       /a36/i),
-    row('Samsung A56',       /a56/i),
-    row('Samsung S24',       /s24(?!\s*ultra)/i),
-    row('Samsung S24 Ultra', /s24\s*ultra/i),
-    row('Samsung S25',       /s25(?!\+|ultra|edge)/i),
-    row('Samsung S25+',      /s25\+/i),
-    row('Samsung S25 Ultra', /s25\s*ultra/i),
-    row('Samsung S25 Edge',  /s25\s*edge/i),
-    row('Samsung S26',       /s26(?!\+|ultra)/i),
-    row('Samsung S26+',      /s26\+/i),
-    row('Samsung S26 Ultra', /s26\s*ultra/i),
-    row('Samsung Z Flip 7',  /z\s*flip/i),
-    row('Samsung Z Fold 7',  /z\s*fold/i),
-  ].filter(Boolean);
-  if (samRows.length) blocks.push({ id:'samsung', title:'Samsung Galaxy', subtitle:'Серии A, S, Z. Подарок для S и Z серий', lines: samRows });
-
-  // MacBook
-  const macRows = [
-    row('MacBook Air 13 M5',  /air\s*13.*m5|air.*m5.*13/i),
-    row('MacBook Air 15 M5',  /air\s*15.*m5|air.*m5.*15/i),
-    row('MacBook NEO',        /neo/i),
-    row('MacBook Pro 14 M5',  /pro\s*14.*m5(?!\s*max)/i),
-    row('MacBook Pro 14 Max', /pro\s*14\s*max/i),
-    row('MacBook Pro 16 M5',  /pro\s*16.*m5(?!\s*max)/i),
-    row('MacBook Pro 16 Max', /pro\s*16\s*max/i),
-  ].filter(Boolean);
-  if (macRows.length) blocks.push({ id:'macbook', title:'MacBook', subtitle:'Apple MacBook Air и MacBook Pro', lines: macRows });
-
-  // iPad
-  const ipadRows = [
-    row('iPad 11',          /ipad\s*11(?!.*air|.*pro|.*mini)/i),
-    row('iPad Air 11 M3',   /air\s*11.*m3/i),
-    row('iPad Air 11 M4',   /air\s*11.*m4/i),
-    row('iPad Air 13 M3',   /air\s*13.*m3/i),
-    row('iPad Air 13 M4',   /air\s*13.*m4/i),
-    row('iPad Mini 7',      /mini\s*7/i),
-    row('iPad Pro 11 M4',   /pro\s*11.*m4/i),
-    row('iPad Pro 11 M5',   /pro\s*11.*m5/i),
-    row('iPad Pro 13 M5',   /pro\s*13.*m5/i),
-  ].filter(Boolean);
-  if (ipadRows.length) blocks.push({ id:'ipad', title:'iPad', subtitle:'iPad, Air, Mini, Pro', lines: ipadRows });
-
-  // AirPods
-  const apRows = [
-    row('AirPods 4',     /airpods\s*4(?!\s*pro)/i),
-    row('AirPods Pro 2', /airpods.*pro\s*2|pro\s*2.*airpods/i),
-    row('AirPods Pro 3', /airpods.*pro\s*3|pro\s*3.*airpods/i),
-    row('AirPods Max',   /airpods.*max/i),
-  ].filter(Boolean);
-  if (apRows.length) blocks.push({ id:'airpods', title:'AirPods', subtitle:'AirPods 4, Pro 2, Pro 3, Max', lines: apRows });
-
-  // Apple Watch
-  const awRows = [
-    row('Watch SE 2',     /watch.*se\s*2|se\s*2.*watch/i),
-    row('Watch SE 3',     /watch.*se\s*3|se\s*3.*watch/i),
-    row('Watch Series 9', /\bs9\b/i),
-    row('Watch Series 10',/\bs10\b/i),
-    row('Watch Series 11',/\bs11\b/i),
-    row('Watch Ultra 2',  /ultra\s*2/i),
-    row('Watch Ultra 3',  /ultra\s*3/i),
-  ].filter(Boolean);
-  if (awRows.length) blocks.push({ id:'watch', title:'Apple Watch', subtitle:'SE, Series, Ultra', lines: awRows });
-
-  // PS5
-  const ps5Rows = [
-    row('PS5 Slim Digital',    /slim.*digital|digital.*slim/i),
-    row('PS5 Slim Disk',       /slim.*disk|disk.*slim/i),
-    row('PS5 Pro Digital 2TB', /pro.*digital|ps5\s*pro/i),
-    row('PS5 VR2',             /vr2/i),
-    row('DualSense',           /dualsense/i),
-  ].filter(Boolean);
-  if (ps5Rows.length) blocks.push({ id:'ps5', title:'PlayStation 5', subtitle:'Sony PS5 и аксессуары', lines: ps5Rows });
-
-  return blocks;
-}
-
-function buildOnePDF(block) {
-  const { jsPDF } = window.jspdf;
-  // A5 portrait: 148 x 210 mm
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a5' });
-  const W = 148, H = 210;
-  const today = new Date().toLocaleDateString('ru-RU');
-  const MARGIN = 6, PAD_L = 12, PAD_R = 12;
-
-  // White background
-  doc.setFillColor(255, 255, 255);
-  doc.rect(0, 0, W, H, 'F');
-
-  // Border (cut line for A4 printing)
-  doc.setDrawColor(0, 0, 0);
-  doc.setLineWidth(0.4);
-  doc.rect(MARGIN, MARGIN, W - 2*MARGIN, H - 2*MARGIN);
-
-  // ── Header — text only ──
-  const hY = H - MARGIN - 9;  // top text baseline (from bottom = H - margin - offset)
-  const headerTop = MARGIN + 6;
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(10, 10, 10);
-  doc.text('RBS', PAD_L, headerTop + 8);
-
-  // Orange dot
-  doc.setFillColor(235, 87, 13);
-  doc.circle(PAD_L + 14, headerTop + 5, 1.8, 'F');
-
-  // Category title
-  doc.setFontSize(14);
-  doc.text(block.title, PAD_L + 18, headerTop + 8);
-
-  // Date right
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(7);
-  doc.setTextColor(120, 120, 120);
-  doc.text(today, W - PAD_R, headerTop + 4, { align: 'right' });
-
-  // Subtitle
-  doc.setFontSize(7);
-  doc.setTextColor(130, 130, 130);
-  doc.text(block.subtitle, PAD_L, headerTop + 14);
-
-  // Orange underline
-  doc.setDrawColor(235, 87, 13);
-  doc.setLineWidth(0.6);
-  doc.line(PAD_L, headerTop + 16, W - PAD_R, headerTop + 16);
-
-  // ── Table ──
-  const n = block.lines.length;
-  const tblX = PAD_L;
-  const tblW = W - PAD_L - PAD_R;
-  const tblTop = headerTop + 19;
-  const HDR_H = 7;
-  const avail = H - MARGIN - 10 - tblTop - HDR_H;
-  const rowH = avail / n;
-  const labelFs = Math.max(7, Math.min(14, rowH * 0.44));
-  const priceFs = Math.max(8, Math.min(15, rowH * 0.50));
-
-  // Table header
-  doc.setFillColor(220, 220, 220);
-  doc.rect(tblX, tblTop, tblW, HDR_H, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
-  doc.setTextColor(30, 30, 30);
-  doc.text('Модель', tblX + 3, tblTop + 5);
-  doc.text('Цена', tblX + tblW - 3, tblTop + 5, { align: 'right' });
-
-  // Rows
-  block.lines.forEach((line, i) => {
-    const y0 = tblTop + HDR_H + i * rowH;
-    if (i % 2 === 0) {
-      doc.setFillColor(245, 245, 245);
-      doc.rect(tblX, y0, tblW, rowH, 'F');
-    }
-    // separator
-    doc.setDrawColor(210, 210, 210);
-    doc.setLineWidth(0.2);
-    doc.line(tblX, y0 + rowH, tblX + tblW, y0 + rowH);
-
-    // orange bar
-    doc.setFillColor(235, 87, 13);
-    doc.rect(tblX, y0, 1.5, rowH, 'F');
-
-    const textY = y0 + rowH * 0.65;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(labelFs);
-    doc.setTextColor(20, 20, 20);
-    doc.text(line.label, tblX + 4, textY);
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(priceFs);
-    doc.text(line.price, tblX + tblW - 3, textY, { align: 'right' });
-  });
-
-  // Table border
-  doc.setDrawColor(50, 50, 50);
-  doc.setLineWidth(0.5);
-  doc.rect(tblX, tblTop, tblW, HDR_H + n * rowH);
-
-  // Footer
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
-  doc.setTextColor(140, 140, 140);
-  doc.text('RBS — г. Тобольск | г. Урай | Уточняйте наличие у менеджера',
-    W / 2, H - MARGIN - 2, { align: 'center' });
-
-  return doc;
-}
-
-async function generateCategoryPDFs(mode) {
-  if (!parsedItems.length) { alert('Сначала сформируй прайс'); return; }
-
-  const btnDl  = document.getElementById('pdfbtn');
-  const btnTg  = document.getElementById('pdftgbtn');
-  const status = document.getElementById('save-status');
-  btnDl.disabled = true; btnTg.disabled = true;
-  status.innerHTML = '<span style="color:#888">Генерируем PDF...</span>';
-
-  if (mode === 'telegram') {
-    const chatId = getPdfChatId();
-    if (!chatId) {
-      alert('Укажи ID чата для PDF в Настройках → Telegram → «ID чата для PDF прайсов»');
-      btnDl.disabled = false; btnTg.disabled = false; return;
-    }
-  }
-
-  const blocks = buildCategoryBlocks();
-  if (!blocks.length) {
-    status.innerHTML = '<span class="err">Нет данных для PDF</span>';
-    btnDl.disabled = false; btnTg.disabled = false; return;
-  }
-
-  const today = new Date().toLocaleDateString('ru-RU').replace(/\./g, '-');
-  let done = 0, errors = [];
-
-  for (const block of blocks) {
-    try {
-      const doc = buildOnePDF(block);
-      const filename = `RBS_${block.id}_${today}.pdf`;
-
-      if (mode === 'download') {
-        doc.save(filename);
-        await new Promise(r => setTimeout(r, 300)); // pause between downloads
-      } else {
-        // Send to Telegram as document
-        const pdfBlob = doc.output('blob');
-        const formData = new FormData();
-        formData.append('chat_id', getPdfChatId());
-        formData.append('document', pdfBlob, filename);
-        formData.append('caption', `📋 Прайс ${block.title} — ${new Date().toLocaleDateString('ru-RU')}`);
-        const res = await fetch(`https://api.telegram.org/bot${getToken()}/sendDocument`, {
-          method: 'POST', body: formData
-        });
-        const data = await res.json();
-        if (!data.ok) errors.push(block.title);
-        await new Promise(r => setTimeout(r, 500));
-      }
-      done++;
-    } catch(e) { errors.push(block.title); }
-
-    status.innerHTML = `<span style="color:#888">Обрабатываем... ${done}/${blocks.length}</span>`;
-  }
-
-  btnDl.disabled = false; btnTg.disabled = false;
-  if (errors.length) {
-    status.innerHTML = `<span class="err">Готово: ${done}, ошибки: ${errors.join(', ')}</span>`;
-  } else if (mode === 'download') {
-    status.innerHTML = `<span class="ok">✓ Скачано ${done} PDF файлов</span>`;
-  } else {
-    status.innerHTML = `<span class="ok">✓ Отправлено в Telegram: ${done} файлов</span>`;
-  }
-}
-
-// Kept for compatibility — old function replaced
-function generateA3PDF() {
-  if (!parsedItems.length) { alert('Сначала сформируй прайс'); return; }
-
-  try {
-    const { jsPDF } = window.jspdf;
-    // A3 landscape: 420 x 297 mm
-    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a3' });
-    const W = 420, H = 297;
-    const today = new Date().toLocaleDateString('ru-RU');
-
-    // Background
-    doc.setFillColor(26, 26, 26);
-    doc.rect(0, 0, W, H, 'F');
-
-    // Header bar
-    doc.setFillColor(20, 20, 20);
-    doc.rect(0, 0, W, 28, 'F');
-
-    // Logo / title
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(22);
-    doc.setFont('helvetica', 'bold');
-    doc.text('RBS', 14, 18);
-    doc.setFontSize(11);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(170, 170, 170);
-    doc.text('Актуальные цены на технику', 40, 18);
-    doc.setTextColor(120, 120, 120);
-    doc.text('Обновлено: ' + today, W - 14, 18, { align: 'right' });
-
-    // Accent line
-    doc.setDrawColor(229, 88, 12);
-    doc.setLineWidth(1.2);
-    doc.line(0, 28, W, 28);
-
-    // Collect min prices by category for display
-    const mp = getMinPrices();
-
-    // Build display blocks
-    const blocks = [];
-
-    // iPhone
-    const iphoneLines = [];
-    const iphoneModels = [
-      ['iPhone 13', 'iPhone 13'], ['iPhone 14', 'iPhone 14'], ['iPhone 14 Plus', 'iPhone 14 Plus'],
-      ['iPhone 14 Pro', 'iPhone 14 Pro'], ['iPhone 14 Pro Max', 'iPhone 14 Pro Max'],
-      ['iPhone 15', 'iPhone 15'], ['iPhone 15 Plus', 'iPhone 15 Plus'],
-      ['iPhone 15 Pro', 'iPhone 15 Pro'], ['iPhone 15 Pro Max', 'iPhone 15 Pro Max'],
-      ['iPhone 16e', 'iPhone 16e'], ['iPhone 16', 'iPhone 16'], ['iPhone 16 Plus', 'iPhone 16 Plus'],
-      ['iPhone 16 Pro', 'iPhone 16 Pro'], ['iPhone 16 Pro Max', 'iPhone 16 Pro Max'],
-      ['iPhone 17e', 'iPhone 17e'], ['iPhone 17', 'iPhone 17'], ['iPhone 17 Air', 'iPhone 17 Air'],
-      ['iPhone 17 Pro', 'iPhone 17 Pro'], ['iPhone 17 Pro Max', 'iPhone 17 Pro Max'],
-    ];
-    iphoneModels.forEach(([key, label]) => { if (mp[key]) iphoneLines.push({ label, price: mp[key] }); });
-    if (iphoneLines.length) blocks.push({ title: '📱 iPhone', lines: iphoneLines, accent: [37, 99, 235] });
-
-    // Samsung
-    const samsungLines = [];
-    ['sa07','sa17','sa26','sa36','sa56','ss24','ss24u','ss25','ss25p','ss25u','ss25e','ss26','ss26p','ss26u','zflip','zfold'].forEach(k => {
-      const labMap = {sa07:'Samsung A07',sa17:'Samsung A17',sa26:'Samsung A26',sa36:'Samsung A36',sa56:'Samsung A56',
-        ss24:'Samsung S24',ss24u:'Samsung S24 Ultra',ss25:'Samsung S25',ss25p:'Samsung S25+',ss25u:'Samsung S25 Ultra',
-        ss25e:'Samsung S25 Edge',ss26:'Samsung S26',ss26p:'Samsung S26+',ss26u:'Samsung S26 Ultra',
-        zflip:'Samsung Z Flip',zfold:'Samsung Z Fold'};
-      // We derive from parsedItems for Samsung since CLIENT_MODELS doesn't cover Samsung
-      const pat = {sa07:/a07/i,sa17:/a17/i,sa26:/a26/i,sa36:/a36/i,sa56:/a56/i,
-        ss24:/s24(?!\s*ultra)/i,ss24u:/s24\s*ultra/i,ss25:/s25(?!\+|ultra|edge)/i,ss25p:/s25\+/i,
-        ss25u:/s25\s*ultra/i,ss25e:/s25\s*edge/i,ss26:/s26(?!\+|ultra)/i,ss26p:/s26\+/i,
-        ss26u:/s26\s*ultra/i,zflip:/z\s*flip/i,zfold:/z\s*fold/i}[k];
-      if (!pat) return;
-      const items = parsedItems.filter(i => pat.test(i.model));
-      if (items.length) {
-        const min = Math.min(...items.map(i => i.sellPrice));
-        samsungLines.push({ label: labMap[k], price: min });
-      }
-    });
-    if (samsungLines.length) blocks.push({ title: '📱 Samsung', lines: samsungLines, accent: [22, 163, 74] });
-
-    // MacBook
-    const macLines = [];
-    const macPats = [
-      {k:'MacBook Air 13 M5', p:/air\s*13.*m5|air.*m5.*13/i},
-      {k:'MacBook Air 15 M5', p:/air\s*15.*m5|air.*m5.*15/i},
-      {k:'MacBook NEO', p:/neo/i},
-      {k:'MacBook Pro 14 M5', p:/pro\s*14.*m5/i},
-      {k:'MacBook Pro 14 Max', p:/pro\s*14\s*max/i},
-      {k:'MacBook Pro 16 M5', p:/pro\s*16.*m5/i},
-      {k:'MacBook Pro 16 Max', p:/pro\s*16\s*max/i},
-    ];
-    macPats.forEach(({k,p}) => {
-      const items = parsedItems.filter(i => p.test(i.model));
-      if (items.length) macLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
-    });
-    if (macLines.length) blocks.push({ title: '💻 MacBook', lines: macLines, accent: [124, 58, 237] });
-
-    // iPad
-    const ipadLines = [];
-    const ipadPats = [
-      {k:'iPad 11', p:/ipad\s*11(?!.*air|.*pro|.*mini)/i},
-      {k:'iPad Air 11 M3', p:/air\s*11.*m3/i},{k:'iPad Air 11 M4', p:/air\s*11.*m4/i},
-      {k:'iPad Air 13 M3', p:/air\s*13.*m3/i},{k:'iPad Air 13 M4', p:/air\s*13.*m4/i},
-      {k:'iPad Mini 7', p:/mini\s*7/i},
-      {k:'iPad Pro 11 M4', p:/pro\s*11.*m4/i},{k:'iPad Pro 11 M5', p:/pro\s*11.*m5/i},
-      {k:'iPad Pro 13 M5', p:/pro\s*13.*m5/i},
-    ];
-    ipadPats.forEach(({k,p}) => {
-      const items = parsedItems.filter(i => p.test(i.model));
-      if (items.length) ipadLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
-    });
-    if (ipadLines.length) blocks.push({ title: '📋 iPad', lines: ipadLines, accent: [8, 145, 178] });
-
-    // AirPods
-    const apLines = [];
-    const apPats = [
-      {k:'AirPods 4', p:/airpods\s*4(?!\s*pro)/i},{k:'AirPods Pro 2', p:/pro\s*2/i},
-      {k:'AirPods Pro 3', p:/pro\s*3/i},{k:'AirPods Max', p:/max/i},
-    ];
-    apPats.forEach(({k,p}) => {
-      const items = parsedItems.filter(i => /airpods|наушник/i.test(i.model) && p.test(i.model));
-      if (items.length) apLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
-    });
-    if (apLines.length) blocks.push({ title: '🎧 AirPods', lines: apLines, accent: [245, 158, 11] });
-
-    // Apple Watch
-    const awLines = [];
-    const awPats = [
-      {k:'Watch SE 2', p:/se\s*2/i},{k:'Watch SE 3', p:/se\s*3/i},
-      {k:'Watch S9', p:/\bs9\b/i},{k:'Watch S10', p:/\bs10\b/i},{k:'Watch S11', p:/\bs11\b/i},
-      {k:'Watch Ultra 2', p:/ultra\s*2/i},{k:'Watch Ultra 3', p:/ultra\s*3/i},
-    ];
-    awPats.forEach(({k,p}) => {
-      const items = parsedItems.filter(i => /apple\s*watch|watch\s*(se|s\d|ultra)/i.test(i.model) && p.test(i.model));
-      if (items.length) awLines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
-    });
-    if (awLines.length) blocks.push({ title: '⌚ Apple Watch', lines: awLines, accent: [239, 68, 68] });
-
-    // PS5
-    const ps5Lines = [];
-    const ps5Pats = [
-      {k:'PS5 Pro Digital', p:/pro.*digital|ps5\s*pro/i},
-      {k:'PS5 Slim Disk', p:/slim.*disk|disk.*slim/i},
-      {k:'PS5 Slim Digital', p:/slim.*digital|digital.*slim/i},
-      {k:'PS5 VR2', p:/vr2/i},
-      {k:'DualSense', p:/dualsense/i},
-    ];
-    ps5Pats.forEach(({k,p}) => {
-      const items = parsedItems.filter(i => p.test(i.model));
-      if (items.length) ps5Lines.push({ label: k, price: Math.min(...items.map(i=>i.sellPrice)) });
-    });
-    if (ps5Lines.length) blocks.push({ title: '🎮 PlayStation', lines: ps5Lines, accent: [99, 102, 241] });
-
-    // Layout: up to 4 columns
-    const COLS = 4;
-    const padL = 10, padT = 36, padR = 10;
-    const contentW = W - padL - padR;
-    const colW = contentW / COLS;
-    const contentH = H - padT - 10;
-
-    let col = 0, y = padT;
-    const colX = (c) => padL + c * colW;
-
-    blocks.forEach((block, bi) => {
-      // Check if block fits in current column
-      const blockH = 8 + block.lines.length * 6.2 + 5;
-      if (y + blockH > padT + contentH && col < COLS - 1) {
-        col++; y = padT;
-      }
-      const x = colX(col);
-
-      // Category header
-      doc.setFillColor(...block.accent);
-      doc.roundedRect(x + 2, y, colW - 6, 7, 1.5, 1.5, 'F');
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(8.5);
-      doc.setFont('helvetica', 'bold');
-      doc.text(block.title, x + 5, y + 5);
-      y += 9;
-
-      // Lines
-      block.lines.forEach((line, li) => {
-        const isEven = li % 2 === 0;
-        if (isEven) {
-          doc.setFillColor(35, 35, 35);
-          doc.rect(x + 2, y - 1, colW - 6, 6, 'F');
-        }
-        doc.setTextColor(220, 220, 220);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(7.2);
-        // Label
-        const labelText = line.label.length > 22 ? line.label.substring(0, 22) + '…' : line.label;
-        doc.text(labelText, x + 4, y + 3.5);
-        // Price — right aligned with accent color
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(...block.accent);
-        doc.text('от ' + line.price.toLocaleString('ru-RU') + ' ₽', x + colW - 8, y + 3.5, { align: 'right' });
-        y += 6.2;
-      });
-      y += 5;
-    });
-
-    // Footer
-    doc.setFillColor(15, 15, 15);
-    doc.rect(0, H - 10, W, 10, 'F');
-    doc.setTextColor(80, 80, 80);
-    doc.setFontSize(7);
-    doc.setFont('helvetica', 'normal');
-    doc.text('RBS — Real Best Store | Тобольск | Урай | rbs81.github.io/rbs-price', W / 2, H - 4, { align: 'center' });
-
-    doc.save('RBS_Прайс_А3_' + today.replace(/\./g, '-') + '.pdf');
-  } catch(e) {
-    alert('Ошибка генерации PDF: ' + e.message);
-    console.error(e);
-  }
-
-  btn.disabled = false; btn.textContent = '🖨 PDF А3 для стойки';
 }
 </script>
 </body>
